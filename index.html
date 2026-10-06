@@ -1,0 +1,1024 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#009999" />
+  <title>Nepal Flood 2026 — WASH Severity Analysis</title>
+  <meta name="description" content="Municipality-level WASH Severity Analysis for the Nepal Flood 2026 response." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <style>
+:root {
+  --teal:#009999; --teal-light:#8CBFBF; --teal-pale:#E8F5F5;
+  --dark-blue:#024E6C; --coral:#E36159; --charcoal:#383F48; --yellow:#FFB340;
+  --water:#28A1D2; --san:#532F87; --hyg:#008D48;
+  --text:#333333; --muted:#6E7178; --border:#D9E0E2; --bg:#F4F7F7; --white:#fff;
+  --sev5:#B2182B; --sev4:#E36159; --sev3:#FFB340; --sev2:#8CBFBF; --sev1:#009999;
+}
+*{box-sizing:border-box} html,body{margin:0;height:100%;font-family:"Roboto Condensed",Arial,sans-serif;color:var(--text);background:var(--bg)}
+button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);border-bottom:5px solid var(--yellow);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;gap:20px}.brand-lockup{display:flex;align-items:center;gap:12px}.brand-mark{width:46px;height:46px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;letter-spacing:.05em}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.13em}.eyebrow.dark{color:var(--muted);margin-bottom:3px}.topbar h1{font-size:25px;line-height:1;margin:4px 0 0;font-weight:700}.header-meta{font-size:13px;display:flex;align-items:center;gap:8px;white-space:nowrap}.status-dot{width:9px;height:9px;background:#fff;border-radius:50%}
+.tabs{height:43px;display:flex;align-items:stretch;background:#fff;border-bottom:1px solid var(--border);padding-left:12px}.tab{border:0;background:transparent;padding:0 17px;font-weight:700;color:#69767A;border-bottom:3px solid transparent;cursor:pointer}.tab.active{color:var(--teal);border-bottom-color:var(--teal)}a.tab{text-decoration:none}
+.view{display:none}.view.active{display:flex}#map-view{height:calc(100vh - 121px);min-height:570px}.sidebar{width:286px;background:#fff;border-right:1px solid var(--border);padding:14px;overflow:auto;flex:none}.profile-panel{width:355px;background:#fff;border-left:1px solid var(--border);overflow:auto;flex:none}.panel{padding:3px 0 16px;margin-bottom:13px;border-bottom:1px solid var(--border)}.panel:last-child{border-bottom:0}.panel h2,.profile-panel h2{margin:0;font-size:17px;color:var(--teal);text-transform:uppercase}.panel-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px}.text-button{border:0;background:none;color:var(--dark-blue);font-weight:700;font-size:12px;cursor:pointer;padding:2px}.field-label{font-size:12px;font-weight:700;color:#59666A;margin:9px 0 4px;display:block}select{width:100%;border:1px solid var(--border);padding:8px;background:#fff;color:var(--text)}
+.layer-list{display:grid;gap:8px}.layer-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;font-size:13px}.layer-row input{accent-color:var(--teal)}.layer-dot{width:9px;height:9px;border-radius:50%}.layer-group{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:8px}.mode-toggle{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);margin-bottom:12px}.mode-btn{border:0;background:#fff;padding:7px 5px;color:var(--muted);font-weight:700;cursor:pointer}.mode-btn.active{background:var(--teal);color:#fff}.weight-row{margin:12px 0}.weight-row>div{display:flex;justify-content:space-between;gap:8px;font-size:12px;font-weight:700}.weight-row input{width:100%;accent-color:var(--teal)}.weight-row output{color:var(--dark-blue)}.note{font-size:11px;color:var(--muted);line-height:1.35;margin:8px 0 0}
+.map-shell{position:relative;flex:1;min-width:0}.map-shell #map{position:absolute;inset:0}.map-badge{position:absolute;top:12px;left:12px;background:var(--charcoal);color:#fff;padding:6px 9px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;z-index:2}.legend{position:absolute;left:12px;bottom:27px;z-index:2;background:#fff;border:1px solid var(--border);padding:10px 12px;min-width:132px;font-size:12px;box-shadow:0 1px 4px rgba(0,0,0,.08)}.legend-title{font-weight:700;color:var(--dark-blue);margin-bottom:5px}.swatch{width:13px;height:13px;display:inline-block;vertical-align:-2px;margin-right:7px}.severity-5{background:var(--sev5)}.severity-4{background:var(--sev4)}.severity-3{background:var(--sev3)}.severity-2{background:var(--sev2)}.severity-1{background:var(--sev1)}
+.profile-empty{padding:28px 22px;color:var(--muted)}.profile-empty h2{margin:10px 0 8px}.profile-icon{width:40px;height:40px;border:2px solid var(--teal);color:var(--teal);display:grid;place-items:center;font-size:25px}.profile-head{padding:17px 18px 14px;border-bottom:1px solid var(--border)}.profile-district{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;font-weight:700}.profile-head h2{color:var(--text);text-transform:none;font-size:22px;margin:4px 0 7px}.priority-pill{display:inline-flex;align-items:center;gap:6px;color:#fff;font-size:12px;font-weight:700;padding:4px 8px}.profile-tabs{display:flex;overflow:auto;border-bottom:1px solid var(--border);background:#FAFBFB}.profile-tab{border:0;background:none;padding:9px 11px;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent}.profile-tab.active{color:var(--teal);border-bottom-color:var(--teal)}.profile-body{padding:14px 18px}.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}.metric{border:1px solid var(--border);padding:9px}.metric span{display:block;font-size:10px;text-transform:uppercase;color:var(--muted);letter-spacing:.04em}.metric strong{display:block;font-size:19px;color:var(--dark-blue);margin-top:2px}.pillar-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid #EEF1F2}.pillar-code{font-weight:700;color:var(--teal)}.pillar-name{font-size:12px}.pillar-score{font-size:14px;font-weight:700}.indicator-table{width:100%;border-collapse:collapse;font-size:12px}.indicator-table td{padding:7px 0;border-bottom:1px solid #EEF1F2}.indicator-table td:last-child{text-align:right;font-weight:700}.evidence-card{border-left:3px solid var(--teal);padding:8px 0 8px 10px;margin:10px 0}.evidence-card .meta{font-size:10px;color:var(--muted);text-transform:uppercase}.evidence-card p{font-size:12px;line-height:1.4;margin:4px 0}.evidence-card a{color:var(--dark-blue);font-weight:700;text-decoration:none;font-size:11px}
+.content-view{padding:22px 26px;overflow:auto;flex-direction:column;gap:16px}.content-view.active{display:flex}.page-head{display:flex;align-items:center;justify-content:space-between;gap:20px}.page-head h2{margin:0;color:var(--teal);font-size:27px;text-transform:uppercase}.primary-btn{background:var(--teal);color:#fff;border:0;padding:9px 13px;font-weight:700;cursor:pointer}.kpi-grid,.status-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:10px}.kpi-card,.status-card{background:#fff;border:1px solid var(--border);padding:13px}.kpi-card span,.status-card span{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.kpi-card strong,.status-card strong{display:block;font-size:24px;color:var(--dark-blue);margin-top:3px}.status-card strong{font-size:16px}.table-card,.info-card{background:#fff;border:1px solid var(--border);padding:14px}.table-scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:12px}th{text-align:left;background:var(--charcoal);color:#fff;padding:8px;position:sticky;top:0;white-space:nowrap}td{padding:8px;border-bottom:1px solid #E8ECEE;white-space:nowrap}tbody tr:hover{background:#F4FAFA}.rank{font-weight:700;color:var(--dark-blue)}.class-chip{display:inline-block;color:#fff;padding:3px 6px;font-weight:700}.info-card h3{margin:0 0 8px;color:var(--teal);text-transform:uppercase}.info-card p{line-height:1.5;margin:0}.flow{margin-top:15px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}.flow span{background:var(--teal-pale);border:1px solid #CBE6E6;padding:7px 9px;font-weight:700;color:var(--dark-blue)}.about-grid{display:grid;grid-template-columns:repeat(2,minmax(260px,1fr));gap:12px}
+.maplibregl-popup-content{font-family:"Roboto Condensed",Arial,sans-serif;border-radius:0;padding:9px 11px}.popup-title{font-weight:700;color:var(--dark-blue);font-size:14px}.popup-sub{font-size:11px;color:var(--muted)}
+@media(max-width:1100px){.profile-panel{width:320px}.sidebar{width:255px}.kpi-grid,.status-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:850px){.topbar{height:auto;min-height:78px;align-items:flex-start;flex-direction:column}.header-meta{padding-left:58px}.tabs{height:44px}#map-view{height:auto;display:block}.sidebar,.profile-panel{width:100%;border:0;border-bottom:1px solid var(--border)}.map-shell{height:58vh}.content-view{padding:18px}.about-grid{grid-template-columns:1fr}.topbar h1{font-size:21px}}
+
+
+.analysis-surface{margin-top:10px}.analysis-surface select{font-weight:700;color:var(--dark-blue)}
+.map-actions{position:absolute;top:12px;right:52px;z-index:3;display:flex;gap:7px}
+.map-action{border:1px solid #CBD4D7;background:#fff;color:var(--dark-blue);padding:7px 9px;font-weight:700;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.legend-separator{height:1px;background:#E4E8EA;margin:8px 0}.legend-line{display:inline-block;width:22px;height:4px;margin-right:7px;vertical-align:2px;border-radius:2px}
+.priority-hero{padding:13px 14px;margin:0 0 12px;color:#fff}.priority-hero .class{font-size:24px;font-weight:700}.priority-hero .score{font-size:11px;opacity:.9;margin-top:2px}
+.why-card{border:1px solid var(--border);border-left:4px solid var(--teal);padding:11px 12px;margin:12px 0;background:#FAFCFC}.why-card h3{margin:0 0 7px;font-size:13px;text-transform:uppercase;color:var(--dark-blue)}.why-card ul{margin:0;padding-left:18px}.why-card li{font-size:12px;line-height:1.4;margin:4px 0}
+.pillar-row{grid-template-columns:1fr auto}.pillar-title{font-size:12px;font-weight:700}.pillar-class{font-size:15px;font-weight:700}.pillar-small{font-size:10px;color:var(--muted);margin-top:2px}
+.analysis-controls{display:grid;grid-template-columns:minmax(220px,2fr) 1fr 1fr;gap:8px;margin-bottom:10px}.analysis-controls input,.analysis-controls select{width:100%;border:1px solid var(--border);padding:8px;background:#fff}
+.sortable{cursor:pointer;user-select:none}.sortable::after{content:" ↕";font-size:10px;opacity:.65}.sortable.sort-asc::after{content:" ↑"}.sortable.sort-desc::after{content:" ↓"}
+.about-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.8fr);gap:14px}.about-stack{display:grid;gap:12px}.method-list{margin:7px 0 0;padding-left:18px}.method-list li{margin:6px 0;line-height:1.45}.method-table td:first-child{font-weight:700;width:35%;white-space:normal}.method-table td{white-space:normal;vertical-align:top;line-height:1.4}
+@media(max-width:950px){.analysis-controls,.about-layout{grid-template-columns:1fr}.map-actions{right:10px;top:50px}}
+
+.about-stack{display:grid;gap:12px}.about-stack .info-card p{white-space:normal}.method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.method-box{border:1px solid var(--border);padding:12px;background:#FAFBFB}.method-box strong{display:block;font-size:24px;color:var(--teal)}.method-box span{display:block;font-weight:700;color:var(--dark-blue);margin:2px 0 5px}.method-box p{font-size:12px;color:var(--muted)}.method-table{margin-top:10px}.method-table td,.method-table th{white-space:normal}.source-list{display:grid;gap:6px;margin-top:10px}.source-row{padding:7px 0;border-bottom:1px solid #EDF0F1;font-size:12px}.source-row strong{color:var(--dark-blue)}
+.map-tools{position:absolute;right:12px;top:12px;z-index:3;display:flex;gap:6px}.map-tool-btn{background:#fff;border:1px solid var(--border);padding:7px 9px;font-weight:700;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.08)}.export-menu{position:absolute;right:0;top:38px;background:#fff;border:1px solid var(--border);min-width:205px;box-shadow:0 2px 8px rgba(0,0,0,.15);display:none}.export-menu.open{display:block}.export-menu button{display:block;width:100%;text-align:left;border:0;background:#fff;padding:8px 10px;cursor:pointer}.export-menu button:hover{background:#F4FAFA}
+.dynamic-legend-row{display:flex;align-items:center;gap:7px;margin:3px 0}.line-swatch{width:24px;height:0;border-top:4px solid}.why-box{background:#F4FAFA;border-left:4px solid var(--teal);padding:10px 12px;margin:12px 0}.why-box h3{margin:0 0 7px;color:var(--dark-blue);font-size:14px;text-transform:uppercase}.why-box ul{margin:0;padding-left:18px}.why-box li{margin:4px 0;font-size:12px;line-height:1.35}.severity-label{font-size:18px;font-weight:700}.secondary-score{font-size:11px;color:var(--muted);margin-left:5px}.analysis-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.analysis-controls input,.analysis-controls select{border:1px solid var(--border);padding:7px 8px;background:#fff}.sortable{cursor:pointer;user-select:none}.sortable::after{content:" ↕";opacity:.45}.sortable.sort-asc::after{content:" ↑";opacity:1}.sortable.sort-desc::after{content:" ↓";opacity:1}
+@media(max-width:850px){.method-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-lockup">
+      <div class="brand-mark" aria-hidden="true">WASH</div>
+      <div>
+        <div class="eyebrow">NEPAL FLOOD 2026</div>
+        <h1>WASH SEVERITY ANALYSIS</h1>
+      </div>
+    </div>
+    <div class="header-meta">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span id="last-updated">Loading data…</span>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Primary navigation">
+    <button class="tab active" data-view="map">Map</button>
+    <button class="tab" data-view="analysis">Analysis</button>
+    <a class="tab" href="infrastructure.html">Infrastructure</a>
+    <button class="tab" data-view="about">About</button>
+  </nav>
+
+  <main>
+    <section id="map-view" class="view active">
+      <aside class="sidebar" aria-label="Map controls">
+        <div class="panel panel-compact">
+          <div class="panel-title-row">
+            <h2>Explore</h2>
+            <button id="reset-map" class="text-button">Reset map</button>
+          </div>
+          <label class="field-label" for="map-indicator">Map indicator</label>
+          <select id="map-indicator"></select>
+          <label class="field-label" for="district-filter">District</label>
+          <select id="district-filter"><option value="">All affected districts</option></select>
+          <label class="field-label" for="municipality-filter">Municipality</label>
+          <select id="municipality-filter"><option value="">All municipalities</option></select>
+        </div>
+
+        <div class="panel">
+          <h2>Layers</h2>
+          <div id="layer-list" class="layer-list"></div>
+        </div>
+
+        <div class="panel scenario-panel">
+          <div class="panel-title-row">
+            <h2>Analysis mode</h2>
+            <button id="reset-weights" class="text-button">Reset</button>
+          </div>
+          <div class="mode-toggle" role="group" aria-label="Analysis mode">
+            <button id="mode-official" class="mode-btn active">Official</button>
+            <button id="mode-scenario" class="mode-btn">Custom scenario</button>
+          </div>
+          <div id="scenario-controls" class="scenario-controls" hidden>
+            <div class="weight-row">
+              <div><label for="weight-p1">Flood impact & service disruption</label><output id="weight-p1-out">45%</output></div>
+              <input id="weight-p1" type="range" min="0" max="100" value="45" />
+            </div>
+            <div class="weight-row">
+              <div><label for="weight-p2">Current WASH conditions</label><output id="weight-p2-out">35%</output></div>
+              <input id="weight-p2" type="range" min="0" max="100" value="35" />
+            </div>
+            <div class="weight-row">
+              <div><label for="weight-p3">Vulnerability & aggravating factors</label><output id="weight-p3-out">20%</output></div>
+              <input id="weight-p3" type="range" min="0" max="100" value="20" />
+            </div>
+            <p class="note">Scenario weights change interpretation only. Source evidence and official results remain unchanged.</p>
+          </div>
+        </div>
+      </aside>
+
+      <div class="map-shell">
+        <div id="map" aria-label="Interactive WASH severity map"></div>
+        <div id="map-badge" class="map-badge">Official priority</div>
+        <div class="map-tools">
+          <div style="position:relative">
+            <button id="export-map" class="map-tool-btn">Export map ▾</button>
+            <div id="export-menu" class="export-menu">
+              <button data-export="screen">PNG — current view</button>
+              <button data-export="a4">PNG — A4 landscape (300 dpi)</button>
+            </div>
+          </div>
+        </div>
+        <div id="map-legend" class="legend" aria-label="Map legend"></div>
+      </div>
+
+      <aside id="profile-panel" class="profile-panel" aria-label="Municipality profile">
+        <div class="profile-empty">
+          <div class="profile-icon">+</div>
+          <h2>Municipality profile</h2>
+          <p>Select an affected municipality to see severity drivers, affected people, WASH conditions and underlying vulnerability.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section id="analysis-view" class="view content-view">
+      <div class="page-head">
+        <div><div class="eyebrow dark">ANALYTICAL OVERVIEW</div><h2>Municipality prioritisation</h2></div>
+        <button id="download-csv" class="primary-btn">Download CSV</button>
+      </div>
+      <div id="analysis-kpis" class="kpi-grid"></div>
+      <div class="table-card">
+        <div class="analysis-controls">
+          <input id="analysis-search" type="search" placeholder="Search municipality or district…">
+          <select id="analysis-district"><option value="">All districts</option></select>
+          <select id="analysis-priority"><option value="">All priorities</option><option>Very High</option><option>High</option><option>Moderate</option><option>Low</option><option>Minimal</option></select>
+        </div>
+        <div class="table-scroll"><table id="analysis-table"><thead></thead><tbody></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="about-view" class="view content-view">
+      <div class="page-head">
+        <div><div class="eyebrow dark">ABOUT THE ANALYSIS</div><h2>Nepal Flood WASH Severity Analysis</h2></div>
+      </div>
+
+      <div class="about-stack">
+        <article class="info-card">
+          <h3>Why this analysis was developed</h3>
+          <p>The late-August 2026 flood emergency caused widespread disruption across parts of central Nepal, damaging water-supply systems, affecting road access and displacing people into temporary holding centres. The analysis brings together available impact, service-disruption, current WASH-condition and vulnerability information so that users can quickly see where needs are greatest, what is driving severity, and which underlying indicators should be checked in more detail.</p>
+          <p style="margin-top:8px">The analytical cohort covers <strong>17 affected municipalities across six districts</strong>. Municipality-level affected-population estimates used in the model total <strong>84,270 people</strong>. Holding-centre information is shown separately as site-level operational context and may include locations outside the 17-municipality analytical cohort.</p>
+        </article>
+
+        <article class="info-card">
+          <h3>What the final priority means</h3>
+          <p>The final map is a prioritisation view across the 17 affected municipalities. It combines three groups of information: <strong>flood impact and WASH service disruption</strong>, <strong>current WASH conditions</strong>, and <strong>pre-existing vulnerability and aggravating factors</strong>. The class labels — Very High, High, Moderate, Low and Minimal — are intended to be read together with the underlying drivers rather than as stand-alone labels.</p>
+          <p style="margin-top:8px">A municipality can therefore be Very High for different reasons. One municipality may have a very large affected population and major disruption to water-supply systems, while another may have lower direct impact but much higher pre-existing vulnerability. The municipality panel explicitly shows the dominant drivers.</p>
+          <p style="margin-top:8px">For the final priority classification, municipalities are ordered within the 17 affected-municipality cohort, while minimum Need Score guardrails prevent a location from receiving a Very High, High or Moderate label purely because of its relative position. The continuous Need Score and its absolute class remain available separately.</p>
+        </article>
+
+        <article class="info-card">
+          <h3>How the score is built</h3>
+          <div class="method-grid">
+            <div class="method-box"><strong>45%</strong><span>Flood impact & WASH service disruption</span><p>People affected, people served by damaged water-supply systems, and government-reported WSS damage cost.</p></div>
+            <div class="method-box"><strong>35%</strong><span>Current WASH conditions</span><p>Current water access, water quality, sanitation/hygiene and displacement pressure. This component is provisional because municipality-level evidence is still uneven.</p></div>
+            <div class="method-box"><strong>20%</strong><span>Pre-existing vulnerability & aggravating factors</span><p>Drinking Water vulnerability, sanitation vulnerability, poverty & inequality, and physical access constraints.</p></div>
+          </div>
+          <p style="margin-top:10px"><strong>Overall Need Score = 45% impact/service disruption + 35% current WASH conditions + 20% vulnerability/aggravating factors.</strong> Where an input within a component is missing, the available inputs are reweighted where the methodology allows. If the entire vulnerability component is unavailable, the remaining major components are reweighted so that missing data do not automatically become a low score.</p>
+        </article>
+
+        <article class="info-card">
+          <h3>Flood impact & WASH service disruption</h3>
+          <p>This part of the model gives most weight to the scale of people affected and the scale of disruption to water-supply systems. Both absolute numbers and the share of the municipality affected are considered. The absolute magnitude is the starting point; a high proportional impact can increase the score, but a low proportional share cannot reduce a large absolute burden.</p>
+          <table class="method-table">
+            <thead><tr><th>Indicator</th><th>Weight within this component</th><th>How it is interpreted</th></tr></thead>
+            <tbody>
+              <tr><td>People affected</td><td>40%</td><td>Magnitude first, with an uplift where the affected share is unusually high.</td></tr>
+              <tr><td>People served by damaged WSS</td><td>40%</td><td>Magnitude first, with an uplift where disruption affects a high share of the municipality.</td></tr>
+              <tr><td>Government-reported WSS damage cost</td><td>20%</td><td>Observed physical damage evidence from named water-supply systems.</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="info-card">
+          <h3>Current WASH conditions — provisional</h3>
+          <p>Current-condition evidence is not equally complete in every municipality. To avoid making municipalities with more reporting look automatically worse, the current WASH component is deliberately conservative. Where there is no municipality-specific evidence, the model remains around Moderate rather than treating missing information as either good or bad. Available evidence adjusts that baseline only modestly until more systematic current-condition information is available.</p>
+          <table class="method-table">
+            <thead><tr><th>Indicator</th><th>Weight</th></tr></thead>
+            <tbody><tr><td>Current water access</td><td>35%</td></tr><tr><td>Water quality</td><td>25%</td></tr><tr><td>Sanitation & hygiene</td><td>20%</td></tr><tr><td>Displacement pressure</td><td>20%</td></tr></tbody>
+          </table>
+        </article>
+
+        <article class="info-card">
+          <h3>Pre-existing vulnerability & aggravating factors</h3>
+          <p>This component captures conditions that may make recovery more difficult even where the direct flood impact is similar. Drinking Water and sanitation vulnerability are interpreted comparatively across affected municipalities with available data. Poverty & inequality and physical access are added as aggravating factors.</p>
+          <table class="method-table">
+            <thead><tr><th>Indicator</th><th>Weight</th></tr></thead>
+            <tbody><tr><td>Drinking Water vulnerability</td><td>30%</td></tr><tr><td>Sanitation vulnerability</td><td>30%</td></tr><tr><td>Poverty & inequality</td><td>25%</td></tr><tr><td>Physical access</td><td>15%</td></tr></tbody>
+          </table>
+        </article>
+
+        <article class="info-card">
+          <h3>How to read the five-point scale</h3>
+          <p>All scored indicators use the same direction: <strong>5 = Very High</strong>, <strong>4 = High</strong>, <strong>3 = Moderate</strong>, <strong>2 = Low</strong>, and <strong>1 = Minimal</strong>. Higher values always mean greater severity, vulnerability or constraint. The interface emphasises the class label because it is easier to interpret; the numerical value remains visible as supporting detail.</p>
+        </article>
+
+        <article class="info-card">
+          <h3>Spatial and operational layers</h3>
+          <p>The analytical choropleths can be viewed alongside the original flood-extent polygons, road-access constraints, ward boundaries and IOM holding-centre assessments. Flood extent is displayed as the actual polygon geometry. Road status is displayed as line geometry using four operational categories: Not Passable; Passable with restrictions/Damaged; Passable/Undamaged; and Others.</p>
+        </article>
+
+        <article class="info-card">
+          <h3>Data sources</h3>
+          <p>The platform consolidates source material already used in the Nepal flood analysis, including Flash Appeal affected-population estimates, affected-ward population estimates, government WSS damage information, current WASH evidence, IOM displacement and holding-centre assessments, vulnerability data, access evidence, flood-extent mapping and operational road-status information.</p>
+          <div id="about-source-list" class="source-list"></div>
+        </article>
+
+        <article class="info-card">
+          <h3>Important interpretation notes</h3>
+          <p><strong>People affected</strong> and <strong>population residing in affected wards</strong> are different measures and are shown separately. The latter should not be interpreted as the number of people affected. Municipality-level WASH-specific People in Need are not invented where no separate source exists.</p>
+          <p style="margin-top:8px">Holding-centre information is site-level evidence and should not be treated as a complete municipality-wide assessment. The current WASH component remains provisional and should be updated as more systematic field evidence becomes available.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script>
+const DATA = {};
+const state = {
+  mode: 'official',
+  weights: { p1: 45, p2: 35, p3: 20 },
+  selectedPcode: null,
+  analysisSort: { key:'rank', dir:'asc' },
+  analysisFilter: { query:'', district:'', priority:'' },
+  district: '',
+  municipality: '',
+  visibleLayers: new Set(['adm3','flood','holding']),
+  mapIndicator: 'priority',
+  scenario: new Map()
+};
+
+const COLORS = {
+  'Very High':'#B2182B', 'High':'#E36159', 'Moderate':'#FFB340', 'Low':'#8CBFBF', 'Minimal':'#009999', 'Unknown':'#B3B5B9'
+};
+const LEVEL_COLORS = {5:'#B2182B',4:'#E36159',3:'#FFB340',2:'#8CBFBF',1:'#009999'};
+const fmtInt = new Intl.NumberFormat('en-GB', {maximumFractionDigits:0});
+const fmt1 = new Intl.NumberFormat('en-GB', {minimumFractionDigits:1,maximumFractionDigits:2});
+const pct0 = v => v == null ? '—' : `${Math.round(Number(v)*100)}%`;
+const n = v => v == null || v === '' || Number.isNaN(Number(v)) ? null : Number(v);
+const safe = v => v == null || v === '' ? '—' : v;
+const esc = v => String(v==null?'':v).replace(/[&<>\"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[ch]));
+
+const map = new maplibregl.Map({
+  container:'map',
+  style:'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+  center:[84.5,28.0], zoom:6.7,
+  minZoom:5.5, maxZoom:14,
+  attributionControl:true,
+  preserveDrawingBuffer:true
+});
+map.addControl(new maplibregl.NavigationControl({showCompass:true}), 'top-right');
+map.addControl(new maplibregl.ScaleControl({maxWidth:120,unit:'metric'}), 'bottom-right');
+
+async function boot(){
+  const status=document.getElementById('last-updated');
+  const issues=[];
+  try{
+    const mandatory={
+      metadata:'data/metadata.json',
+      profiles:'data/municipality_profiles.json',
+      model:'config/model.json',
+      layerConfig:'config/layers.json',
+      adm3:'data/adm3_affected.geojson',
+      adm4:'data/adm4_available.geojson',
+      flood:'data/flood_extent.geojson',
+      holding:'data/holding_centres.geojson',
+      roads:'data/roads_nepal_response.geojson'
+    };
+    const optional={evidence:'data/current_wash_evidence.json',sources:'data/source_registry.json'};
+    for(const [k,url] of Object.entries(mandatory)){
+      try{ DATA[k]=await fetchJSON(url); }
+      catch(err){ throw new Error(`Required dataset failed: ${url} — ${err.message}`); }
+    }
+    for(const [k,url] of Object.entries(optional)){
+      try{ DATA[k]=await fetchJSON(url); }
+      catch(err){ console.warn('Optional dataset unavailable:',url,err); DATA[k]=[]; issues.push(url); }
+    }
+    if(!Array.isArray(DATA.profiles)) throw new Error('Municipality profile data are not in the expected format.');
+    DATA.byPcode=new Map(DATA.profiles.map(d=>[d.adm3_pcode,d]));
+    DATA.profileNameIndex=new Map(DATA.profiles.map(d=>[normaliseName(d.municipality),d.adm3_pcode]));
+    enrichAdminGeoJSON();
+
+    status.textContent=`Loaded · ${DATA.metadata.affected_municipalities} municipalities`;
+
+    const safeStep=(label,fn)=>{try{fn();}catch(err){console.error(label,err);issues.push(label+': '+err.message);}};
+    safeStep('Filters',setupFilters);
+    safeStep('Map indicator',setupMapIndicator);
+    safeStep('Layer controls',renderLayerList);
+    safeStep('Analysis filters',setupAnalysisFilters);
+    safeStep('Analysis table',renderAnalysis);
+    safeStep('About sources',renderAboutSources);
+
+    const startMap=()=>{try{initialiseMap();}catch(err){console.error('Map initialization',err);issues.push('Map: '+err.message);}};
+    if(map.loaded()) startMap(); else map.once('load',startMap);
+
+    if(issues.length){
+      status.textContent=`Loaded with ${issues.length} warning${issues.length>1?'s':''}`;
+      console.warn('Platform warnings:',issues);
+    }else{
+      status.textContent=`Data snapshot: ${DATA.metadata.generated_date} · ${DATA.metadata.affected_municipalities} municipalities`;
+    }
+  }catch(err){
+    console.error('Platform initialisation error:',err);
+    status.textContent='Data load error';
+    const banner=document.createElement('div');
+    banner.id='load-error-banner';
+    banner.style.cssText='position:fixed;left:50%;top:128px;transform:translateX(-50%);z-index:9999;background:#fff3cd;border:1px solid #e3b341;padding:10px 14px;max-width:760px;font:13px Arial;color:#5d4900;box-shadow:0 2px 8px rgba(0,0,0,.15)';
+    banner.innerHTML='<strong>Platform data could not be loaded.</strong><br>'+String(err.message||err);
+    document.body.appendChild(banner);
+  }
+}
+boot();
+
+async function fetchJSON(url){
+  const r=await fetch(url,{cache:'no-store'});
+  if(!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
+  const text=await r.text();
+  try{return JSON.parse(text);}catch(e){throw new Error(`${url}: invalid JSON (${e.message})`);}
+}
+function normaliseName(s=''){ return String(s).toLowerCase().replace(/rural municipality|municipality|gaunpalika|nagarpalika/g,'').replace(/[^a-z0-9]/g,'').trim(); }
+function classColor(c){ return COLORS[c] || COLORS.Unknown; }
+const CLASS_LEVEL={'Very High':5,'High':4,'Moderate':3,'Low':2,'Minimal':1,'Unknown':0};
+function scoreBand(v){
+  if(v==null||Number.isNaN(Number(v))) return {level:0,className:'Unknown'};
+  const x=Number(v);
+  if(x>=4.2)return {level:5,className:'Very High'};
+  if(x>=3.4)return {level:4,className:'High'};
+  if(x>=2.6)return {level:3,className:'Moderate'};
+  if(x>=1.8)return {level:2,className:'Low'};
+  return {level:1,className:'Minimal'};
+}
+function absoluteNeedBand(v){
+  const x=Number(v);
+  if(x>=4)return {level:5,className:'Very High'};
+  if(x>=3.25)return {level:4,className:'High'};
+  if(x>=2.5)return {level:3,className:'Moderate'};
+  if(x>=1.75)return {level:2,className:'Low'};
+  return {level:1,className:'Minimal'};
+}
+function affectedScore(p){
+  const a=Number(p.affected_population||0), sh=Number(p.affected_share||0);
+  const abs=a<1000?1:a<3000?2:a<7500?3:a<15000?4:5;
+  const share=sh<.05?1:sh<.15?2:sh<.25?3:sh<.35?4:5;
+  return Math.min(5,abs+0.5*Math.max(0,share-abs));
+}
+function damagedWssScore(p){
+  const a=Number(p.damaged_wss_beneficiaries||0), sh=Number(p.wss_beneficiary_share||0);
+  const abs=a<=0?1:a<1000?2:a<3000?3:a<10000?4:5;
+  const share=sh<.05?1:sh<.15?2:sh<.30?3:sh<.50?4:5;
+  return Math.min(5,abs+0.5*Math.max(0,share-abs));
+}
+const ANALYSIS_LAYERS=[
+ ['priority','Overall WASH priority'],
+ ['need','Need severity'],
+ ['impact','Flood impact & WASH service disruption'],
+ ['affected','People affected'],
+ ['damaged_wss','People served by damaged water-supply systems'],
+ ['govt_damage','Government-reported water-supply damage'],
+ ['current','Current WASH conditions — provisional'],
+ ['water_access','Current water access — provisional'],
+ ['water_quality','Water quality — provisional'],
+ ['san_hyg','Sanitation & hygiene — provisional'],
+ ['displacement','Displacement pressure — provisional'],
+ ['vulnerability','Pre-existing vulnerability & aggravating factors'],
+ ['dw_vulnerability','Drinking Water vulnerability'],
+ ['san_vulnerability','Sanitation vulnerability'],
+ ['poverty','Poverty & inequality'],
+ ['physical_access','Physical access constraints']
+];
+function analysisResult(p,id=state.mapIndicator){
+  const d=getDisplayResult(p.adm3_pcode);
+  if(id==='priority') return {level:d.priorityLevel,className:d.priorityClass,value:d.score,label:'Overall WASH priority'};
+  if(id==='need'){const b=absoluteNeedBand(d.score);return {...b,value:d.score,label:'Need severity'};}
+  if(id==='impact') return {level:CLASS_LEVEL[p.p1_class]||0,className:p.p1_class,value:p.p1,label:'Flood impact & WASH service disruption'};
+  if(id==='affected'){const v=affectedScore(p),b=scoreBand(v);return {...b,value:v,label:'People affected'};}
+  if(id==='damaged_wss'){const v=damagedWssScore(p),b=scoreBand(v);return {...b,value:v,label:'People served by damaged water-supply systems'};}
+  if(id==='govt_damage'){const v=n(p.govt_wss_damage_score),b=scoreBand(v);return {...b,value:v,label:'Government-reported water-supply damage'};}
+  if(id==='current') return {level:CLASS_LEVEL[p.p2_class]||0,className:p.p2_class,value:p.p2,label:'Current WASH conditions — provisional'};
+  if(id==='water_access'){const v=n(p.water_access_score),b=scoreBand(v);return {...b,value:v,label:'Current water access — provisional'};}
+  if(id==='water_quality'){const v=n(p.water_quality_score),b=scoreBand(v);return {...b,value:v,label:'Water quality — provisional'};}
+  if(id==='san_hyg'){const v=n(p.sanitation_hygiene_score),b=scoreBand(v);return {...b,value:v,label:'Sanitation & hygiene — provisional'};}
+  if(id==='displacement'){const v=n(p.displacement_pressure_score),b=scoreBand(v);return {...b,value:v,label:'Displacement pressure — provisional'};}
+  if(id==='vulnerability') return {level:CLASS_LEVEL[p.p3_class]||0,className:p.p3_class,value:p.p3,label:'Pre-existing vulnerability & aggravating factors'};
+  if(id==='dw_vulnerability'){const v=n(p.dw_vulnerability_score),b=scoreBand(v);return {...b,value:v,label:'Drinking Water vulnerability'};}
+  if(id==='san_vulnerability'){const v=n(p.san_vulnerability_score),b=scoreBand(v);return {...b,value:v,label:'Sanitation vulnerability'};}
+  if(id==='poverty'){const v=n(p.poverty_inequality_score),b=scoreBand(v);return {...b,value:v,label:'Poverty & inequality'};}
+  if(id==='physical_access'){const v=n(p.physical_access_score),b=scoreBand(v);return {...b,value:v,label:'Physical access constraints'};}
+  return {level:0,className:'Unknown',value:null,label:'Unknown'};
+}
+function enrichAdminGeoJSON(){
+  DATA.adm3.features.forEach(f => {
+    const p = DATA.byPcode.get(f.properties.adm3_pcode);
+    if(!p) return;
+    f.properties.municipality = p.municipality;
+    f.properties.priority_class = p.priority_class;
+    f.properties.priority_level = p.priority_level;
+    f.properties.need_score = p.need_score;
+    f.properties.p1 = p.p1; f.properties.p2 = p.p2; f.properties.p3 = p.p3;
+    Object.assign(f.properties,{
+      affected_population:p.affected_population, affected_share:p.affected_share,
+      damaged_wss_beneficiaries:p.damaged_wss_beneficiaries, wss_beneficiary_share:p.wss_beneficiary_share,
+      govt_wss_damage_score:p.govt_wss_damage_score, govt_wss_damage_cost_npr:p.govt_wss_damage_cost_npr,
+      water_access_score:p.water_access_score, water_quality_score:p.water_quality_score,
+      sanitation_hygiene_score:p.sanitation_hygiene_score, displacement_pressure_score:p.displacement_pressure_score,
+      drinking_water_vulnerability_score:p.dw_vulnerability_score, sanitation_vulnerability_score:p.san_vulnerability_score,
+      poverty_inequality_score:p.poverty_inequality_score, physical_access_score:p.physical_access_score,
+      affected_ward_population:p.affected_ward_population
+    });
+    const r=analysisResult(p,'priority');
+    f.properties.display_level=r.level;f.properties.display_class=r.className;f.properties.display_value=r.value;f.properties.display_label=r.label;
+  });
+}
+
+function initialiseMap(){
+  if(map.getSource('adm3')) return;
+  map.addSource('adm3',{type:'geojson',data:DATA.adm3,promoteId:'adm3_pcode'});
+  map.addLayer({id:'priority-fill',type:'fill',source:'adm3',paint:{
+    'fill-color':['match',['get','priority_level'],5,LEVEL_COLORS[5],4,LEVEL_COLORS[4],3,LEVEL_COLORS[3],2,LEVEL_COLORS[2],1,LEVEL_COLORS[1],'#B3B5B9'],
+    'fill-opacity':0.64
+  }});
+  map.addLayer({id:'adm3-line',type:'line',source:'adm3',paint:{'line-color':'#024E6C','line-width':['case',['boolean',['feature-state','selected'],false],3,1.1],'line-opacity':0.95}});
+  map.addLayer({id:'adm3-label',type:'symbol',source:'adm3',minzoom:7.4,layout:{'text-field':['get','adm3_name'],'text-size':11,'text-font':['Open Sans Semibold','Arial Unicode MS Bold']},paint:{'text-color':'#333333','text-halo-color':'#ffffff','text-halo-width':1.2}});
+
+  map.addSource('flood',{type:'geojson',data:DATA.flood});
+  map.addLayer({id:'flood-fill',type:'fill',source:'flood',paint:{'fill-color':'#2389B7','fill-opacity':['interpolate',['linear'],['zoom'],6,0.34,10,0.46]}});
+  map.addLayer({id:'flood-line',type:'line',source:'flood',paint:{'line-color':'#0B5F84','line-width':['interpolate',['linear'],['zoom'],6,0.7,10,1.4],'line-opacity':0.9}});
+
+  map.addSource('adm4',{type:'geojson',data:DATA.adm4});
+  map.addLayer({id:'adm4-line',type:'line',source:'adm4',layout:{visibility:'none'},paint:{'line-color':'#6E7178','line-width':0.8,'line-dasharray':[3,2]}});
+
+  map.addSource('holding',{type:'geojson',data:DATA.holding});
+  map.addLayer({id:'holding-circle',type:'circle',source:'holding',paint:{
+    'circle-radius':['interpolate',['linear'],['coalesce',['to-number',['get','individuals']],0],0,4,100,6,500,10],
+    'circle-color':'#532F87','circle-opacity':0.88,'circle-stroke-color':'#ffffff','circle-stroke-width':1.2
+  }});
+
+  DATA.roads.features.forEach(f=>{
+    const c=Number(f.properties.CURR_PHYS);
+    f.properties.access_class=c===4?'Not Passable':c===3?'Passable with restrictions/Damaged':c===1?'Passable/Undamaged':'Others';
+  });
+  map.addSource('roads',{type:'geojson',data:DATA.roads});
+  map.addLayer({id:'roads-line',type:'line',source:'roads',layout:{visibility:'none','line-cap':'round','line-join':'round'},paint:{
+    'line-color':['match',['get','access_class'],
+      'Not Passable','#D7191C',
+      'Passable with restrictions/Damaged','#F39C12',
+      'Passable/Undamaged','#3B7D23',
+      'Others','#566573','#566573'],
+    'line-width':['interpolate',['linear'],['zoom'],6,2.1,9,4.3,12,6],
+    'line-opacity':0.94
+  }});
+
+  const bounds = new maplibregl.LngLatBounds();
+  DATA.adm3.features.forEach(f => extendBounds(bounds,f.geometry.coordinates));
+  map.fitBounds(bounds,{padding:35,duration:0});
+
+  map.on('click','priority-fill',e => {
+    const f=e.features?.[0]; if(!f) return;
+    selectMunicipality(f.properties.adm3_pcode,true);
+  });
+  map.on('mousemove','priority-fill',e => {
+    map.getCanvas().style.cursor='pointer';
+    const f=e.features?.[0]; if(!f) return;
+    const p=DATA.byPcode.get(f.properties.adm3_pcode); if(!p) return;
+    showHoverPopup(e.lngLat,p);
+  });
+  map.on('mouseleave','priority-fill',() => {map.getCanvas().style.cursor=''; closeHoverPopup();});
+  map.on('click','holding-circle',e => showHoldingPopup(e));
+  map.on('click','roads-line',e => showRoadPopup(e));
+  applyLayerVisibility();
+  applyThematicLayer();
+  renderLegend();
+}
+
+let hoverPopup;
+function showHoverPopup(lngLat,p){
+  closeHoverPopup();
+  const display=analysisResult(p,state.mapIndicator);
+  const rawDetail=state.mapIndicator==='affected'
+    ? fmtInt.format(p.affected_population||0)+' people affected'
+    : state.mapIndicator==='damaged_wss'
+      ? fmtInt.format(p.damaged_wss_beneficiaries||0)+' people'
+      : display.value==null?'':fmt1.format(display.value)+' / 5';
+  hoverPopup=new maplibregl.Popup({closeButton:false,closeOnClick:false,offset:8})
+    .setLngLat(lngLat)
+    .setHTML(`<div class="popup-title">${esc(p.municipality)}</div><div class="popup-sub">${esc(p.district)} · ${esc(display.label)}</div><div style="margin-top:3px"><b>${esc(display.className)}</b>${rawDetail?' · '+esc(rawDetail):''}</div>`)
+    .addTo(map);
+}
+function closeHoverPopup(){ if(hoverPopup){hoverPopup.remove();hoverPopup=null;} }
+function showHoldingPopup(e){
+  const p=e.features?.[0]?.properties||{};
+  const latrines=n(p.latrines_total), people=n(p.individuals);
+  const pplPerLatrine=(people!=null&&latrines>0)?Math.round(people/latrines):null;
+  new maplibregl.Popup({maxWidth:'340px'}).setLngLat(e.lngLat).setHTML(
+    `<div class="popup-title">${esc(safe(p.site_name))}</div>
+     <div class="popup-sub">${esc(safe(p.district))} · ${esc(safe(p.municipality))} · Ward ${esc(safe(p.ward))} · ${esc(safe(p.assessment_date))}</div>
+     <div style="margin-top:7px;font-size:12px;line-height:1.45">
+       <b>${fmtInt.format(people||0)} people</b> · ${fmtInt.format(n(p.households)||0)} households<br>
+       Functional latrines: <b>${latrines==null?'—':latrines}</b>${pplPerLatrine? ` · ~${pplPerLatrine} people/latrine`:''}<br>
+       Drinking water: ${esc(safe(p.drinking_source))}<br>
+       Water shortage: ${esc(safe(p.water_shortage))}<br>
+       Water storage adequate: ${esc(safe(p.storage_adequate))}<br>
+       Soap/hygiene items: ${esc(safe(p.soap_hygiene))}<br>
+       Solid waste management: ${esc(safe(p.solid_waste))}<br>
+       <b>Priority WASH gaps:</b> ${esc(safe(p.priority_wash_gaps))}
+     </div>`).addTo(map);
+}
+
+function showRoadPopup(e){
+  const p=e.features?.[0]?.properties||{};
+  new maplibregl.Popup({maxWidth:'360px'}).setLngLat(e.lngLat).setHTML(
+    `<div class="popup-title">${esc(safe(p.access_class))}</div>
+     <div style="font-size:12px;line-height:1.45;margin-top:5px">${esc(safe(p.currstatus))}<br>
+     <span class="popup-sub">Source: ${esc(safe(p.currsource))}</span></div>`).addTo(map);
+}
+
+function extendBounds(bounds,coords){
+  if(typeof coords[0]==='number'){ bounds.extend(coords); return; }
+  coords.forEach(c=>extendBounds(bounds,c));
+}
+
+function clearSelection(){
+  if(state.selectedPcode&&map.getSource('adm3')) map.setFeatureState({source:'adm3',id:state.selectedPcode},{selected:false});
+  state.selectedPcode=null;
+  renderProfile(null);
+}
+function setupFilters(){
+  const districts=[...new Set(DATA.profiles.map(d=>d.district))].sort();
+  const dsel=document.getElementById('district-filter');
+  districts.forEach(d=>dsel.add(new Option(d,d)));
+  populateMunicipalities();
+  dsel.addEventListener('change',()=>{
+    clearSelection();
+    state.district=dsel.value;
+    state.municipality='';
+    populateMunicipalities();
+    applyMapFilter();
+  });
+  document.getElementById('municipality-filter').addEventListener('change',e=>{
+    state.municipality=e.target.value;
+    if(state.municipality) selectMunicipality(state.municipality,true);
+    else { clearSelection(); applyMapFilter(); }
+  });
+  document.getElementById('reset-map').addEventListener('click',()=>{
+    clearSelection();
+    state.district='';state.municipality='';dsel.value='';populateMunicipalities();applyMapFilter();
+    const bounds=new maplibregl.LngLatBounds();
+    DATA.adm3.features.forEach(fe=>extendBounds(bounds,fe.geometry.coordinates));
+    map.fitBounds(bounds,{padding:35});
+  });
+}
+function populateMunicipalities(){
+  const sel=document.getElementById('municipality-filter'); sel.innerHTML='<option value="">All municipalities</option>';
+  DATA.profiles.filter(d=>!state.district||d.district===state.district).sort((a,b)=>a.municipality.localeCompare(b.municipality)).forEach(d=>sel.add(new Option(d.municipality,d.adm3_pcode)));
+  sel.value=state.municipality;
+}
+function applyMapFilter(){
+  if(!map.getLayer('priority-fill')) return;
+  let filter=null;
+  if(state.municipality) filter=['==',['get','adm3_pcode'],state.municipality];
+  else if(state.district){
+    const match=DATA.profiles.find(x=>x.district===state.district);
+    if(match) filter=['==',['get','adm2_pcode'],match.adm2_pcode];
+  }
+  ['priority-fill','adm3-line','adm3-label'].forEach(id=>map.setFilter(id,filter));
+}
+function selectMunicipality(pcode,zoom){
+  if(state.selectedPcode && map.getSource('adm3')) map.setFeatureState({source:'adm3',id:state.selectedPcode},{selected:false});
+  state.selectedPcode=pcode;
+  if(map.getSource('adm3')) map.setFeatureState({source:'adm3',id:pcode},{selected:true});
+  const p=DATA.byPcode.get(pcode); if(!p) return;
+  state.municipality=pcode; state.district=p.district;
+  document.getElementById('district-filter').value=p.district; populateMunicipalities(); document.getElementById('municipality-filter').value=pcode;
+  applyMapFilter(); renderProfile(pcode);
+  if(zoom){const f=DATA.adm3.features.find(x=>x.properties.adm3_pcode===pcode);if(f){const b=new maplibregl.LngLatBounds();extendBounds(b,f.geometry.coordinates);map.fitBounds(b,{padding:{top:55,bottom:55,left:55,right:55},maxZoom:10.5});}}
+}
+
+
+const THEMATIC_LAYERS=[
+  {id:'priority',name:'Final WASH priority',kind:'priority',note:'Relative prioritisation across the 17 affected municipalities'},
+  {id:'need',name:'Overall Need Severity',kind:'need',note:'Absolute combined Need Score'},
+  {id:'impact',name:'Flood impact & WASH service disruption',kind:'score',note:'Component score'},
+  {id:'current',name:'Current WASH conditions — provisional',kind:'score',note:'Provisional component score'},
+  {id:'vulnerability',name:'Pre-existing vulnerability & aggravating factors',kind:'score',note:'Component score'},
+  {id:'affected',name:'People affected',kind:'score',note:'Magnitude-first score with possible uplift for high affected share'},
+  {id:'damaged_wss',name:'People served by damaged water-supply systems',kind:'score',note:'Magnitude-first score with possible uplift for high affected share'},
+  {id:'govt_damage',name:'Government-reported water-supply damage',kind:'score',note:'Government-reported WSS damage-cost score'},
+  {id:'water_access',name:'Current water access — provisional',kind:'score',note:'Current WASH indicator'},
+  {id:'water_quality',name:'Water quality — provisional',kind:'score',note:'Current WASH indicator'},
+  {id:'san_hyg',name:'Sanitation & hygiene — provisional',kind:'score',note:'Current WASH indicator'},
+  {id:'displacement',name:'Displacement pressure — provisional',kind:'score',note:'Current WASH indicator'},
+  {id:'dw_vulnerability',name:'Drinking Water vulnerability',kind:'score',note:'Pre-existing vulnerability indicator'},
+  {id:'san_vulnerability',name:'Sanitation vulnerability',kind:'score',note:'Pre-existing vulnerability indicator'},
+  {id:'poverty',name:'Poverty & inequality',kind:'score',note:'Pre-existing vulnerability indicator'},
+  {id:'physical_access',name:'Physical access constraints',kind:'score',note:'Aggravating access constraint'}
+];
+function setupMapIndicator(){
+  const sel=document.getElementById('map-indicator');
+  sel.innerHTML=THEMATIC_LAYERS.map(x=>`<option value="${x.id}">${x.name}</option>`).join('');
+  sel.value=state.mapIndicator;
+  sel.addEventListener('change',()=>{state.mapIndicator=sel.value;applyThematicLayer();});
+}
+function currentTheme(){return THEMATIC_LAYERS.find(x=>x.id===state.mapIndicator)||THEMATIC_LAYERS[0];}
+
+function applyThematicLayer(){
+  if(!map.getLayer('priority-fill')||!DATA.adm3||!DATA.byPcode)return;
+  const t=currentTheme();
+  DATA.adm3.features.forEach(f=>{
+    const p=DATA.byPcode.get(f.properties.adm3_pcode); if(!p)return;
+    const r=analysisResult(p,t.id);
+    f.properties.display_level=r.level;
+    f.properties.display_class=r.className;
+    f.properties.display_value=r.value;
+    f.properties.display_label=r.label;
+  });
+  map.getSource('adm3').setData(DATA.adm3);
+  map.setPaintProperty('priority-fill','fill-color',
+    ['match',['get','display_level'],
+      5,LEVEL_COLORS[5],4,LEVEL_COLORS[4],3,LEVEL_COLORS[3],2,LEVEL_COLORS[2],1,LEVEL_COLORS[1],
+      '#B3B5B9']);
+  document.getElementById('map-badge').textContent=(state.mode==='scenario'&&['priority','need'].includes(t.id)?'Scenario · ':'')+t.name;
+  renderLegend();
+}
+
+function getLegendSpec(){
+  const t=currentTheme();
+  const items=[];
+  let note=t.note||'';
+  if(t.kind==='priority'){
+    items.push(
+      {label:'Very High',color:LEVEL_COLORS[5]},
+      {label:'High',color:LEVEL_COLORS[4]},
+      {label:'Moderate',color:LEVEL_COLORS[3]},
+      {label:'Low',color:LEVEL_COLORS[2]},
+      {label:'Minimal',color:LEVEL_COLORS[1]}
+    );
+    note='Final priority class across the affected-municipality cohort.';
+  }else if(t.kind==='need'){
+    items.push(
+      {label:'Very High  ≥ 4.00',color:LEVEL_COLORS[5]},
+      {label:'High  3.25–<4.00',color:LEVEL_COLORS[4]},
+      {label:'Moderate  2.50–<3.25',color:LEVEL_COLORS[3]},
+      {label:'Low  1.75–<2.50',color:LEVEL_COLORS[2]},
+      {label:'Minimal  < 1.75',color:LEVEL_COLORS[1]}
+    );
+    note='Absolute Need Score bands.';
+  }else{
+    items.push(
+      {label:'Very High  4.20–5.00',color:LEVEL_COLORS[5]},
+      {label:'High  3.40–<4.20',color:LEVEL_COLORS[4]},
+      {label:'Moderate  2.60–<3.40',color:LEVEL_COLORS[3]},
+      {label:'Low  1.80–<2.60',color:LEVEL_COLORS[2]},
+      {label:'Minimal  1.00–<1.80',color:LEVEL_COLORS[1]}
+    );
+    const hasUnknown=DATA.profiles.some(p=>analysisResult(p,t.id).level===0);
+    if(hasUnknown) items.push({label:'Unknown / no municipality-specific evidence',color:'#B3B5B9'});
+  }
+  const overlays=[];
+  if(state.visibleLayers.has('roads')) overlays.push(
+    {title:'Road access status'},
+    {label:'Not Passable',color:'#D7191C',line:true},
+    {label:'Passable with restrictions/Damaged',color:'#F39C12',line:true},
+    {label:'Passable/Undamaged',color:'#3B7D23',line:true},
+    {label:'Others',color:'#566573',line:true}
+  );
+  if(state.visibleLayers.has('flood')) overlays.push({title:'Flood extent'},{label:'Mapped flood extent',color:'#2A9FD6'});
+  if(state.visibleLayers.has('holding')) overlays.push({title:'Holding centres'},{label:'IOM assessed site',color:'#532F87',circle:true});
+  return {title:t.name,note,items,overlays};
+}
+
+function renderLegend(){
+  const root=document.getElementById('map-legend');
+  if(!root||!DATA.profiles)return;
+  const spec=getLegendSpec();
+  let html=`<div class="legend-title">${spec.title}</div>`;
+  if(spec.note) html+=`<div class="note" style="margin-bottom:6px">${spec.note}</div>`;
+  html+=spec.items.map(x=>`<div class="dynamic-legend-row"><span class="${x.line?'line-swatch':'swatch'}" style="${x.line?'border-color:'+x.color:'background:'+x.color};${x.circle?'border-radius:50%;':''}"></span><span>${x.label}</span></div>`).join('');
+  for(const x of spec.overlays){
+    if(x.title) html+=`<div class="legend-title" style="margin-top:8px">${x.title}</div>`;
+    else html+=`<div class="dynamic-legend-row"><span class="${x.line?'line-swatch':'swatch'}" style="${x.line?'border-color:'+x.color:'background:'+x.color};${x.circle?'border-radius:50%;':''}"></span><span>${x.label}</span></div>`;
+  }
+  root.innerHTML=html;
+}
+
+function renderLayerList(){
+  const root=document.getElementById('layer-list'); root.innerHTML=''; let last='';
+  DATA.layerConfig.layers.filter(layer=>layer.id!=='priority').forEach(layer=>{
+    if(layer.group!==last){const g=document.createElement('div');g.className='layer-group';g.textContent=layer.group;root.appendChild(g);last=layer.group;}
+    const row=document.createElement('label');row.className='layer-row';
+    row.innerHTML=`<input type="checkbox" ${layer.defaultVisible?'checked':''} data-layer="${layer.id}"><span>${layer.name}</span><span class="layer-dot" style="background:${layer.color}"></span>`;
+    row.querySelector('input').addEventListener('change',e=>{e.target.checked?state.visibleLayers.add(layer.id):state.visibleLayers.delete(layer.id);applyLayerVisibility();renderLegend();});
+    root.appendChild(row);
+  });
+}
+function applyLayerVisibility(){
+  if(!map.loaded()) return;
+  const mapping={adm3:['adm3-line','adm3-label'],adm4:['adm4-line'],flood:['flood-fill','flood-line'],holding:['holding-circle'],roads:['roads-line']};
+  Object.entries(mapping).forEach(([key,ids])=>ids.forEach(id=>{if(map.getLayer(id)) map.setLayoutProperty(id,'visibility',state.visibleLayers.has(key)?'visible':'none');}));
+  renderLegend();
+}
+
+function scenarioScore(p,w=state.weights){
+  const parts=[['p1',p.p1],['p2',p.p2],['p3',p.p3]].filter(([,v])=>v!=null&&Number.isFinite(Number(v)));
+  const total=parts.reduce((sum,[k])=>sum+(Number(w[k])||0),0);
+  if(!total) return null;
+  return parts.reduce((sum,[k,v])=>sum+Number(v)*(Number(w[k])||0),0)/total;
+}
+function recomputeScenario(){
+  const ranked=DATA.profiles.map(p=>({p,score:scenarioScore(p)}))
+    .filter(x=>x.score!=null)
+    .sort((a,b)=>b.score-a.score||a.p.municipality.localeCompare(b.p.municipality));
+  state.scenario=new Map();
+  ranked.forEach((x,i)=>{
+    const rank=i+1;
+    const rc=DATA.model.cohortRankClasses.find(c=>rank<=c.maxRank && x.score>=(c.minScore??0))
+      || DATA.model.cohortRankClasses.slice().reverse().find(c=>x.score>=(c.minScore??0))
+      || DATA.model.cohortRankClasses.at(-1);
+    const ac=DATA.model.absoluteClasses.find(c=>x.score>=c.min) || DATA.model.absoluteClasses.at(-1);
+    state.scenario.set(x.p.adm3_pcode,{score:x.score,rank,priorityClass:rc.class,priorityLevel:rc.level,absoluteClass:ac.class,absoluteLevel:ac.level});
+  });
+  if(map.getSource('adm3')){
+    DATA.adm3.features.forEach(fe=>{
+      const r=state.scenario.get(fe.properties.adm3_pcode);
+      if(r){fe.properties.priority_level=r.priorityLevel;fe.properties.priority_class=r.priorityClass;fe.properties.need_score=r.score;}
+    });
+    map.getSource('adm3').setData(DATA.adm3);
+  }
+  renderAnalysis();
+  applyThematicLayer();
+  if(state.selectedPcode) renderProfile(state.selectedPcode);
+}
+function restoreOfficial(){
+  DATA.adm3.features.forEach(f=>{const p=DATA.byPcode.get(f.properties.adm3_pcode);if(p){f.properties.priority_level=p.priority_level;f.properties.priority_class=p.priority_class;f.properties.need_score=p.need_score;}});
+  if(map.getSource('adm3'))map.getSource('adm3').setData(DATA.adm3); renderAnalysis();applyThematicLayer();if(state.selectedPcode)renderProfile(state.selectedPcode);
+}
+function getDisplayResult(pcode){
+  const p=DATA.byPcode.get(pcode);
+  if(state.mode==='scenario'){const r=state.scenario.get(pcode);return r||{score:scenarioScore(p),rank:p.priority_rank,priorityClass:p.priority_class,priorityLevel:p.priority_level,absoluteClass:p.absolute_class};}
+  return {score:p.need_score,rank:p.priority_rank,priorityClass:p.priority_class,priorityLevel:p.priority_level,absoluteClass:p.absolute_class};
+}
+function bindScenario(){
+  const official=document.getElementById('mode-official'), custom=document.getElementById('mode-scenario'), controls=document.getElementById('scenario-controls'), badge=document.getElementById('map-badge');
+  official.addEventListener('click',()=>{state.mode='official';official.classList.add('active');custom.classList.remove('active');controls.hidden=true;badge.textContent='Official priority';restoreOfficial();});
+  custom.addEventListener('click',()=>{state.mode='scenario';custom.classList.add('active');official.classList.remove('active');controls.hidden=false;badge.textContent='Custom scenario';recomputeScenario();});
+  ['p1','p2','p3'].forEach(k=>{const input=document.getElementById(`weight-${k}`);input.addEventListener('input',()=>{state.weights[k]=Number(input.value);normaliseWeights(k);recomputeScenario();});});
+  document.getElementById('reset-weights').addEventListener('click',()=>{state.weights={p1:45,p2:35,p3:20};syncWeightUI();if(state.mode==='scenario')recomputeScenario();});
+}
+function normaliseWeights(changed){
+  const keys=['p1','p2','p3'];const other=keys.filter(k=>k!==changed);const remainder=Math.max(0,100-state.weights[changed]);const otherTotal=other.reduce((s,k)=>s+state.weights[k],0)||1;
+  other.forEach(k=>state.weights[k]=Math.round(remainder*state.weights[k]/otherTotal));
+  const total=keys.reduce((s,k)=>s+state.weights[k],0);state.weights[other[other.length-1]]+=100-total;syncWeightUI();
+}
+function syncWeightUI(){['p1','p2','p3'].forEach(k=>{document.getElementById(`weight-${k}`).value=state.weights[k];document.getElementById(`weight-${k}-out`).value=`${state.weights[k]}%`;});}
+bindScenario();
+
+function renderProfile(pcode){
+  const root=document.getElementById('profile-panel');
+  if(!pcode){root.innerHTML='<div class="profile-empty"><div class="profile-icon">+</div><h2>Municipality profile</h2><p>Select an affected municipality to see severity drivers, affected people, WASH conditions and underlying vulnerability.</p></div>';return;}
+  const p=DATA.byPcode.get(pcode), d=getDisplayResult(pcode); if(!p)return;
+  root.innerHTML=`
+    <div class="profile-head">
+      <div class="profile-district">${p.district} · ${p.adm3_pcode}</div>
+      <h2>${p.municipality}</h2>
+      <div class="priority-hero" style="background:${classColor(d.priorityClass)}">
+        <div class="class">${d.priorityClass.toUpperCase()} PRIORITY</div>
+        <div class="score">${state.mode==='scenario'?'Custom scenario':'Default analysis'} · Need Score ${fmt1.format(d.score)} / 5 · Rank ${d.rank} of ${DATA.profiles.length}</div>
+      </div>
+    </div>
+    <div class="profile-tabs">
+      <button class="profile-tab active" data-p-tab="overview">Overview</button>
+      <button class="profile-tab" data-p-tab="indicators">Indicators</button>
+    </div>
+    <div class="profile-body" id="profile-body"></div>`;
+  root.querySelectorAll('.profile-tab').forEach(btn=>btn.addEventListener('click',()=>{root.querySelectorAll('.profile-tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');renderProfileTab(p,btn.dataset.pTab);}));
+  renderProfileTab(p,'overview');
+}
+
+
+function severityClassFromScore(v){return scoreBand(v).className;}
+function driverNarrative(p){
+  const candidates=[
+    {label:'Flood impact & WASH service disruption',cls:p.p1_class,score:p.p1},
+    {label:'Current WASH conditions',cls:p.p2_class,score:p.p2},
+    {label:'Pre-existing vulnerability & aggravating factors',cls:p.p3_class,score:p.p3},
+    {label:'People affected',cls:severityClassFromScore(affectedPopCombinedScore(p)),score:affectedPopCombinedScore(p),detail:`${fmtInt.format(p.affected_population||0)} people affected`},
+    {label:'People served by damaged water-supply systems',cls:severityClassFromScore(damagedWssCombinedScore(p)),score:damagedWssCombinedScore(p),detail:`${fmtInt.format(p.damaged_wss_beneficiaries||0)} people`},
+    {label:'Government-reported WSS damage',cls:severityClassFromScore(p.govt_wss_damage_score),score:p.govt_wss_damage_score,detail:p.govt_wss_damage_cost_npr? `NPR ${fmtInt.format(p.govt_wss_damage_cost_npr)} reported damage`:null},
+    {label:'Drinking Water vulnerability',cls:severityClassFromScore(p.dw_vulnerability_score),score:p.dw_vulnerability_score},
+    {label:'Sanitation vulnerability',cls:severityClassFromScore(p.san_vulnerability_score),score:p.san_vulnerability_score},
+    {label:'Poverty & inequality',cls:severityClassFromScore(p.poverty_inequality_score),score:p.poverty_inequality_score},
+    {label:'Physical access',cls:severityClassFromScore(p.physical_access_score),score:p.physical_access_score}
+  ].filter(x=>x.score!=null).sort((a,b)=>b.score-a.score);
+  return candidates.slice(0,4);
+}
+function affectedAbsScore(v){return v>=15000?5:v>=7500?4:v>=3000?3:v>=1000?2:1}
+function affectedShareScore(v){return v>=.35?5:v>=.25?4:v>=.15?3:v>=.05?2:1}
+function affectedPopCombinedScore(p){const a=affectedAbsScore(n(p.affected_population)||0),b=affectedShareScore(n(p.affected_share)||0);return Math.min(5,a+Math.max(0,b-a)*.5)}
+function wssAbsScore(v){return v>=10000?5:v>=3000?4:v>=1000?3:v>0?2:1}
+function wssShareScore(v){return v>=.5?5:v>=.3?4:v>=.15?3:v>=.05?2:1}
+function damagedWssCombinedScore(p){const a=wssAbsScore(n(p.damaged_wss_beneficiaries)||0),b=wssShareScore(n(p.wss_beneficiary_share)||0);return Math.min(5,a+Math.max(0,b-a)*.5)}
+function indicatorCell(v,detail=''){
+  if(v==null||v===''||Number.isNaN(Number(v))) return '<strong>Unknown</strong>';
+  const b=scoreBand(v);
+  return `<strong>${b.className}</strong><br><small>${fmt1.format(Number(v))}/5${detail?' · '+detail:''}</small>`;
+}
+function renderProfileTab(p,tab){
+  const root=document.getElementById('profile-body'); const d=getDisplayResult(p.adm3_pcode);
+  if(tab==='overview'){
+    const drivers=driverNarrative(p);
+    root.innerHTML=`
+      <div class="metric-grid">
+        <div class="metric"><span>Priority</span><strong class="severity-label" style="color:${classColor(d.priorityClass)}">${d.priorityClass}</strong></div>
+        <div class="metric"><span>People affected</span><strong>${fmtInt.format(p.affected_population||0)}</strong></div>
+        <div class="metric"><span>Population in affected wards</span><strong>${p.affected_ward_population==null?'—':fmtInt.format(p.affected_ward_population)}</strong></div>
+        <div class="metric"><span>People served by damaged WSS</span><strong>${fmtInt.format(p.damaged_wss_beneficiaries||0)}</strong></div>
+      </div>
+      <div class="why-box"><h3>Why is this ${d.priorityClass}?</h3><ul>${drivers.map(x=>`<li><strong>${x.label}: ${x.cls}</strong>${x.detail?` — ${x.detail}`:''}</li>`).join('')}</ul></div>
+      <div class="pillar-row"><div class="pillar-name"><strong>Flood impact & WASH service disruption</strong><br><small>${p.p1_class}</small></div><div class="pillar-score">${fmt1.format(p.p1)} / 5</div></div>
+      <div class="pillar-row"><div class="pillar-name"><strong>Current WASH conditions</strong> <small>· provisional</small><br><small>${p.p2_class}</small></div><div class="pillar-score">${fmt1.format(p.p2)} / 5</div></div>
+      <div class="pillar-row"><div class="pillar-name"><strong>Pre-existing vulnerability & aggravating factors</strong><br><small>${p.p3_class}</small></div><div class="pillar-score">${fmt1.format(p.p3)} / 5</div></div>
+      <div class="note" style="margin-top:10px">Need Score ${fmt1.format(d.score)} / 5 · numerical score shown for transparency.</div>`;
+  } else {
+    const affectedScoreValue=affectedPopCombinedScore(p);
+    const wssScoreValue=damagedWssCombinedScore(p);
+    root.innerHTML=`<table class="indicator-table">
+      <tr><td>People affected</td><td>${indicatorCell(affectedScoreValue,fmtInt.format(p.affected_population||0)+' people')}</td></tr>
+      <tr><td>People served by damaged WSS</td><td>${indicatorCell(wssScoreValue,fmtInt.format(p.damaged_wss_beneficiaries||0)+' people')}</td></tr>
+      <tr><td>Government-reported WSS damage</td><td>${indicatorCell(p.govt_wss_damage_score,p.govt_wss_damage_cost_npr?'NPR '+fmtInt.format(p.govt_wss_damage_cost_npr):'')}</td></tr>
+      <tr><td>Current water access</td><td>${indicatorCell(p.water_access_score)}</td></tr>
+      <tr><td>Water quality</td><td>${indicatorCell(p.water_quality_score)}</td></tr>
+      <tr><td>Sanitation & hygiene</td><td>${indicatorCell(p.sanitation_hygiene_score)}</td></tr>
+      <tr><td>Displacement pressure</td><td>${indicatorCell(p.displacement_pressure_score)}</td></tr>
+      <tr><td>Drinking Water vulnerability</td><td>${indicatorCell(p.dw_vulnerability_score)}</td></tr>
+      <tr><td>Sanitation vulnerability</td><td>${indicatorCell(p.san_vulnerability_score)}</td></tr>
+      <tr><td>Poverty & inequality</td><td>${indicatorCell(p.poverty_inequality_score)}</td></tr>
+      <tr><td>Physical access</td><td>${indicatorCell(p.physical_access_score)}</td></tr>
+    </table>`;
+  }
+}
+
+
+function setupAnalysisFilters(){
+  const search=document.getElementById('analysis-search');
+  const district=document.getElementById('analysis-district');
+  const priority=document.getElementById('analysis-priority');
+
+  if(district && district.options.length===1){
+    [...new Set(DATA.profiles.map(x=>x.district))].sort().forEach(x=>district.add(new Option(x,x)));
+  }
+
+  if(search && !search.dataset.bound){
+    search.addEventListener('input',e=>{
+      state.analysisFilter.query=(e.target.value||'').trim().toLowerCase();
+      renderAnalysis();
+    });
+    search.dataset.bound='1';
+  }
+
+  if(district && !district.dataset.bound){
+    district.addEventListener('change',e=>{
+      state.analysisFilter.district=e.target.value||'';
+      renderAnalysis();
+    });
+    district.dataset.bound='1';
+  }
+
+  if(priority && !priority.dataset.bound){
+    priority.addEventListener('change',e=>{
+      state.analysisFilter.priority=e.target.value||'';
+      renderAnalysis();
+    });
+    priority.dataset.bound='1';
+  }
+}
+function renderAboutSources(){
+  const root=document.getElementById('about-source-list'); if(!root)return;
+  const unique=[]; const seen=new Set();
+  DATA.sources.forEach(x=>{const name=x.source_name||x.source_dataset||x.source||x.title||x.dataset||x.source_id;if(name&&!seen.has(name)){seen.add(name);unique.push(x);}});
+  root.innerHTML=unique.slice(0,24).map(x=>`<div class="source-row"><strong>${esc(safe(x.source_name||x.source_dataset||x.source||x.title||x.dataset||x.source_id))}</strong>${x.source_date?` · ${x.source_date}`:''}${x.use_in_analysis||x.analytical_use?`<br><span>${safe(x.use_in_analysis||x.analytical_use)}</span>`:''}</div>`).join('');
+}
+function renderAnalysis(){
+  if(!DATA.profiles) return;
+  let rows=DATA.profiles.map(p=>({p,d:getDisplayResult(p.adm3_pcode)}));
+  const q=state.analysisFilter.query;
+  if(q)rows=rows.filter(x=>(x.p.municipality+' '+x.p.district).toLowerCase().includes(q));
+  if(state.analysisFilter.district)rows=rows.filter(x=>x.p.district===state.analysisFilter.district);
+  if(state.analysisFilter.priority)rows=rows.filter(x=>x.d.priorityClass===state.analysisFilter.priority);
+  const key=state.analysisSort.key,dir=state.analysisSort.dir==='asc'?1:-1;
+  const getter=(x,k)=>k==='rank'?x.d.rank:k==='municipality'?x.p.municipality:k==='district'?x.p.district:k==='priority'?x.d.priorityLevel:k==='affected'?Number(x.p.affected_population||0):k==='impact'?Number(x.p.p1||0):k==='current'?Number(x.p.p2||0):k==='vulnerability'?Number(x.p.p3||0):Number(x.d.score||0);
+  rows.sort((a,b)=>{const av=getter(a,key),bv=getter(b,key);return (typeof av==='string'?av.localeCompare(bv):av-bv)*dir;});
+  const all=DATA.profiles.map(p=>({p,d:getDisplayResult(p.adm3_pcode)}));
+  const high=all.filter(x=>x.d.priorityLevel>=4).length, veryHigh=all.filter(x=>x.d.priorityLevel===5).length;
+  document.getElementById('analysis-kpis').innerHTML=`
+    <div class="kpi-card"><span>Affected municipalities</span><strong>${all.length}</strong></div>
+    <div class="kpi-card"><span>Very High priority</span><strong>${veryHigh}</strong></div>
+    <div class="kpi-card"><span>High + Very High</span><strong>${high}</strong></div>
+    <div class="kpi-card"><span>Visible rows</span><strong>${rows.length}</strong></div>`;
+  const table=document.getElementById('analysis-table');
+  const cols=[['rank','Rank'],['municipality','Municipality'],['district','District'],['priority','Priority'],['affected','People affected'],['impact','Impact & disruption'],['current','Current WASH'],['vulnerability','Vulnerability'],['score','Need score']];
+  table.querySelector('thead').innerHTML='<tr>'+cols.map(([k,l])=>`<th class="sortable ${state.analysisSort.key===k?'sort-'+state.analysisSort.dir:''}" data-sort="${k}">${l}</th>`).join('')+'</tr>';
+  table.querySelector('tbody').innerHTML=rows.map(({p,d})=>`<tr data-pcode="${p.adm3_pcode}"><td class="rank">${d.rank}</td><td><b>${p.municipality}</b></td><td>${p.district}</td><td><span class="class-chip" style="background:${classColor(d.priorityClass)}">${d.priorityClass}</span></td><td>${fmtInt.format(p.affected_population||0)}</td><td><b>${p.p1_class}</b><br><span class="popup-sub">${fmt1.format(p.p1)}/5</span></td><td><b>${p.p2_class}</b><br><span class="popup-sub">${fmt1.format(p.p2)}/5 · provisional</span></td><td><b>${p.p3_class}</b><br><span class="popup-sub">${fmt1.format(p.p3)}/5</span></td><td>${fmt1.format(d.score)}</td></tr>`).join('');
+  table.querySelectorAll('th[data-sort]').forEach(th=>th.addEventListener('click',()=>{const k=th.dataset.sort;state.analysisSort.dir=state.analysisSort.key===k&&state.analysisSort.dir==='asc'?'desc':'asc';state.analysisSort.key=k;renderAnalysis();}));
+  table.querySelectorAll('tbody tr').forEach(tr=>tr.addEventListener('click',()=>{switchView('map');setTimeout(()=>selectMunicipality(tr.dataset.pcode,true),80);}));
+}
+
+function switchView(name){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===name));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===`${name}-view`));
+  if(name==='map')setTimeout(()=>map.resize(),50);
+}
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>switchView(btn.dataset.view)));
+
+
+document.getElementById('export-map').addEventListener('click',e=>{e.stopPropagation();document.getElementById('export-menu').classList.toggle('open');});
+document.addEventListener('click',()=>document.getElementById('export-menu')?.classList.remove('open'));
+document.querySelectorAll('#export-menu button').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();exportMapImage(b.dataset.export);document.getElementById('export-menu').classList.remove('open');}));
+function drawLegendOnCanvas(ctx,W,H,large=false){
+  const spec=getLegendSpec();
+  const font=large?28:13, titleFont=large?32:14, lineH=large?38:20, pad=large?28:12, sw=large?30:14;
+  const rows=spec.items.length+spec.overlays.filter(x=>!x.title).length+spec.overlays.filter(x=>x.title).length;
+  const boxW=Math.min(large?900:430,W*0.42);
+  const boxH=pad*2+titleFont+lineH*(rows+1)+(spec.note?lineH:0);
+  const x=large?55:18, y=H-boxH-(large?55:18);
+  ctx.save();
+  ctx.fillStyle='rgba(255,255,255,.96)';ctx.strokeStyle='#D9E0E2';ctx.lineWidth=large?2:1;ctx.fillRect(x,y,boxW,boxH);ctx.strokeRect(x,y,boxW,boxH);
+  let cy=y+pad+titleFont;
+  ctx.fillStyle='#024E6C';ctx.font=`700 ${titleFont}px Arial`;ctx.fillText(spec.title,x+pad,cy);
+  cy+=lineH;
+  if(spec.note){ctx.fillStyle='#555';ctx.font=`${font}px Arial`;ctx.fillText(spec.note.slice(0,85),x+pad,cy);cy+=lineH;}
+  const drawItem=item=>{
+    if(item.title){ctx.fillStyle='#024E6C';ctx.font=`700 ${font}px Arial`;ctx.fillText(item.title,x+pad,cy);cy+=lineH;return;}
+    const sx=x+pad, sy=cy-lineH*.55;
+    ctx.strokeStyle=item.color;ctx.fillStyle=item.color;
+    if(item.line){ctx.lineWidth=large?6:4;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx+sw,sy);ctx.stroke();}
+    else if(item.circle){ctx.beginPath();ctx.arc(sx+sw/2,sy,sw*.35,0,Math.PI*2);ctx.fill();}
+    else ctx.fillRect(sx,sy-sw*.35,sw,sw*.7);
+    ctx.fillStyle='#222';ctx.font=`${font}px Arial`;ctx.fillText(item.label,sx+sw+10,cy-lineH*.35);cy+=lineH;
+  };
+  spec.items.forEach(drawItem);spec.overlays.forEach(drawItem);
+  ctx.restore();
+}
+function exportMapImage(mode){
+  const source=map.getCanvas(); if(!source)return;
+  const a4=mode==='a4';
+  const W=a4?3508:source.width, H=a4?2480:source.height;
+  const canvas=document.createElement('canvas');
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+
+  const header=a4?180:0;
+  const footer=a4?90:42;
+  const availH=H-header-footer;
+  const scale=Math.min(W/source.width,availH/source.height);
+  const dw=source.width*scale, dh=source.height*scale;
+  const dx=(W-dw)/2, dy=header+(availH-dh)/2;
+  ctx.drawImage(source,dx,dy,dw,dh);
+
+  if(a4){
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,W,header);
+    ctx.fillStyle='#009999';ctx.fillRect(0,0,W,20);
+    ctx.fillStyle='#024E6C';ctx.font='bold 58px Arial';
+    ctx.fillText('Nepal Flood WASH Severity Analysis',72,82);
+    ctx.fillStyle='#555';ctx.font='34px Arial';
+    ctx.fillText(currentTheme().name,72,132);
+    const p=DATA.byPcode.get(state.selectedPcode);
+    if(p){ctx.font='28px Arial';ctx.fillText(`${p.municipality}, ${p.district}`,72,168);}
+  }
+
+  ctx.fillStyle='#fff';ctx.fillRect(0,H-footer,W,footer);
+  ctx.fillStyle='#555';ctx.font=(a4?'24px':'13px')+' Arial';
+  ctx.fillText('Nepal Flood WASH Severity Analysis · Basemap © OpenStreetMap contributors © CARTO',a4?72:18,H-(a4?34:15));
+
+  drawLegendOnCanvas(ctx,W,H-footer,a4);
+
+  try{
+    const link=document.createElement('a');
+    link.download=`nepal-wash-severity-${state.mapIndicator}-${mode}.png`;
+    link.href=canvas.toDataURL('image/png');
+    link.click();
+  }catch(err){
+    console.error('Map export failed',err);
+  }
+}
+document.getElementById('download-csv').addEventListener('click',()=>{
+  const head=['Rank','District','Municipality','ADM3_PCODE','Priority','People_Affected','Need_Score','Impact_and_Disruption','Current_WASH_Provisional','Vulnerability_and_Aggravating'];
+  const rows=DATA.profiles.map(p=>{const d=getDisplayResult(p.adm3_pcode);return [d.rank,p.district,p.municipality,p.adm3_pcode,d.priorityClass,p.affected_population,d.score,p.p1,p.p2,p.p3];}).sort((a,b)=>a[0]-b[0]);
+  const csv=[head,...rows].map(r=>r.map(csvCell).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`wash-priority-${state.mode}.csv`;a.click();URL.revokeObjectURL(a.href);
+});
+function csvCell(v){const s=String(v??'');return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s;}
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "layers": [
+    {"id":"priority","name":"WASH priority","group":"Analysis","defaultVisible":true,"color":"#E36159"},
+    {"id":"adm3","name":"Municipality boundaries","group":"Boundaries","defaultVisible":true,"color":"#024E6C"},
+    {"id":"adm4","name":"Ward boundaries (available)","group":"Boundaries","defaultVisible":false,"color":"#8E9096"},
+    {"id":"flood","name":"Flood extent","group":"Hazard","defaultVisible":true,"color":"#28A1D2"},
+    {"id":"holding","name":"Holding centres","group":"Displacement","defaultVisible":true,"color":"#532F87"},
+    {"id":"roads","name":"Road/access status","group":"Access","defaultVisible":false,"color":"#383F48"}
+  ]
+}

@@ -1,0 +1,30 @@
+name: QA validation
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate published data and frontend invariants
+        run: python qa/validate.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install browser test dependency
+        run: |
+          npm install --no-save playwright@1.49.1
+          npx playwright install --with-deps chromium
+      - name: Start local site
+        run: |
+          python -m http.server 8000 > /tmp/wash-http.log 2>&1 &
+          sleep 2
+      - name: Browser smoke test
+        run: node qa/smoke.mjs

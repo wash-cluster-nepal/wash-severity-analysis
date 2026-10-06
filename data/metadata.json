@@ -1,0 +1,14 @@
+{
+  "platform": "Nepal Flood WASH Severity Analysis",
+  "model_version": "WASH_SEVERITY_V1",
+  "analysis_source": "Nepal_Flood_2026_WASH_Severity_Analysis_FINAL_v14_repopulated.xlsx",
+  "generated_date": "2026-10-05",
+  "affected_municipalities": 17,
+  "five_w_status": "not_ingested_in_v1",
+  "notes": [
+    "Current WASH conditions are provisional because municipality-level evidence is uneven.",
+    "Custom scenario weights do not overwrite the default analysis.",
+    "5W response monitoring is not yet ingested in v1.",
+    "The current GitHub Pages build is a static data snapshot; automated Google Sheets-to-GitHub publishing is not yet active."
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "environment": "production",
+  "institution": "Nepal WASH Cluster",
+  "drive_root": {
+    "name": "Nepal Flood 2026 - WASH Analysis & Information Management",
+    "url": "https://drive.google.com/drive/folders/1kTFO-v5KQtIelhZS-j3y-lwijmQEzFxF"
+  },
+  "severity_master": {
+    "name": "Nepal Flood WASH Severity Analysis - Master Data",
+    "spreadsheet_id": "1ddB5xRofT7i7soCwGH0qwMs_Ro38QzFFCKK1RA5roSs",
+    "url": "https://docs.google.com/spreadsheets/d/1ddB5xRofT7i7soCwGH0qwMs_Ro38QzFFCKK1RA5roSs/edit",
+    "join_key": "ADM3_PCODE",
+    "publication_mode": "validated_static_snapshot"
+  },
+  "pdna_readable": {
+    "name": "Nepal Flood WASH DDA PDNA - Readable Decoded",
+    "spreadsheet_id": "10JO4KveMSqH-SxNnZnJkAfZ3W4oQpK3FFSYQy3gmil0",
+    "url": "https://docs.google.com/spreadsheets/d/10JO4KveMSqH-SxNnZnJkAfZ3W4oQpK3FFSYQy3gmil0/edit",
+    "record_key": "asset_id",
+    "join_key": "ADM3_PCODE",
+    "public": false
+  },
+  "pdna_integrated": {
+    "name": "Nepal Flood 2026 - DDA PDNA Integrated Clean",
+    "spreadsheet_id": "1KdBUhSI3dgHOZqnvj2y-ZPuw4Lxop_vYusmsbZd1BgA",
+    "url": "https://docs.google.com/spreadsheets/d/1KdBUhSI3dgHOZqnvj2y-ZPuw4Lxop_vYusmsbZd1BgA/edit",
+    "record_key": "asset_id",
+    "join_key": "ADM3_PCODE",
+    "public": false
+  },
+  "pdna_point_gis": {
+    "name": "Nepal Flood 2026 - PDNA Point GIS Source",
+    "spreadsheet_id": "16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4",
+    "url": "https://docs.google.com/spreadsheets/d/16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4/edit",
+    "record_key": "asset_id",
+    "join_key": "ADM3_PCODE",
+    "contains_exact_coordinates": true,
+    "public": false,
+    "publication_rule": "Do not publish exact point data automatically; publish only an explicitly approved extract."
+  },
+  "five_w": {
+    "status": "not_configured",
+    "note": "Authoritative consolidated 5W source to be selected before integration."
+  }
+}

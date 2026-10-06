@@ -42,9 +42,9 @@ Current publication flow:
 - frontend: static HTML/CSS/JavaScript + MapLibre;
 - hosting: GitHub Pages.
 
-### Important current limitation
+### Current publication mode
 
-The v1 site is **not yet automatically synchronised** from the Google Sheet. The public data files are currently a validated static snapshot. The next engineering step is to implement and test the automated source-validation-build-publish workflow.
+The Cluster-owned Google Sheets are now the operational sources of truth. The public site intentionally uses a **validated static publication snapshot** while the authenticated source-validation-build-publish workflow is finalized. This keeps operational and non-public fields from being exposed unintentionally.
 
 ## Data governance
 
@@ -52,7 +52,7 @@ The public site has no authentication. Only publication-safe fields should be in
 
 ## Infrastructure assessment
 
-A separate `infrastructure.html` page provides scheme-level PDNA/DDA exploration. Exact infrastructure coordinates are not stored in the public repository; the current page can load the prepared PDNA point-GIS workbook locally in the browser. Future automation should read a publication-safe extract from the Cluster-controlled PDNA source.
+A separate `infrastructure.html` page provides scheme-level PDNA/DDA exploration. Exact infrastructure coordinates are not stored in the public repository; the current page can load the prepared PDNA point-GIS workbook locally in the browser. The canonical Cluster PDNA point source is recorded in `config/data-sources.json`. Exact coordinates remain non-public unless an explicit publication decision is made.
 
 ## Phase 2
 

@@ -17,11 +17,11 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 .tabs{height:43px;display:flex;align-items:stretch;background:#fff;border-bottom:1px solid var(--border);padding-left:12px}.tab{display:flex;align-items:center;border:0;background:transparent;padding:0 17px;font-weight:700;color:#69767A;border-bottom:3px solid transparent;text-decoration:none}.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
 .shell{height:calc(100vh - 121px);min-height:590px;display:grid;grid-template-columns:310px minmax(0,1fr) 350px}.sidebar,.profile{background:#fff;overflow:auto;padding:14px}.sidebar{border-right:1px solid var(--border)}.profile{border-left:1px solid var(--border)}
 .panel{padding:3px 0 15px;margin-bottom:13px;border-bottom:1px solid var(--border)}.panel h2{margin:0 0 10px;font-size:17px;color:var(--teal);text-transform:uppercase}.label{font-size:12px;font-weight:700;color:#59666A;margin:9px 0 4px;display:block}select,input[type=file]{width:100%;border:1px solid var(--border);padding:8px;background:#fff}
-.note{font-size:11px;color:var(--muted);line-height:1.4;margin-top:8px}.upload-box{background:#E8F5F5;border:1px solid #CBE6E6;padding:11px}.upload-box strong{color:var(--dark)}.privacy{border-left:4px solid var(--yellow);background:#FFF8E8;padding:9px 10px;font-size:11px;line-height:1.4;margin-top:10px}
+.note{font-size:11px;color:var(--muted);line-height:1.4;margin-top:8px}.source-box{background:#E8F5F5;border:1px solid #CBE6E6;padding:10px 11px}.source-box strong{color:var(--dark)}.source-state{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700}.source-dot{width:9px;height:9px;border-radius:50%;background:#FFB340}.source-dot.ok{background:#2E7D32}.source-dot.bad{background:#B2182B}.fallback{margin-top:9px;padding-top:8px;border-top:1px solid #CBE6E6}.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;font-size:12px;font-weight:700;color:#59666A}.toggle-row input{width:18px;height:18px;accent-color:var(--teal)}
 .mapwrap{position:relative;min-width:0}#infra-map{position:absolute;inset:0}.kpis{position:absolute;left:12px;top:12px;z-index:3;display:flex;gap:7px;flex-wrap:wrap;max-width:80%}.kpi{background:rgba(255,255,255,.96);border:1px solid var(--border);padding:7px 10px;box-shadow:0 1px 4px rgba(0,0,0,.08)}.kpi span{display:block;font-size:9px;color:var(--muted);text-transform:uppercase}.kpi strong{font-size:17px;color:var(--dark)}
 .legend{position:absolute;left:12px;bottom:25px;z-index:3;background:#fff;border:1px solid var(--border);padding:10px 12px;min-width:190px;font-size:12px}.legend-title{font-weight:700;color:var(--dark);margin-bottom:6px}.legend-row{display:flex;align-items:center;gap:7px;margin:4px 0}.dot{width:12px;height:12px;border-radius:50%;border:1px solid #fff;box-shadow:0 0 0 1px #aaa}
 .profile-empty{color:var(--muted);padding:12px}.profile h2{font-size:21px;margin:3px 0 5px}.profile .sub{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700}.section{margin-top:14px;border-top:1px solid var(--border);padding-top:11px}.section h3{margin:0 0 7px;color:var(--teal);font-size:13px;text-transform:uppercase}.metric{display:grid;grid-template-columns:1fr auto;gap:10px;padding:5px 0;font-size:12px;border-bottom:1px solid #EEF1F2}.metric b{text-align:right;color:var(--dark);max-width:175px}.pill{display:inline-block;padding:3px 6px;color:#fff;background:var(--dark);font-size:11px;font-weight:700}
-#data-table{font-size:11px;width:100%;border-collapse:collapse}.table-wrap{max-height:240px;overflow:auto;margin-top:8px}th{position:sticky;top:0;background:#383F48;color:#fff;text-align:left;padding:6px}td{padding:6px;border-bottom:1px solid #eee;white-space:nowrap}tbody tr{cursor:pointer}tbody tr:hover{background:#F4FAFA}
+
 .maplibregl-popup-content{font-family:"Roboto Condensed",Arial,sans-serif;border-radius:0}.popup-title{font-size:14px;font-weight:700;color:var(--dark)}
 @media(max-width:1000px){.shell{grid-template-columns:260px minmax(0,1fr)}.profile{display:none}}@media(max-width:760px){.shell{display:block;height:auto}.sidebar{width:100%;border:0}.mapwrap{height:65vh}.kpis{max-width:95%}.topbar{height:auto}.tabs{overflow:auto}}
 </style>
@@ -41,18 +41,15 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 <aside class="sidebar">
 <div class="panel">
 <h2>PDNA / DDA data</h2>
-<div class="upload-box"><strong>Load assessment data</strong><div class="note">Use the Cluster-controlled <b>PDNA Point GIS Source</b>. Download/export it from the source Sheet if needed, then choose the .xlsx/.csv file below. Processing happens locally in your browser.</div><div style="margin:8px 0"><a href="https://docs.google.com/spreadsheets/d/16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4/edit" target="_blank" rel="noopener" style="color:#024E6C;font-weight:700">Open Cluster PDNA Point GIS Source ↗</a></div><input id="file-input" type="file" accept=".xlsx,.xls,.csv"/></div>
-<div class="privacy">Exact scheme coordinates are not stored in the public GitHub repository. The point layer is created in your browser from the selected PDNA/DDA file.</div>
+<div class="source-box">
+<div class="source-state"><span id="source-dot" class="source-dot"></span><span id="source-text">Connecting to Cluster Google Sheet…</span></div>
+<div class="note">Scheme-level assessment data are pulled from the Cluster-controlled <b>PDNA Point GIS Source</b>.</div>
+<div style="margin-top:7px"><a href="https://docs.google.com/spreadsheets/d/16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4/edit" target="_blank" rel="noopener" style="color:#024E6C;font-weight:700">Open source Sheet ↗</a></div>
+<div id="fallback" class="fallback" hidden>
+<div class="note" style="margin:0 0 6px">Live access is unavailable. As a fallback, load an approved export:</div>
+<input id="file-input" type="file" accept=".xlsx,.xls,.csv"/>
 </div>
-<div class="panel">
-<h2>Explore</h2>
-<label class="label">District</label><select id="district"><option value="">All districts</option></select>
-<label class="label">Municipality</label><select id="municipality"><option value="">All municipalities</option></select>
-<label class="label">Service status</label><select id="service"><option value="">All service statuses</option></select>
-<label class="label">Damage grade</label><select id="damage"><option value="">All damage grades</option></select>
-<label class="label">Drinking-water safety</label><select id="safety"><option value="">All water-safety statuses</option></select>
-<label class="label">Temporary solution</label><select id="temporary"><option value="">All</option><option>Yes</option><option>No</option></select>
-<label class="label">Recovery priority</label><select id="priority"><option value="">All priorities</option></select>
+</div>
 </div>
 <div class="panel">
 <h2>Map display</h2>
@@ -72,17 +69,24 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 <option value="physical_damage_cost_npr">Physical damage cost</option>
 <option value="total_recovery_need_npr">Total recovery need</option>
 </select>
+<div class="toggle-row"><label for="show-boundaries">Municipal boundaries</label><input id="show-boundaries" type="checkbox" checked></div>
 <div class="note">Bubble sizes use square-root scaling and are capped to reduce visual dominance by very large values.</div>
 </div>
 <div class="panel">
-<h2>Visible schemes</h2>
-<div class="table-wrap"><table id="data-table"><thead><tr><th>Scheme</th><th>Municipality</th><th>Damage</th></tr></thead><tbody></tbody></table></div>
+<h2>Filters</h2>
+<label class="label">District</label><select id="district"><option value="">All districts</option></select>
+<label class="label">Municipality</label><select id="municipality"><option value="">All municipalities</option></select>
+<label class="label">Service status</label><select id="service"><option value="">All service statuses</option></select>
+<label class="label">Damage grade</label><select id="damage"><option value="">All damage grades</option></select>
+<label class="label">Drinking-water safety</label><select id="safety"><option value="">All water-safety statuses</option></select>
+<label class="label">Temporary solution</label><select id="temporary"><option value="">All</option><option>Yes</option><option>No</option></select>
+<label class="label">Recovery priority</label><select id="priority"><option value="">All priorities</option></select>
 </div>
 </aside>
 <section class="mapwrap">
 <div id="infra-map"></div>
 <div id="kpis" class="kpis"></div>
-<div id="legend" class="legend"><div class="legend-title">Load PDNA/DDA data</div><div class="note">Use the file selector to start the point-level analysis.</div></div>
+<div id="legend" class="legend"><div class="legend-title">PDNA / DDA schemes</div><div class="note">Connecting to Cluster source…</div></div>
 </section>
 <aside class="profile" id="profile">
 <div class="profile-empty"><div class="sub">Scheme profile</div><h2>Select a scheme</h2><p>Click a mapped WASH scheme to review service disruption, damage, public-health status and recovery requirements.</p></div>
@@ -93,7 +97,10 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
 const fmt=new Intl.NumberFormat('en-GB',{maximumFractionDigits:0});
-const state={rows:[],filtered:[],color:'service_status',size:'',selected:null};
+const state={rows:[],filtered:[],color:'service_status',size:'',selected:null,boundaries:true};
+const LIVE_SHEET_ID='16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4';
+const LIVE_SHEET_NAME='PDNA_Point_GIS';
+const LIVE_CSV_URL='https://docs.google.com/spreadsheets/d/'+LIVE_SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(LIVE_SHEET_NAME);
 const map=new maplibregl.Map({container:'infra-map',style:'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',center:[85.05,27.9],zoom:8,minZoom:5.5,maxZoom:15});
 map.addControl(new maplibregl.NavigationControl(),'top-right');map.addControl(new maplibregl.ScaleControl({unit:'metric'}),'bottom-right');
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -141,31 +148,62 @@ function loadWorkbook(file){
 function loadCSV(file){
  Papa.parse(file,{header:true,skipEmptyLines:true,complete:r=>activate(r.data.map(normaliseRow).filter(x=>x.asset_id))});
 }
-document.getElementById('file-input').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;if(/\.csv$/i.test(f.name))loadCSV(f);else loadWorkbook(f)});
-function activate(rows){
+const fileInput=document.getElementById('file-input');
+if(fileInput)fileInput.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;if(/\.csv$/i.test(f.name))loadCSV(f);else loadWorkbook(f)});
+async function loadLiveSheet(){
+ const dot=document.getElementById('source-dot'),txt=document.getElementById('source-text'),fallback=document.getElementById('fallback');
+ try{
+  const res=await fetch(LIVE_CSV_URL,{cache:'no-store'});
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  const csv=await res.text();
+  if(!csv||csv.trim().startsWith('<'))throw new Error('Google Sheet not exposed as CSV');
+  const parsed=Papa.parse(csv,{header:true,skipEmptyLines:true});
+  const rows=parsed.data.map(normaliseRow).filter(r=>r.asset_id);
+  if(!rows.length)throw new Error('No PDNA rows returned');
+  dot.className='source-dot ok';txt.textContent='Live Cluster Sheet · '+rows.length+' assessments';fallback.hidden=true;
+  activate(rows,'live');
+ }catch(err){
+  dot.className='source-dot bad';txt.textContent='Live Sheet unavailable — use approved export';fallback.hidden=false;
+  document.getElementById('status').textContent='PDNA / DDA source needs access';
+  console.warn('Live PDNA load failed:',err);
+ }
+}
+function activate(rows,mode='file'){
  state.rows=rows;
- document.getElementById('status').textContent='Loaded '+rows.length+' DDA assessments';
+ document.getElementById('status').textContent=(mode==='live'?'Live · ':'Loaded · ')+rows.length+' DDA assessments';
  populateFilters();applyFilters();
 }
 function unique(field){return [...new Set(state.rows.map(r=>r[field]).filter(Boolean))].sort()}
 function fill(id,values,label){const s=document.getElementById(id);s.innerHTML='<option value="">'+label+'</option>';values.forEach(v=>s.add(new Option(v,v)))}
+function populateMunicipalities(reset=false){
+ const district=v('district');
+ const values=[...new Set(state.rows.filter(r=>!district||r.district===district).map(r=>r.municipality).filter(Boolean))].sort();
+ const current=reset?'':v('municipality');
+ fill('municipality',values,'All municipalities');
+ if(current&&values.includes(current))document.getElementById('municipality').value=current;
+}
 function populateFilters(){
- fill('district',unique('district'),'All districts');fill('municipality',unique('municipality'),'All municipalities');
+ fill('district',unique('district'),'All districts');populateMunicipalities();
  fill('service',unique('service_status'),'All service statuses');fill('damage',unique('damage_grade'),'All damage grades');
  fill('safety',unique('drinking_water_safety'),'All water-safety statuses');fill('priority',unique('recovery_priority'),'All priorities');
 }
-['district','municipality','service','damage','safety','temporary','priority'].forEach(id=>document.getElementById(id).addEventListener('change',applyFilters));
+document.getElementById('district').addEventListener('change',()=>{populateMunicipalities(true);applyFilters()});
+['municipality','service','damage','safety','temporary','priority'].forEach(id=>document.getElementById(id).addEventListener('change',applyFilters));
 document.getElementById('color-mode').addEventListener('change',e=>{state.color=e.target.value;draw()});
 document.getElementById('size-mode').addEventListener('change',e=>{state.size=e.target.value;draw()});
+document.getElementById('show-boundaries').addEventListener('change',e=>{state.boundaries=e.target.checked;setBoundaryVisibility()});
 function applyFilters(){
  const f={district:v('district'),municipality:v('municipality'),service:v('service'),damage:v('damage'),safety:v('safety'),temporary:v('temporary'),priority:v('priority')};
  state.filtered=state.rows.filter(r=>(!f.district||r.district===f.district)&&(!f.municipality||r.municipality===f.municipality)&&(!f.service||r.service_status===f.service)&&(!f.damage||r.damage_grade===f.damage)&&(!f.safety||r.drinking_water_safety===f.safety)&&(!f.temporary||r.temporary_solution_required===f.temporary)&&(!f.priority||r.recovery_priority===f.priority));
- draw();renderTable();renderKPIs();
+ draw();renderKPIs();updateBoundaryFilter();
 }
 function v(id){return document.getElementById(id).value}
 function geojson(){
  return {type:'FeatureCollection',features:state.filtered.filter(r=>r.latitude!=null&&r.longitude!=null).map(r=>({type:'Feature',geometry:{type:'Point',coordinates:[r.longitude,r.latitude]},properties:r}))};
 }
+const DAMAGE_LABELS={D0:'No observable damage',D1:'Minor / localized damage',D2:'Moderate damage',D3:'Major damage',D4:'Severe damage',D5:'Destroyed / washed away'};
+const SITE_LABELS={S1:'Safe',S2:'Manageable risk',S3:'Conditional — further investigation required',S4:'High risk — relocation or realignment preferred',S5:'Prohibited / unacceptable for permanent reconstruction'};
+const gradeText=(code,dict)=>code?(code+' — '+(dict[code]||'Unknown classification')):'—';
 const palettes={
  service_status:{'Fully Operational':'#2E7D32','Partially Operational':'#8BC34A','Emergency / Temporary Service Only':'#FFB340','Temporarily Closed':'#E36159','Completely Non-Functional':'#B2182B'},
  damage_grade:{D0:'#2E7D32',D1:'#8BC34A',D2:'#D4A72C',D3:'#FFB340',D4:'#E36159',D5:'#B2182B'},
@@ -184,6 +222,13 @@ function sizeExpr(){
 function draw(){
  if(!map.loaded()){map.once('load',draw);return}
  const gj=geojson();
+ if(!map.getSource('municipal-boundaries')){
+   map.addSource('municipal-boundaries',{type:'geojson',data:'data/adm3_affected.geojson'});
+   map.addLayer({id:'municipal-fill',type:'fill',source:'municipal-boundaries',paint:{'fill-color':'#009999','fill-opacity':0.025}});
+   map.addLayer({id:'municipal-line',type:'line',source:'municipal-boundaries',paint:{'line-color':'#5B6B73','line-width':1.1,'line-opacity':0.75}});
+   map.addLayer({id:'municipal-highlight',type:'line',source:'municipal-boundaries',paint:{'line-color':'#009999','line-width':2.5,'line-opacity':0.95},filter:['==',['get','adm3_pcode'],'__none__']});
+   setBoundaryVisibility();updateBoundaryFilter();
+ }
  if(map.getSource('pdna'))map.getSource('pdna').setData(gj);else{
   map.addSource('pdna',{type:'geojson',data:gj});
   map.addLayer({id:'pdna-points',type:'circle',source:'pdna',paint:{'circle-radius':6,'circle-color':'#009999','circle-opacity':.82,'circle-stroke-color':'#fff','circle-stroke-width':1.2}});
@@ -194,29 +239,44 @@ function draw(){
  renderLegend();
  const feats=gj.features;if(feats.length){const b=new maplibregl.LngLatBounds();feats.forEach(f=>b.extend(f.geometry.coordinates));map.fitBounds(b,{padding:55,maxZoom:11,duration:350})}
 }
+function setBoundaryVisibility(){
+ if(!map.getLayer('municipal-line'))return;
+ const vis=state.boundaries?'visible':'none';
+ ['municipal-fill','municipal-line','municipal-highlight'].forEach(id=>map.setLayoutProperty(id,'visibility',vis));
+}
+function updateBoundaryFilter(){
+ if(!map.getLayer('municipal-highlight'))return;
+ const muni=v('municipality');
+ const district=v('district');
+ if(muni){
+   const pc=state.rows.find(r=>r.municipality===muni)?.adm3_pcode;
+   map.setFilter('municipal-highlight',pc?['==',['get','adm3_pcode'],pc]:['==',['get','adm3_pcode'],'__none__']);
+ }else if(district){
+   map.setFilter('municipal-highlight',['==',['get','adm2_name'],district]);
+ }else{
+   map.setFilter('municipal-highlight',['==',['get','adm3_pcode'],'__none__']);
+ }
+}
 function renderLegend(){
  const p=palettes[state.color]||{};const root=document.getElementById('legend');
- root.innerHTML='<div class="legend-title">'+esc(labelFor(state.color))+'</div>'+Object.entries(p).map(([k,c])=>'<div class="legend-row"><span class="dot" style="background:'+c+'"></span><span>'+esc(k)+'</span></div>').join('')+(state.size?'<div class="note">Bubble size: '+esc(labelFor(state.size))+'</div>':'');
+ const legendLabel=k=>state.color==='damage_grade'?gradeText(k,DAMAGE_LABELS):state.color==='site_safety_grade'?gradeText(k,SITE_LABELS):k;
+ root.innerHTML='<div class="legend-title">'+esc(labelFor(state.color))+'</div>'+Object.entries(p).map(([k,c])=>'<div class="legend-row"><span class="dot" style="background:'+c+'"></span><span>'+esc(legendLabel(k))+'</span></div>').join('')+(state.size?'<div class="note">Bubble size: '+esc(labelFor(state.size))+'</div>':'');
 }
 function labelFor(k){return ({service_status:'Service status',damage_grade:'Damage grade',drinking_water_safety:'Drinking-water safety',recovery_priority:'Recovery priority',site_safety_grade:'Site-safety grade',beneficiary_population:'Beneficiary population',population_without_adequate_service:'Population without adequate service',physical_damage_cost_npr:'Physical damage cost',total_recovery_need_npr:'Total recovery need'})[k]||k}
 function renderKPIs(){
  const r=state.filtered, mapped=r.filter(x=>x.latitude!=null&&x.longitude!=null).length, nonfun=r.filter(x=>x.service_status==='Completely Non-Functional').length,d45=r.filter(x=>['D4','D5'].includes(x.damage_grade)).length,temp=r.filter(x=>x.temporary_solution_required==='Yes').length;
  document.getElementById('kpis').innerHTML=[['Visible assessments',r.length],['Mapped',mapped],['Non-functional',nonfun],['D4–D5',d45],['Temporary solution',temp]].map(x=>'<div class="kpi"><span>'+x[0]+'</span><strong>'+fmt.format(x[1])+'</strong></div>').join('');
 }
-function renderTable(){
- const tb=document.querySelector('#data-table tbody');tb.innerHTML=state.filtered.slice().sort((a,b)=>(a.scheme_name||'').localeCompare(b.scheme_name||'')).map(r=>'<tr data-id="'+esc(r.asset_id)+'"><td>'+esc(r.scheme_name)+'</td><td>'+esc(r.municipality)+'</td><td>'+esc(r.damage_grade||'—')+'</td></tr>').join('');
- tb.querySelectorAll('tr').forEach(tr=>tr.addEventListener('click',()=>{const r=state.filtered.find(x=>x.asset_id===tr.dataset.id);if(r){selectScheme(r);if(r.longitude!=null)map.flyTo({center:[r.longitude,r.latitude],zoom:12})}}));
-}
 function selectScheme(p){
  const root=document.getElementById('profile');const money=x=>x==null?'—':'NPR '+fmt.format(Number(x));const val=x=>x==null||x===''?'—':esc(x);
  root.innerHTML='<div class="sub">'+val(p.district)+' · '+val(p.adm3_pcode)+'</div><h2>'+val(p.scheme_name)+'</h2><span class="pill">'+val(p.asset_id)+'</span>'+
  section('Location', [['Municipality',p.municipality],['Ward',p.ward],['Assessment date',p.assessment_date]])+
  section('Current service',[['Service status',p.service_status],['Baseline beneficiaries',p.beneficiary_population==null?'—':fmt.format(Number(p.beneficiary_population))],['Population without adequate service',p.population_without_adequate_service==null?'—':fmt.format(Number(p.population_without_adequate_service))],['Current supply',p.current_supply_pct==null?'—':p.current_supply_pct+'%']])+
- section('Damage & public health',[['Damage grade',p.damage_grade],['Site-safety grade',p.site_safety_grade],['Drinking-water safety',p.drinking_water_safety],['Water-quality test required',p.water_quality_test_required]])+
+ section('Damage & public health',[['Damage grade',gradeText(p.damage_grade,DAMAGE_LABELS)],['Site-safety grade',gradeText(p.site_safety_grade,SITE_LABELS)],['Drinking-water safety',p.drinking_water_safety],['Water-quality test required',p.water_quality_test_required]])+
  section('Recovery',[['Temporary solution required',p.temporary_solution_required],['Recovery priority',p.recovery_priority],['Recommended intervention',p.primary_intervention],['Physical damage cost',money(p.physical_damage_cost_npr)],['Total recovery need',money(p.total_recovery_need_npr)]]);
- if(p.longitude!=null)new maplibregl.Popup({maxWidth:'340px'}).setLngLat([Number(p.longitude),Number(p.latitude)]).setHTML('<div class="popup-title">'+esc(p.scheme_name)+'</div><div>'+esc(p.service_status||'')+' · '+esc(p.damage_grade||'')+'</div>').addTo(map);
+ if(p.longitude!=null)new maplibregl.Popup({maxWidth:'340px'}).setLngLat([Number(p.longitude),Number(p.latitude)]).setHTML('<div class="popup-title">'+esc(p.scheme_name)+'</div><div>'+esc(p.service_status||'')+'</div><div>'+esc(gradeText(p.damage_grade,DAMAGE_LABELS))+'</div>').addTo(map);
 }
 function section(title,items){return '<div class="section"><h3>'+title+'</h3>'+items.map(([a,b])=>'<div class="metric"><span>'+a+'</span><b>'+ (typeof b==='string'&&b.startsWith('NPR ')?b:esc(b??'—')) +'</b></div>').join('')+'</div>'}
-map.on('load',()=>{renderKPIs()});
+map.on('load',()=>{renderKPIs();loadLiveSheet()});
 </script>
 </body></html>

@@ -1,5 +1,7 @@
 # Nepal Flood WASH Severity Analysis
 
+Institutional repository for the Nepal WASH Cluster's 2026 flood severity and infrastructure analysis.
+
 Open-source, source-driven web GIS for municipality-level WASH severity analysis following the 2026 Nepal floods.
 
 ## Current v1
@@ -26,9 +28,13 @@ The public GitHub Pages application includes:
 
 The final priority is interpreted across the 17 affected municipalities while applying minimum Need Score guardrails. The continuous Need Score and absolute class are retained separately.
 
-## Source architecture
+## Institutional source architecture
 
 Current publication flow:
+
+- operational source files are maintained in the WASH Cluster Google Drive;
+- the validated severity master and PDNA/DDA workbooks have Cluster-owned copies;
+
 
 - analytical source: native Google Sheet imported from the latest analytical workbook;
 - spatial sources: supplied GIS files;
@@ -43,6 +49,10 @@ The v1 site is **not yet automatically synchronised** from the Google Sheet. The
 ## Data governance
 
 The public site has no authentication. Only publication-safe fields should be included in public JSON/GeoJSON outputs. The IOM holding-centre layer currently includes selected demographic and WASH fields only; direct contact fields were excluded.
+
+## Infrastructure assessment
+
+A separate `infrastructure.html` page provides scheme-level PDNA/DDA exploration. Exact infrastructure coordinates are not stored in the public repository; the current page can load the prepared PDNA point-GIS workbook locally in the browser. Future automation should read a publication-safe extract from the Cluster-controlled PDNA source.
 
 ## Phase 2
 

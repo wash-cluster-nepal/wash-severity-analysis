@@ -1,0 +1,82 @@
+{
+  "modelVersion": "WASH_SEVERITY_V1",
+  "officialWeights": {
+    "p1": 0.45,
+    "p2": 0.35,
+    "p3": 0.2
+  },
+  "absoluteClasses": [
+    {
+      "min": 4,
+      "class": "Very High",
+      "level": 5
+    },
+    {
+      "min": 3.25,
+      "class": "High",
+      "level": 4
+    },
+    {
+      "min": 2.5,
+      "class": "Moderate",
+      "level": 3
+    },
+    {
+      "min": 1.75,
+      "class": "Low",
+      "level": 2
+    },
+    {
+      "min": 0,
+      "class": "Minimal",
+      "level": 1
+    }
+  ],
+  "cohortRankClasses": [
+    {
+      "maxRank": 3,
+      "minScore": 3.25,
+      "class": "Very High",
+      "level": 5
+    },
+    {
+      "maxRank": 7,
+      "minScore": 2.75,
+      "class": "High",
+      "level": 4
+    },
+    {
+      "maxRank": 11,
+      "minScore": 2.25,
+      "class": "Moderate",
+      "level": 3
+    },
+    {
+      "maxRank": 14,
+      "minScore": 0,
+      "class": "Low",
+      "level": 2
+    },
+    {
+      "maxRank": 17,
+      "minScore": 0,
+      "class": "Minimal",
+      "level": 1
+    }
+  ],
+  "pillars": {
+    "p1": {
+      "name": "Flood Impact & WASH Service Disruption",
+      "weight": 0.45
+    },
+    "p2": {
+      "name": "Current WASH Conditions",
+      "weight": 0.35,
+      "provisional": true
+    },
+    "p3": {
+      "name": "Pre-existing Vulnerability & Aggravating Factors",
+      "weight": 0.2
+    }
+  }
+}

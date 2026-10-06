@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="theme-color" content="#009999"/>
-<title>Nepal Flood 2026 — WASH Infrastructure Assessment</title>
+<title>Nepal Flood 2026 — WASH Systems Assessment</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 *{box-sizing:border-box}html,body{margin:0;height:100%;font-family:"Roboto Condensed",Arial,sans-serif;color:var(--text);background:var(--bg)}
 button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);border-bottom:5px solid var(--yellow);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;gap:20px}
 .brand{display:flex;align-items:center;gap:12px}.mark{width:46px;height:46px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.13em}.topbar h1{font-size:25px;line-height:1;margin:4px 0 0}.meta{font-size:13px}
-.tabs{height:43px;display:flex;align-items:stretch;background:#fff;border-bottom:1px solid var(--border);padding-left:12px}.tab{display:flex;align-items:center;border:0;background:transparent;padding:0 17px;font-weight:700;color:#69767A;border-bottom:3px solid transparent;text-decoration:none}.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+.tabs{height:43px;display:flex;align-items:stretch;background:#fff;border-bottom:1px solid var(--border);padding-left:12px}.tab{height:43px;display:flex;align-items:center;justify-content:center;border:0;background:transparent;padding:0 17px;font-weight:700;color:#69767A;border-bottom:3px solid transparent;text-decoration:none;line-height:1;white-space:nowrap}.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
 .shell{height:calc(100vh - 121px);min-height:590px;display:grid;grid-template-columns:310px minmax(0,1fr) 350px}.sidebar,.profile{background:#fff;overflow:auto;padding:14px}.sidebar{border-right:1px solid var(--border)}.profile{border-left:1px solid var(--border)}
 .panel{padding:3px 0 15px;margin-bottom:13px;border-bottom:1px solid var(--border)}.panel h2{margin:0 0 10px;font-size:17px;color:var(--teal);text-transform:uppercase}.label{font-size:12px;font-weight:700;color:#59666A;margin:9px 0 4px;display:block}select,input[type=file]{width:100%;border:1px solid var(--border);padding:8px;background:#fff}
 .note{font-size:11px;color:var(--muted);line-height:1.4;margin-top:8px}.source-box{background:#E8F5F5;border:1px solid #CBE6E6;padding:10px 11px}.source-box strong{color:var(--dark)}.source-state{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700}.source-dot{width:9px;height:9px;border-radius:50%;background:#FFB340}.source-dot.ok{background:#2E7D32}.source-dot.bad{background:#B2182B}.fallback{margin-top:9px;padding-top:8px;border-top:1px solid #CBE6E6}.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;font-size:12px;font-weight:700;color:#59666A}.toggle-row input{width:18px;height:18px;accent-color:var(--teal)}
@@ -28,13 +28,13 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 </head>
 <body>
 <header class="topbar">
-<div class="brand"><div class="mark">WASH</div><div><div class="eyebrow">NEPAL FLOOD 2026</div><h1>WASH INFRASTRUCTURE ASSESSMENT</h1></div></div>
+<div class="brand"><div class="mark">WASH</div><div><div class="eyebrow">NEPAL FLOOD 2026</div><h1>WASH SYSTEMS ASSESSMENT</h1></div></div>
 <div class="meta" id="status">PDNA / DDA scheme-level analysis</div>
 </header>
 <nav class="tabs">
 <a class="tab" href="index.html">Map</a>
 <a class="tab" href="index.html">Analysis</a>
-<a class="tab active" href="infrastructure.html">Infrastructure</a>
+<a class="tab active" href="infrastructure.html">WASH Systems</a>
 <a class="tab" href="index.html">About</a>
 </nav>
 <main class="shell">
@@ -224,9 +224,13 @@ function draw(){
  const gj=geojson();
  if(!map.getSource('municipal-boundaries')){
    map.addSource('municipal-boundaries',{type:'geojson',data:'data/adm3_affected.geojson'});
-   map.addLayer({id:'municipal-fill',type:'fill',source:'municipal-boundaries',paint:{'fill-color':'#009999','fill-opacity':0.025}});
-   map.addLayer({id:'municipal-line',type:'line',source:'municipal-boundaries',paint:{'line-color':'#5B6B73','line-width':1.1,'line-opacity':0.75}});
-   map.addLayer({id:'municipal-highlight',type:'line',source:'municipal-boundaries',paint:{'line-color':'#009999','line-width':2.5,'line-opacity':0.95},filter:['==',['get','adm3_pcode'],'__none__']});
+   map.addLayer({id:'municipal-fill',type:'fill',source:'municipal-boundaries',paint:{'fill-color':'#009999','fill-opacity':0.015}});
+   map.addLayer({id:'municipal-line',type:'line',source:'municipal-boundaries',paint:{'line-color':'#60777D','line-width':0.8,'line-opacity':0.42}});
+   map.addLayer({id:'municipal-highlight',type:'line',source:'municipal-boundaries',paint:{'line-color':'#009999','line-width':2.2,'line-opacity':0.9},filter:['==',['get','adm3_pcode'],'__none__']});
+   map.addLayer({id:'municipal-label',type:'symbol',source:'municipal-boundaries',layout:{
+     'text-field':['get','adm3_name'],'text-size':11,'text-font':['Open Sans Semibold','Arial Unicode MS Regular'],
+     'text-allow-overlap':false,'text-ignore-placement':false
+   },paint:{'text-color':'#50636A','text-opacity':0.7,'text-halo-color':'#FFFFFF','text-halo-width':1.2}});
    setBoundaryVisibility();updateBoundaryFilter();
  }
  if(map.getSource('pdna'))map.getSource('pdna').setData(gj);else{
@@ -243,6 +247,8 @@ function setBoundaryVisibility(){
  if(!map.getLayer('municipal-line'))return;
  const vis=state.boundaries?'visible':'none';
  ['municipal-fill','municipal-line','municipal-highlight'].forEach(id=>map.setLayoutProperty(id,'visibility',vis));
+ // Municipality names stay visible even when boundary outlines are switched off.
+ map.setLayoutProperty('municipal-label','visibility','visible');
 }
 function updateBoundaryFilter(){
  if(!map.getLayer('municipal-highlight'))return;

@@ -1,15 +1,40 @@
 # Pipeline
 
-The v1 public site is built from validated outputs generated from the Nepal Flood WASH analytical workbook and supplied GIS files.
+The public site is hosted from the Cluster-owned repository and uses validated publication-safe outputs under `data/`.
 
-The next automation step is to connect the native Google Sheet master source to a GitHub Action that:
+## Cluster-owned operational sources
 
-1. fetches source tabs,
-2. validates schema and PCODEs,
-3. recalculates official analytical outputs,
-4. joins administrative geography,
-5. removes non-public fields,
-6. rebuilds JSON / GeoJSON outputs, and
-7. deploys GitHub Pages only after validation succeeds.
+- Severity master: `1ddB5xRofT7i7soCwGH0qwMs_Ro38QzFFCKK1RA5roSs`
+- PDNA readable/decoded: `10JO4KveMSqH-SxNnZnJkAfZ3W4oQpK3FFSYQy3gmil0`
+- PDNA integrated clean: `1KdBUhSI3dgHOZqnvj2y-ZPuw4Lxop_vYusmsbZd1BgA`
+- PDNA point GIS: `16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4`
 
-The 5W connector is intentionally deferred to phase 2.
+See `config/data-sources.json` for the canonical source configuration.
+
+## Publication model
+
+Google Drive / Google Sheets are the operational source of truth. GitHub contains the application, QA logic, and publication-safe analytical outputs.
+
+The severity site currently publishes a validated static snapshot. This prevents accidental publication of operational or sensitive fields while the automated source-to-publication workflow is being finalized.
+
+## Planned automated sync
+
+The production sync should:
+
+1. authenticate to the Cluster Google Drive using a non-personal service identity;
+2. fetch only approved source tabs;
+3. validate schema, PCODEs and expected record counts;
+4. recalculate/rebuild analytical outputs;
+5. strip non-public fields;
+6. prohibit exact PDNA point coordinates unless an explicit publication rule allows them;
+7. run `qa/validate.py` and `qa/smoke.mjs`;
+8. update public JSON/GeoJSON only if all checks pass;
+9. allow GitHub Pages to deploy only after validation succeeds.
+
+## PDNA governance
+
+The public Infrastructure page does not automatically retrieve the private PDNA point sheet. Exact scheme coordinates remain Cluster-controlled. The page can load an approved local export in-browser for operational use.
+
+## 5W
+
+5W integration is intentionally deferred until the authoritative consolidated response source is selected.

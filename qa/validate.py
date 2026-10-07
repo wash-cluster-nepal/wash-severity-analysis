@@ -188,6 +188,18 @@ infra=text("infrastructure.html")
 readme=text("README.md")
 pipeline=text("pipeline/README.md")
 smoke=text("qa/smoke.mjs")
+source_config_text=text("config/data-sources.json")
+metadata_text=text("data/metadata.json")
+
+# Public repository must not expose direct operational Google Sheet connections.
+for public_text,label in [
+    (source_config_text,"config/data-sources.json"),
+    (metadata_text,"data/metadata.json"),
+    (pipeline,"pipeline/README.md"),
+    (infra,"infrastructure.html"),
+]:
+    for unsafe in ["docs.google.com/spreadsheets","spreadsheet_id","severity_master_sheet_id","pdna_point_sheet_id"]:
+        fail_if(unsafe in public_text,f"{label} exposes operational Sheet connection metadata: {unsafe}")
 
 ids=re.findall(r'id="([^"]+)"',html)
 dups=sorted({x for x in ids if ids.count(x)>1})

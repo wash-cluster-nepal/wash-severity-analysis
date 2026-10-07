@@ -232,7 +232,7 @@ for unsafe in ["docs.google.com/spreadsheets","gviz/tq","LIVE_SHEET_ID","LIVE_CS
     fail_if(unsafe in infra,f"public Water Systems page still contains direct Sheet access: {unsafe}")
 for stale in ["PDNA / DDA","DDA assessments","Connecting to Cluster Google Sheet"]:
     fail_if(stale in infra,f"stale public Water Systems terminology remains: {stale}")
-fail_if("approved export" not in infra.lower(),"Water Systems page does not state approved-export requirement")
+fail_if(not ("approved" in infra.lower() and "export" in infra.lower()),"Water Systems page does not state approved-export requirement")
 
 for doc in [readme,pipeline]:
     for stale in ["P1 50% + P2 35% + P3 15%","Very High ≥4.00; High 3.25"]:

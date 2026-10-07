@@ -5,6 +5,10 @@ The public site is hosted from the Cluster-owned repository and uses validated p
 ## Cluster-owned operational sources
 
 - Severity master: `1ddB5xRofT7i7soCwGH0qwMs_Ro38QzFFCKK1RA5roSs`
+  - authoritative outputs: `Analysis v15 Locked`
+  - authoritative method: `Methods v15 Locked`
+  - model status/read-me: `00 Read Me`
+  - earlier v1/v2 analytical tabs are historical/audit material only
 - PDNA readable/decoded: `10JO4KveMSqH-SxNnZnJkAfZ3W4oQpK3FFSYQy3gmil0`
 - PDNA integrated clean: `1KdBUhSI3dgHOZqnvj2y-ZPuw4Lxop_vYusmsbZd1BgA`
 - PDNA point GIS: `16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4`
@@ -13,7 +17,7 @@ See `config/data-sources.json` for the canonical source configuration.
 
 ## Publication model
 
-Google Drive / Google Sheets are the operational source of truth. GitHub contains the application, QA logic, and publication-safe analytical outputs.
+Google Drive / Google Sheets are the operational source of truth. For the Severity Master, only the locked v15 tabs named above are current analytical authority. GitHub contains the application, QA logic, and publication-safe analytical outputs.
 
 The severity site currently publishes a validated static snapshot. This prevents accidental publication of operational or sensitive fields while the automated source-to-publication workflow is being finalized.
 

@@ -67,7 +67,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
   <nav class="tabs" aria-label="Primary navigation">
     <button class="tab active" data-view="map">Map</button>
     <button class="tab" data-view="analysis">Analysis</button>
-    <a class="tab" href="infrastructure.html">WASH Systems</a>
+    <a class="tab" href="infrastructure.html">Water Systems</a>
     <button class="tab" data-view="about">About</button>
   </nav>
 
@@ -98,7 +98,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
             <button id="reset-weights" class="text-button">Reset</button>
           </div>
           <div class="mode-toggle" role="group" aria-label="Analysis mode">
-            <button id="mode-official" class="mode-btn active">Official</button>
+            <button id="mode-official" class="mode-btn active">Default analysis</button>
             <button id="mode-scenario" class="mode-btn">Custom scenario</button>
           </div>
           <div id="scenario-controls" class="scenario-controls" hidden>
@@ -107,12 +107,12 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
               <input id="weight-p1" type="range" min="0" max="100" value="50" />
             </div>
             <div class="weight-row">
-              <div><label for="weight-p2">Current water service & safety</label><output id="weight-p2-out">35%</output></div>
-              <input id="weight-p2" type="range" min="0" max="100" value="35" />
+              <div><label for="weight-p2">Current water service & safety</label><output id="weight-p2-out">30%</output></div>
+              <input id="weight-p2" type="range" min="0" max="100" value="30" />
             </div>
             <div class="weight-row">
-              <div><label for="weight-p3">Vulnerability & aggravating factors</label><output id="weight-p3-out">15%</output></div>
-              <input id="weight-p3" type="range" min="0" max="100" value="15" />
+              <div><label for="weight-p3">Vulnerability & aggravating factors</label><output id="weight-p3-out">20%</output></div>
+              <input id="weight-p3" type="range" min="0" max="100" value="20" />
             </div>
             <p class="note">Scenario weights change interpretation only. Source evidence and official results remain unchanged.</p>
           </div>
@@ -182,10 +182,10 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
           <h3>How the score is built</h3>
           <div class="method-grid">
             <div class="method-box"><strong>50%</strong><span>Flood & WSS impact</span><p>Uses the number and share of people affected and, where PDNA data are available, the scale and physical damage of assessed water-supply systems.</p></div>
-            <div class="method-box"><strong>35%</strong><span>Current WASH conditions</span><p>Covers water access & service continuity, water quality & safety, and sanitation & hygiene. Current PDNA data support scoring of the first two; sanitation & hygiene is kept visible as a data gap.</p></div>
-            <div class="method-box"><strong>15%</strong><span>Vulnerability & Aggravating Factors</span><p>Drinking-water vulnerability, sanitation vulnerability, poverty/inequality and physical access.</p></div>
+            <div class="method-box"><strong>30%</strong><span>Current WASH conditions</span><p>Covers water access & service continuity, water quality & safety, and sanitation & hygiene. Current PDNA data support scoring of the first two; sanitation & hygiene is kept visible as a data gap.</p></div>
+            <div class="method-box"><strong>20%</strong><span>Vulnerability & Aggravating Factors</span><p>Drinking-water vulnerability, sanitation vulnerability, poverty/inequality and physical access.</p></div>
           </div>
-          <p style="margin-top:10px"><strong>Overall Need Score = 50% P1 + 35% P2 + 15% P3.</strong> Where no current PDNA data are available, P2 is provisionally set to 2.5 and the lower evidence strength is shown.</p>
+          <p style="margin-top:10px"><strong>Overall Need Score = 50% P1 + 30% P2 + 20% P3.</strong> Where no current PDNA data are available, P2 is provisionally set to 2.5 and the lower evidence strength is shown.</p>
         </article>
 
         <article class="info-card">
@@ -214,7 +214,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
           <p>This component captures conditions that may make recovery more difficult even where the direct flood impact is similar. Drinking Water and sanitation vulnerability are interpreted comparatively across affected municipalities with available data. Poverty & inequality and physical access are added as aggravating factors.</p>
           <table class="method-table">
             <thead><tr><th>Indicator</th><th>Weight</th></tr></thead>
-            <tbody><tr><td>Drinking Water vulnerability</td><td>30%</td></tr><tr><td>Sanitation vulnerability</td><td>30%</td></tr><tr><td>Poverty & inequality</td><td>25%</td></tr><tr><td>Physical access</td><td>15%</td></tr></tbody>
+            <tbody><tr><td>Drinking Water vulnerability</td><td>30%</td></tr><tr><td>Sanitation vulnerability</td><td>30%</td></tr><tr><td>Poverty & inequality</td><td>25%</td></tr><tr><td>Physical access constraints</td><td>15%</td></tr></tbody>
           </table>
         </article>
 
@@ -225,7 +225,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 
         <article class="info-card">
           <h3>Spatial and operational layers</h3>
-          <p>The analytical choropleths can be viewed alongside the original flood-extent polygons, road-access constraints, ward boundaries and IOM holding-centre assessments. Flood extent is displayed as the actual polygon geometry. Road status is displayed as line geometry using four operational categories: Not Passable; Passable with restrictions/Damaged; Passable/Undamaged; and Others.</p>
+          <p>The analytical choropleths can be viewed alongside the original flood-extent polygons, road-access constraints, ward boundaries and holding-centre assessments. Flood extent is displayed as the actual polygon geometry. Road status is displayed as line geometry using four operational categories: Not Passable; Passable with restrictions/Damaged; Passable/Undamaged; and Others.</p>
         </article>
 
         <article class="info-card">
@@ -248,7 +248,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 const DATA = {};
 const state = {
   mode: 'official',
-  weights: { p1: 50, p2: 35, p3: 15 },
+  weights: { p1: 50, p2: 30, p3: 20 },
   selectedPcode: null,
   analysisSort: { key:'rank', dir:'asc' },
   analysisFilter: { query:'', district:'', priority:'' },
@@ -666,13 +666,13 @@ function getLegendSpec(){
       {label:'Low',color:LEVEL_COLORS[2]},
       {label:'Minimal',color:LEVEL_COLORS[1]}
     );
-    note='Final priority class across the affected-municipality cohort.';
+    note='Final WASH severity class.';
   }else if(t.kind==='need'){
     items.push(
-      {label:'Very High  ≥ 4.00',color:LEVEL_COLORS[5]},
-      {label:'High  3.25–<4.00',color:LEVEL_COLORS[4]},
-      {label:'Moderate  2.50–<3.25',color:LEVEL_COLORS[3]},
-      {label:'Low  1.75–<2.50',color:LEVEL_COLORS[2]},
+      {label:'Very High  > 3.50',color:LEVEL_COLORS[5]},
+      {label:'High  3.00–3.50',color:LEVEL_COLORS[4]},
+      {label:'Moderate  2.25–<3.00',color:LEVEL_COLORS[3]},
+      {label:'Low  1.75–<2.25',color:LEVEL_COLORS[2]},
       {label:'Minimal  < 1.75',color:LEVEL_COLORS[1]}
     );
     note='Absolute Need Score bands.';
@@ -696,7 +696,7 @@ function getLegendSpec(){
     {label:'Others',color:'#566573',line:true}
   );
   if(state.visibleLayers.has('flood')) overlays.push({title:'Flood extent'},{label:'Mapped flood extent',color:'#2A9FD6'});
-  if(state.visibleLayers.has('holding')) overlays.push({title:'Holding centres'},{label:'IOM assessed site',color:'#532F87',circle:true});
+  if(state.visibleLayers.has('holding')) overlays.push({title:'Holding centres'},{label:'Holding centre',color:'#532F87',circle:true});
   return {title:t.name,note,items,overlays};
 }
 
@@ -775,7 +775,7 @@ function bindScenario(){
   official.addEventListener('click',()=>{state.mode='official';official.classList.add('active');custom.classList.remove('active');controls.hidden=true;badge.textContent='Final WASH severity';restoreOfficial();});
   custom.addEventListener('click',()=>{state.mode='scenario';custom.classList.add('active');official.classList.remove('active');controls.hidden=false;badge.textContent='Custom scenario';recomputeScenario();});
   ['p1','p2','p3'].forEach(k=>{const input=document.getElementById(`weight-${k}`);input.addEventListener('input',()=>{state.weights[k]=Number(input.value);normaliseWeights(k);recomputeScenario();});});
-  document.getElementById('reset-weights').addEventListener('click',()=>{state.weights={p1:50,p2:35,p3:15};syncWeightUI();if(state.mode==='scenario')recomputeScenario();});
+  document.getElementById('reset-weights').addEventListener('click',()=>{state.weights={p1:50,p2:30,p3:20};syncWeightUI();if(state.mode==='scenario')recomputeScenario();});
 }
 function normaliseWeights(changed){
   const keys=['p1','p2','p3'];const other=keys.filter(k=>k!==changed);const remainder=Math.max(0,100-state.weights[changed]);const otherTotal=other.reduce((s,k)=>s+state.weights[k],0)||1;
@@ -930,16 +930,18 @@ function renderAnalysis(){
   const getter=(x,k)=>k==='rank'?x.d.rank:k==='municipality'?x.p.municipality:k==='district'?x.p.district:k==='priority'?x.d.priorityLevel:k==='affected'?Number(x.p.affected_population||0):k==='impact'?Number(x.p.p1||0):k==='current'?Number(x.p.p2||0):k==='vulnerability'?Number(x.p.p3||0):Number(x.d.score||0);
   rows.sort((a,b)=>{const av=getter(a,key),bv=getter(b,key);return (typeof av==='string'?av.localeCompare(bv):av-bv)*dir;});
   const all=DATA.profiles.map(p=>({p,d:getDisplayResult(p.adm3_pcode)}));
-  const high=all.filter(x=>x.d.priorityLevel>=4).length, veryHigh=all.filter(x=>x.d.priorityLevel===5).length;
+  const veryHigh=all.filter(x=>x.d.priorityClass==='Very High').length;
+  const high=all.filter(x=>x.d.priorityClass==='High').length;
+  const moderate=all.filter(x=>x.d.priorityClass==='Moderate').length;
   document.getElementById('analysis-kpis').innerHTML=`
     <div class="kpi-card"><span>Affected municipalities</span><strong>${all.length}</strong></div>
-    <div class="kpi-card"><span>Very High priority</span><strong>${veryHigh}</strong></div>
-    <div class="kpi-card"><span>High + Very High</span><strong>${high}</strong></div>
-    <div class="kpi-card"><span>Visible rows</span><strong>${rows.length}</strong></div>`;
+    <div class="kpi-card"><span>Very High</span><strong>${veryHigh}</strong></div>
+    <div class="kpi-card"><span>High</span><strong>${high}</strong></div>
+    <div class="kpi-card"><span>Moderate</span><strong>${moderate}</strong></div>`;
   const table=document.getElementById('analysis-table');
-  const cols=[['rank','Rank'],['municipality','Municipality'],['district','District'],['priority','Priority'],['affected','People affected'],['impact','Impact & disruption'],['current','Current WASH'],['vulnerability','Vulnerability'],['score','Need score']];
+  const cols=[['rank','Rank'],['municipality','Municipality'],['district','District'],['priority','Severity'],['affected','People affected'],['impact','Impact & disruption'],['current','Current WASH'],['vulnerability','Vulnerability'],['score','Need score']];
   table.querySelector('thead').innerHTML='<tr>'+cols.map(([k,l])=>`<th class="sortable ${state.analysisSort.key===k?'sort-'+state.analysisSort.dir:''}" data-sort="${k}">${l}</th>`).join('')+'</tr>';
-  table.querySelector('tbody').innerHTML=rows.map(({p,d})=>`<tr data-pcode="${p.adm3_pcode}"><td class="rank">${d.rank}</td><td><b>${p.municipality}</b></td><td>${p.district}</td><td><span class="class-chip" style="background:${classColor(d.priorityClass)}">${d.priorityClass}</span></td><td>${fmtInt.format(p.affected_population||0)}</td><td><b>${p.p1_class}</b><br><span class="popup-sub">${fmt1.format(p.p1)}/5</span></td><td><b>${p.p2_class}</b><br><span class="popup-sub">${fmt1.format(p.p2)}/5 · provisional</span></td><td><b>${p.p3_class}</b><br><span class="popup-sub">${fmt1.format(p.p3)}/5</span></td><td>${fmt1.format(d.score)}</td></tr>`).join('');
+  table.querySelector('tbody').innerHTML=rows.map(({p,d})=>`<tr data-pcode="${p.adm3_pcode}"><td class="rank">${d.rank}</td><td><b>${p.municipality}</b></td><td>${p.district}</td><td><span class="class-chip" style="background:${classColor(d.priorityClass)}">${d.priorityClass}</span></td><td>${fmtInt.format(p.affected_population||0)}</td><td><b>${p.p1_class}</b><br><span class="popup-sub">${fmt1.format(p.p1)}/5</span></td><td><b>${p.p2_class}</b><br><span class="popup-sub">${fmt1.format(p.p2)}/5 </span></td><td><b>${p.p3_class}</b><br><span class="popup-sub">${fmt1.format(p.p3)}/5</span></td><td>${fmt1.format(d.score)}</td></tr>`).join('');
   table.querySelectorAll('th[data-sort]').forEach(th=>th.addEventListener('click',()=>{const k=th.dataset.sort;state.analysisSort.dir=state.analysisSort.key===k&&state.analysisSort.dir==='asc'?'desc':'asc';state.analysisSort.key=k;renderAnalysis();}));
   table.querySelectorAll('tbody tr').forEach(tr=>tr.addEventListener('click',()=>{switchView('map');setTimeout(()=>selectMunicipality(tr.dataset.pcode,true),80);}));
 }

@@ -8,7 +8,7 @@
   "severity_master": {
     "name": "Nepal Flood WASH Severity Analysis - Master Data",
     "join_key": "ADM3_PCODE",
-    "publication_mode": "validated_static_snapshot",
+    "publication_mode": "manual_validated_sync",
     "authoritative_tabs": [
       "Analysis v15 Locked",
       "Methods v15 Locked",
@@ -29,7 +29,8 @@
     "record_key": "asset_id",
     "join_key": "ADM3_PCODE",
     "public": false,
-    "connection": "Configured outside the public repository for authorised pipeline/runtime use."
+    "connection": "Configured outside the public repository for authorised pipeline/runtime use.",
+    "publication_output": "data/pdna_municipality_summary.json (municipality-level aggregate only)"
   },
   "pdna_point_gis": {
     "name": "Nepal Flood 2026 - PDNA Point GIS Source",

@@ -9,8 +9,8 @@ The analysis compares WASH severity across **17 flood-affected municipalities** 
 The final Need Score combines:
 
 - **50% — Flood and water-supply-system impact (P1)**
-- **35% — Current water service and safety (P2)**
-- **15% — Underlying vulnerability (P3)**
+- **30% — Current WASH conditions (P2)**
+- **20% — Underlying vulnerability (P3)**
 
 ### P1 — Flood and water-supply-system impact
 

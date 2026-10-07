@@ -18,14 +18,17 @@ P1 considers the number and share of people affected. Where **PDNA raw data** ar
 
 Within P1, affected-population impact contributes **40%** and water-supply-system impact contributes **60%** where PDNA raw data are available.
 
-### P2 — Current water service and safety
+### P2 — Current WASH conditions
 
-P2 looks at:
+P2 is designed around three WASH areas:
 
-- whether assessed water systems are working; and
-- whether drinking water is considered safe or requires restrictions/action.
+- **Water access and service continuity**
+- **Water quality and safety**
+- **Sanitation and hygiene**
 
-Where the assessed systems represent more of the affected population, the PDNA findings have more influence on the P2 score. Where no current PDNA raw data are available, a **provisional P2 score of 2.5** is used and the lower evidence strength is clearly flagged.
+The current **PDNA raw data** provide comparable municipality-level information for the first two. Sanitation and hygiene remains an identified data gap and will be added when comparable municipality-level information is available.
+
+Where the assessed water systems represent more of the affected population, the PDNA findings have more influence on P2. Where no current PDNA raw data are available, a **provisional P2 score of 2.5** is used and the lower evidence strength is flagged.
 
 ### P3 — Underlying vulnerability
 
@@ -33,11 +36,11 @@ P3 combines pre-existing drinking-water, sanitation, poverty/inequality and phys
 
 ## Severity classes
 
-- **Very High:** > 3.5
+- **Very High:** >3.5
 - **High:** 3.0–3.5
-- **Moderate:** 2.5–<3.0
-- **Low:** 2.0–<2.5
-- **Minimal:** <2.0
+- **Moderate:** 2.25–<3.0
+- **Low:** 1.75–<2.25
+- **Minimal:** <1.75
 
 ## Data sources
 

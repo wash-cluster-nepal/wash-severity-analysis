@@ -24,3 +24,5 @@ The platform distinguishes between:
 See `source_registry.json` and the platform's **About** page for the full source list.
 
 Exact PDNA infrastructure coordinates and other non-public operational fields remain in Cluster-controlled source data and are not published here.
+
+5W response-footprint/coverage fields are not published in the v1 municipality profiles because 5W integration is intentionally deferred until an authoritative consolidated response source is selected.

@@ -13,12 +13,11 @@
   "publication_mode": "validated_static_snapshot",
   "notes": [
     "Official model weights: P1 50%, P2 35%, P3 15%.",
-    "P1 is WASH-weighted: 40% affected-population impact and 60% WSS impact where DDA is available.",
-    "P2 uses direct service and water-safety/public-health evidence adjusted by an assessed-WSS-beneficiary / affected-population coverage proxy.",
-    "The P2 coverage ratio is a proxy, not a unique population coverage rate; scheme beneficiary populations may overlap and the ratio is capped at 100%.",
-    "Municipalities without current DDA use a provisional P2 prior of 2.5 and are flagged as lower-confidence evidence.",
-    "No second rank-derived severity class is used; the published class is the absolute Need Score class.",
-    "5W response monitoring is not yet ingested.",
-    "Exact DDA infrastructure coordinates remain non-public."
+    "Within P1, affected-population impact contributes 40% and WSS impact 60% where PDNA raw data are available.",
+    "P2 uses PDNA raw data on current service status and drinking-water safety/public-health, adjusted by how much of the affected population is represented by assessed WSS beneficiaries.",
+    "Municipalities without current PDNA raw data use a provisional P2 of 2.5 and are flagged as lower-confidence evidence.",
+    "Final severity classes: Very High >3.5; High 3.0–3.5; Moderate 2.5–<3.0; Low 2.0–<2.5; Minimal <2.0.",
+    "Exact PDNA infrastructure coordinates remain non-public.",
+    "Detailed source disclosure is maintained in data/source_registry.json."
   ]
 }

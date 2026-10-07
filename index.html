@@ -181,11 +181,11 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
         <article class="info-card">
           <h3>How the score is built</h3>
           <div class="method-grid">
-            <div class="method-box"><strong>50%</strong><span>Flood & WSS impact</span><p>Uses the number and share of people affected and, where PDNA raw data are available, the scale and physical damage of assessed water-supply systems.</p></div>
-            <div class="method-box"><strong>35%</strong><span>Current WASH conditions</span><p>Covers water access & service continuity, water quality & safety, and sanitation & hygiene. Current PDNA raw data support scoring of the first two; sanitation & hygiene is kept visible as a data gap.</p></div>
+            <div class="method-box"><strong>50%</strong><span>Flood & WSS impact</span><p>Uses the number and share of people affected and, where PDNA data are available, the scale and physical damage of assessed water-supply systems.</p></div>
+            <div class="method-box"><strong>35%</strong><span>Current WASH conditions</span><p>Covers water access & service continuity, water quality & safety, and sanitation & hygiene. Current PDNA data support scoring of the first two; sanitation & hygiene is kept visible as a data gap.</p></div>
             <div class="method-box"><strong>15%</strong><span>Vulnerability & Aggravating Factors</span><p>Drinking-water vulnerability, sanitation vulnerability, poverty/inequality and physical access.</p></div>
           </div>
-          <p style="margin-top:10px"><strong>Overall Need Score = 50% P1 + 35% P2 + 15% P3.</strong> Where no current PDNA raw data are available, P2 is provisionally set to 2.5 and the lower evidence strength is shown.</p>
+          <p style="margin-top:10px"><strong>Overall Need Score = 50% P1 + 35% P2 + 15% P3.</strong> Where no current PDNA data are available, P2 is provisionally set to 2.5 and the lower evidence strength is shown.</p>
         </article>
 
         <article class="info-card">
@@ -202,7 +202,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 
         <article class="info-card">
           <h3>Current WASH Conditions</h3>
-          <p>P2 is designed around three WASH areas: water access and service continuity, water quality and safety, and sanitation and hygiene. Current PDNA raw data provide comparable information for the first two. Sanitation and hygiene remains a data gap and will be added when comparable municipality-level information becomes available. Where no current PDNA raw data are available, a provisional score of 2.5 is used.</p>
+          <p>P2 is designed around three WASH areas: water access and service continuity, water quality and safety, and sanitation and hygiene. Current PDNA data provide comparable information for the first two. Sanitation and hygiene remains a data gap and will be added when comparable municipality-level information becomes available. Where no current PDNA data are available, a provisional score of 2.5 is used.</p>
           <table class="method-table">
             <thead><tr><th>Indicator</th><th>Weight</th></tr></thead>
             <tbody><tr><td>Water access & service continuity</td><td>Currently scored</td></tr><tr><td>Water quality & safety</td><td>Currently scored</td></tr><tr><td>Sanitation & hygiene</td><td>Data gap — not currently scored</td></tr></tbody>
@@ -229,8 +229,8 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
         </article>
 
         <article class="info-card">
-          <h3>Data sources</h3>
-          <p>The platform uses several datasets. Some are used directly in the severity score, while others are shown only as supporting or map context. The list below identifies each source and how it is used. Key scoring sources include affected-population estimates, PDNA raw water-supply-system assessment data, baseline vulnerability indicators and physical-access evidence. Supporting layers include IOM holding-centre assessments, government WSS damage information, flood extent, administrative boundaries and operational road status.</p>
+          <h3>Data sources used in the analysis</h3>
+          <p>Only sources that contribute directly to the analytical framework are listed below. Supporting map layers and contextual evidence are kept separate from the scoring sources.</p>
           <div id="about-source-list" class="source-list"></div>
         </article>
 
@@ -617,10 +617,10 @@ const THEMATIC_LAYERS=[
   {id:'current',name:'Current WASH conditions',kind:'score',note:'P2 component'},
   {id:'vulnerability',name:'Pre-existing vulnerability & aggravating factors',kind:'score',note:'P3 component'},
   {id:'affected',name:'People affected',kind:'score',note:'Affected-population impact'},
-  {id:'damaged_wss',name:'People served by assessed water-supply systems',kind:'score',note:'PDNA raw WSS beneficiary impact'},
-  {id:'physical_damage',name:'Physical damage to assessed water-supply systems',kind:'score',note:'PDNA raw physical-damage score'},
-  {id:'water_access',name:'Water access & service continuity',kind:'score',note:'PDNA raw current-service score'},
-  {id:'water_quality',name:'Water quality & safety',kind:'score',note:'PDNA raw water-safety/public-health score'},
+  {id:'damaged_wss',name:'People served by assessed water-supply systems',kind:'score',note:'PDNA WSS beneficiary impact'},
+  {id:'physical_damage',name:'Physical damage to assessed water-supply systems',kind:'score',note:'PDNA physical-damage score'},
+  {id:'water_access',name:'Water access & service continuity',kind:'score',note:'PDNA current-service score'},
+  {id:'water_quality',name:'Water quality & safety',kind:'score',note:'PDNA water-safety/public-health score'},
   {id:'dw_vulnerability',name:'Drinking Water vulnerability',kind:'score',note:'Pre-existing vulnerability indicator'},
   {id:'san_vulnerability',name:'Sanitation vulnerability',kind:'score',note:'Pre-existing vulnerability indicator'},
   {id:'poverty',name:'Poverty & inequality',kind:'score',note:'Pre-existing vulnerability indicator'},
@@ -917,9 +917,7 @@ function setupAnalysisFilters(){
 }
 function renderAboutSources(){
   const root=document.getElementById('about-source-list'); if(!root)return;
-  const unique=[]; const seen=new Set();
-  DATA.sources.forEach(x=>{const name=x.source_name||x.source_dataset||x.source||x.title||x.dataset||x.source_id;if(name&&!seen.has(name)){seen.add(name);unique.push(x);}});
-  root.innerHTML=unique.slice(0,24).map(x=>`<div class="source-row"><strong>${esc(safe(x.source_name||x.source_dataset||x.source||x.title||x.dataset||x.source_id))}</strong>${x.reference_date||x.source_date?` · ${safe(x.reference_date||x.source_date)}`:''}${x.use_in_analysis||x.analytical_use?`<br><span>${safe(x.use_in_analysis||x.analytical_use)}</span>`:''}</div>`).join('');
+  root.innerHTML=(DATA.sources||[]).map(x=>`<div class="source-row"><strong>${esc(safe(x.indicators_used||x.source_dataset))}</strong><br><span>${esc(safe(x.source_organization||''))}${x.source_dataset?` — ${esc(safe(x.source_dataset))}`:''}</span>${x.reference_date?` · ${esc(safe(x.reference_date))}`:''}${x.use_in_analysis?`<br><span>${esc(safe(x.use_in_analysis))}</span>`:''}</div>`).join('');
 }
 function renderAnalysis(){
   if(!DATA.profiles) return;

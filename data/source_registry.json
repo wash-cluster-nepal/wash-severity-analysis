@@ -128,5 +128,75 @@
     "use_in_analysis": "Drinking-water access, sanitation and poverty/inequality inputs for affected municipalities in Gorkha and Tanahu",
     "key_limitation_handling": "Only the same P3 indicators already used elsewhere are scored; other CCRI indicators remain contextual to avoid overlap",
     "file_url": "Pasted markdown(20261005-030558).md"
+  },
+  {
+    "source_id": "S14",
+    "source_dataset": "2026 affected-population estimates (Flash Appeal / response-planning compilation)",
+    "type": "Response-planning population estimates",
+    "reference_date": "2026",
+    "geographic_level": "Municipality",
+    "use_in_analysis": "Direct scoring input: affected population used in P1 and in population-share calculations.",
+    "key_limitation_handling": "Affected population is distinct from population residing in affected wards.",
+    "file_url": "Nepal WASH Cluster severity-analysis master inputs"
+  },
+  {
+    "source_id": "S15",
+    "source_dataset": "PDNA raw water-supply-system assessment data",
+    "type": "Post-disaster infrastructure assessment raw data",
+    "reference_date": "Sep–Oct 2026",
+    "geographic_level": "Water-supply system / municipality",
+    "use_in_analysis": "Direct scoring input: assessed WSS beneficiary population and physical damage inform P1; current service status and drinking-water safety/public-health inform P2.",
+    "key_limitation_handling": "Scheme beneficiary populations may overlap and are not unique people. Coverage ratios are capped at 100%. Exact infrastructure coordinates are not published.",
+    "file_url": "Nepal WASH Cluster controlled PDNA raw dataset"
+  },
+  {
+    "source_id": "S16",
+    "source_dataset": "IOM holding-centre / site-level assessment",
+    "type": "Site-level displacement and WASH assessment",
+    "reference_date": "2026-08-31 to 2026-09-06",
+    "geographic_level": "Site",
+    "use_in_analysis": "Supporting/map context only: holding-centre locations and site-level WASH/displacement information.",
+    "key_limitation_handling": "Site-level evidence is not treated as municipality-wide coverage and is not a direct v15 severity-score component.",
+    "file_url": "IOM assessment shared with Nepal response"
+  },
+  {
+    "source_id": "S17",
+    "source_dataset": "Nepal administrative boundaries",
+    "type": "Official administrative boundary GIS",
+    "reference_date": "2024 boundary version used in analysis",
+    "geographic_level": "Municipality / available ward",
+    "use_in_analysis": "Mapping and PCODE-based joins for the 17 affected municipalities and available ward boundaries.",
+    "key_limitation_handling": "Boundaries are used for spatial display and joins; they do not change severity scores.",
+    "file_url": "Official Nepal administrative boundary layer supplied for the response analysis"
+  },
+  {
+    "source_id": "S18",
+    "source_dataset": "2026 flood-extent GIS layer",
+    "type": "Flood footprint GIS",
+    "reference_date": "2026 flood event",
+    "geographic_level": "Flood polygon",
+    "use_in_analysis": "Map/context layer showing the flood footprint.",
+    "key_limitation_handling": "Displayed as spatial context; not used as a standalone scoring variable in final v15.",
+    "file_url": "Flood-extent GIS layer supplied for the Nepal flood response"
+  },
+  {
+    "source_id": "S19",
+    "source_dataset": "Operational road-status layer",
+    "type": "Response access GIS",
+    "reference_date": "Sep–Oct 2026",
+    "geographic_level": "Road segment / corridor",
+    "use_in_analysis": "Map context and physical-access evidence; source attributes include NDRRMA and WFP updates.",
+    "key_limitation_handling": "Road status is dynamic and route-level; it should not be read as a complete municipality-wide road inventory.",
+    "file_url": "Nepal response operational road-status layer"
+  },
+  {
+    "source_id": "S20",
+    "source_dataset": "OpenStreetMap / CARTO basemap",
+    "type": "Basemap",
+    "reference_date": "Current platform basemap",
+    "geographic_level": "Map background",
+    "use_in_analysis": "Platform basemap only.",
+    "key_limitation_handling": "Basemap is for orientation and does not affect analytical scores.",
+    "file_url": "https://www.openstreetmap.org/"
   }
 ]

@@ -4,16 +4,15 @@ The public site is hosted from the Cluster-owned repository and uses validated p
 
 ## Cluster-owned operational sources
 
-- Severity master: `1ddB5xRofT7i7soCwGH0qwMs_Ro38QzFFCKK1RA5roSs`
-  - authoritative outputs: `Analysis v15 Locked`
-  - authoritative method: `Methods v15 Locked`
-  - model status/read-me: `00 Read Me`
-  - earlier v1/v2 analytical tabs are historical/audit material only
-- PDNA readable/decoded: `10JO4KveMSqH-SxNnZnJkAfZ3W4oQpK3FFSYQy3gmil0`
-- PDNA integrated clean: `1KdBUhSI3dgHOZqnvj2y-ZPuw4Lxop_vYusmsbZd1BgA`
-- PDNA point GIS: `16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4`
+The operational Severity Master and PDNA source workbooks are Cluster-controlled Google Drive / Google Sheets resources. Their file IDs and direct URLs are intentionally **not stored in this public repository**.
 
-See `config/data-sources.json` for the canonical source configuration.
+For the Severity Master:
+- authoritative outputs: `Analysis v15 Locked`
+- authoritative method: `Methods v15 Locked`
+- model status/read-me: `00 Read Me`
+- earlier v1/v2 analytical tabs are historical/audit material only
+
+See `config/data-sources.json` for the publication-safe source roles and join keys. Authorised runtime/source identifiers must be supplied outside the public repository (for example through protected GitHub environment configuration or secrets).
 
 ## Publication model
 
@@ -25,7 +24,7 @@ The severity site currently publishes a validated static snapshot. This prevents
 
 The production sync should:
 
-1. authenticate to the Cluster Google Drive using a non-personal service identity;
+1. authenticate to the Cluster Google Drive using a non-personal service identity and source IDs supplied through protected runtime configuration;
 2. fetch only approved source tabs;
 3. validate schema, PCODEs and expected record counts;
 4. recalculate/rebuild analytical outputs;

@@ -12,7 +12,7 @@
   "five_w_status": "not_ingested_in_v1",
   "publication_mode": "validated_static_snapshot",
   "notes": [
-    "Official model weights: P1 50%, P2 35%, P3 15%.",
+    "Official model weights: P1 50%, P2 30%, P3 20%.",
     "P2 is a broader Current WASH Conditions pillar covering water access/service continuity, water quality/safety and sanitation/hygiene.",
     "Current PDNA data support municipality-level scoring for water access/service continuity and water quality/safety. Sanitation/hygiene remains a data gap and is not currently scored.",
     "Municipalities without current PDNA data use a provisional P2 of 2.5 and are flagged as lower-confidence evidence.",

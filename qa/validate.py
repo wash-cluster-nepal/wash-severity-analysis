@@ -33,6 +33,7 @@ holding=load("data/holding_centres.geojson")
 metadata=load("data/metadata.json")
 sources=load("data/source_registry.json")
 source_cfg=load("config/data-sources.json")
+pdna_summary=load("data/pdna_municipality_summary.json")
 
 EXPECTED_VERSION="WASH_SEVERITY_V15_LOCKED"
 EXPECTED_WEIGHTS={"p1":0.5,"p2":0.3,"p3":0.2}
@@ -85,7 +86,7 @@ if isinstance(model,dict):
 
 if isinstance(metadata,dict):
     fail_if(metadata.get("model_version")!=EXPECTED_VERSION,"metadata model_version differs from model")
-    fail_if(metadata.get("publication_mode")!="validated_static_snapshot","publication mode must be validated_static_snapshot")
+    fail_if(metadata.get("publication_mode")!="manual_validated_sync","publication mode must be manual_validated_sync")
     fail_if(metadata.get("five_w_status")!="not_ingested_in_v1","5W status unexpectedly changed")
     joined=" ".join(metadata.get("notes",[]))
     for phrase in ["P1 50%, P2 30%, P3 20%","Very High >3.5","Moderate 2.25","Low 1.75"]:
@@ -170,10 +171,21 @@ if isinstance(holding,dict):
     leaked=sorted(keys & prohibited)
     fail_if(bool(leaked),f"holding centres expose prohibited contact fields: {leaked}")
 
+# Publication-safe PDNA municipality aggregate.
+if isinstance(pdna_summary,list):
+    fail_if(len(pdna_summary)!=17,"PDNA municipality summary must contain 17 analytical municipalities")
+    pcodes=[r.get("adm3_pcode") for r in pdna_summary]
+    fail_if(len(pcodes)!=len(set(pcodes)),"PDNA municipality summary contains duplicate ADM3 PCODEs")
+    prohibited={"latitude","longitude","scheme_name","asset_id","contact","phone","email","free_text"}
+    for r in pdna_summary:
+        leaked=sorted(set(r.keys()) & prohibited)
+        fail_if(bool(leaked),f"PDNA municipality summary exposes prohibited fields: {leaked}")
+
 # Source registry and source-governance configuration.
 if isinstance(sources,list):
     fail_if([s.get("source_id") for s in sources]!=["A01","A02","A03","A04","A05","A06"],"analytical source registry IDs/order changed unexpectedly")
 if isinstance(source_cfg,dict):
+    fail_if(source_cfg.get("severity_master",{}).get("publication_mode")!="manual_validated_sync","Severity Master publication mode must be manual_validated_sync")
     pg=source_cfg.get("pdna_point_gis",{})
     fail_if(pg.get("public") is not False,"PDNA point GIS source must remain non-public")
     fail_if(pg.get("contains_exact_coordinates") is not True,"PDNA point GIS coordinate sensitivity flag missing")

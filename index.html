@@ -121,7 +121,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 
       <div class="map-shell">
         <div id="map" aria-label="Interactive WASH severity map"></div>
-        <div id="map-badge" class="map-badge">Official severity</div>
+        <div id="map-badge" class="map-badge">Final WASH severity</div>
         <div class="map-tools">
           <div style="position:relative">
             <button id="export-map" class="map-tool-btn">Export map ▾</button>
@@ -182,7 +182,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
           <h3>How the score is built</h3>
           <div class="method-grid">
             <div class="method-box"><strong>50%</strong><span>Flood & WSS impact</span><p>Uses the number and share of people affected and, where PDNA raw data are available, the scale and physical damage of assessed water-supply systems.</p></div>
-            <div class="method-box"><strong>35%</strong><span>Current water service & safety</span><p>Looks at whether assessed water systems are working and whether drinking water is considered safe. PDNA findings have more influence where the assessed systems represent more of the affected population.</p></div>
+            <div class="method-box"><strong>35%</strong><span>Current WASH conditions</span><p>Covers water access & service continuity, water quality & safety, and sanitation & hygiene. Current PDNA raw data support scoring of the first two; sanitation & hygiene is kept visible as a data gap.</p></div>
             <div class="method-box"><strong>15%</strong><span>Vulnerability & Aggravating Factors</span><p>Drinking-water vulnerability, sanitation vulnerability, poverty/inequality and physical access.</p></div>
           </div>
           <p style="margin-top:10px"><strong>Overall Need Score = 50% P1 + 35% P2 + 15% P3.</strong> Where no current PDNA raw data are available, P2 is provisionally set to 2.5 and the lower evidence strength is shown.</p>
@@ -201,8 +201,8 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
         </article>
 
         <article class="info-card">
-          <h3>Current Water Service & Safety</h3>
-          <p>This part looks at two simple questions: are the assessed water systems working, and is the drinking water considered safe? Where the assessed systems represent more of the affected population, the PDNA findings have more influence on the score. Where no current PDNA raw data are available, a provisional score of 2.5 is used.</p>
+          <h3>Current WASH Conditions</h3>
+          <p>P2 is designed around three WASH areas: water access and service continuity, water quality and safety, and sanitation and hygiene. Current PDNA raw data provide comparable information for the first two. Sanitation and hygiene remains a data gap and will be added when comparable municipality-level information becomes available. Where no current PDNA raw data are available, a provisional score of 2.5 is used.</p>
           <table class="method-table">
             <thead><tr><th>Indicator</th><th>Weight</th></tr></thead>
             <tbody><tr><td>Current water access</td><td>35%</td></tr><tr><td>Water quality</td><td>25%</td></tr><tr><td>Sanitation & hygiene</td><td>20%</td></tr><tr><td>Displacement pressure</td><td>20%</td></tr></tbody>
@@ -363,8 +363,8 @@ function absoluteNeedBand(v){
   const x=Number(v);
   if(x>3.5)return {level:5,className:'Very High'};
   if(x>=3.0)return {level:4,className:'High'};
-  if(x>=2.5)return {level:3,className:'Moderate'};
-  if(x>=2.0)return {level:2,className:'Low'};
+  if(x>=2.25)return {level:3,className:'Moderate'};
+  if(x>=1.75)return {level:2,className:'Low'};
   return {level:1,className:'Minimal'};
 }
 function affectedScore(p){
@@ -380,18 +380,16 @@ function damagedWssScore(p){
   return Math.min(5,abs+0.5*Math.max(0,share-abs));
 }
 const ANALYSIS_LAYERS=[
- ['priority','Overall WASH priority'],
- ['need','Need severity'],
- ['impact','Flood impact & WASH service disruption'],
- ['affected','People affected'],
- ['damaged_wss','People served by damaged water-supply systems'],
- ['govt_damage','Government-reported water-supply damage'],
- ['current','Current WASH conditions — provisional'],
- ['water_access','Current water access — provisional'],
- ['water_quality','Water quality — provisional'],
- ['san_hyg','Sanitation & hygiene — provisional'],
- ['displacement','Displacement pressure — provisional'],
+ ['priority','Final WASH severity'],
+ ['need','Need Score'],
+ ['impact','Flood impact & WSS damage'],
+ ['current','Current WASH conditions'],
  ['vulnerability','Pre-existing vulnerability & aggravating factors'],
+ ['affected','People affected'],
+ ['damaged_wss','People served by assessed water-supply systems'],
+ ['physical_damage','Physical damage to assessed water-supply systems'],
+ ['water_access','Water access & service continuity'],
+ ['water_quality','Water quality & safety'],
  ['dw_vulnerability','Drinking Water vulnerability'],
  ['san_vulnerability','Sanitation vulnerability'],
  ['poverty','Poverty & inequality'],
@@ -399,13 +397,13 @@ const ANALYSIS_LAYERS=[
 ];
 function analysisResult(p,id=state.mapIndicator){
   const d=getDisplayResult(p.adm3_pcode);
-  if(id==='priority') return {level:d.priorityLevel,className:d.priorityClass,value:d.score,label:'Overall WASH priority'};
+  if(id==='priority') return {level:d.priorityLevel,className:d.priorityClass,value:d.score,label:'Final WASH severity'};
   if(id==='need'){const b=absoluteNeedBand(d.score);return {...b,value:d.score,label:'Need severity'};}
   if(id==='impact') return {level:CLASS_LEVEL[p.p1_class]||0,className:p.p1_class,value:p.p1,label:'Flood impact & WASH service disruption'};
   if(id==='affected'){const v=affectedScore(p),b=scoreBand(v);return {...b,value:v,label:'People affected'};}
   if(id==='damaged_wss'){const v=damagedWssScore(p),b=scoreBand(v);return {...b,value:v,label:'People served by damaged water-supply systems'};}
   if(id==='govt_damage'){const v=n(p.govt_wss_damage_score),b=scoreBand(v);return {...b,value:v,label:'Government-reported water-supply damage'};}
-  if(id==='current') return {level:CLASS_LEVEL[p.p2_class]||0,className:p.p2_class,value:p.p2,label:'Current WASH conditions — provisional'};
+  if(id==='current') return {level:CLASS_LEVEL[p.p2_class]||0,className:p.p2_class,value:p.p2,label:'Current WASH conditions'};
   if(id==='water_access'){const v=n(p.water_access_score),b=scoreBand(v);return {...b,value:v,label:'Current water access — provisional'};}
   if(id==='water_quality'){const v=n(p.water_quality_score),b=scoreBand(v);return {...b,value:v,label:'Water quality — provisional'};}
   if(id==='san_hyg'){const v=n(p.sanitation_hygiene_score),b=scoreBand(v);return {...b,value:v,label:'Sanitation & hygiene — provisional'};}
@@ -618,7 +616,7 @@ const THEMATIC_LAYERS=[
   {id:'priority',name:'Final WASH priority',kind:'priority',note:'Relative prioritisation across the 17 affected municipalities'},
   {id:'need',name:'Overall Need Severity',kind:'need',note:'Absolute combined Need Score'},
   {id:'impact',name:'Flood impact & WASH service disruption',kind:'score',note:'Component score'},
-  {id:'current',name:'Current WASH conditions — provisional',kind:'score',note:'Provisional component score'},
+  {id:'current',name:'Current WASH conditions',kind:'score',note:'Provisional component score'},
   {id:'vulnerability',name:'Pre-existing vulnerability & aggravating factors',kind:'score',note:'Component score'},
   {id:'affected',name:'People affected',kind:'score',note:'Magnitude-first score with possible uplift for high affected share'},
   {id:'damaged_wss',name:'People served by damaged water-supply systems',kind:'score',note:'Magnitude-first score with possible uplift for high affected share'},
@@ -778,7 +776,7 @@ function getDisplayResult(pcode){
 }
 function bindScenario(){
   const official=document.getElementById('mode-official'), custom=document.getElementById('mode-scenario'), controls=document.getElementById('scenario-controls'), badge=document.getElementById('map-badge');
-  official.addEventListener('click',()=>{state.mode='official';official.classList.add('active');custom.classList.remove('active');controls.hidden=true;badge.textContent='Official severity';restoreOfficial();});
+  official.addEventListener('click',()=>{state.mode='official';official.classList.add('active');custom.classList.remove('active');controls.hidden=true;badge.textContent='Final WASH severity';restoreOfficial();});
   custom.addEventListener('click',()=>{state.mode='scenario';custom.classList.add('active');official.classList.remove('active');controls.hidden=false;badge.textContent='Custom scenario';recomputeScenario();});
   ['p1','p2','p3'].forEach(k=>{const input=document.getElementById(`weight-${k}`);input.addEventListener('input',()=>{state.weights[k]=Number(input.value);normaliseWeights(k);recomputeScenario();});});
   document.getElementById('reset-weights').addEventListener('click',()=>{state.weights={p1:50,p2:35,p3:15};syncWeightUI();if(state.mode==='scenario')recomputeScenario();});
@@ -826,7 +824,7 @@ function driverNarrative(p){
     {label:'Drinking Water vulnerability',cls:severityClassFromScore(p.dw_vulnerability_score),score:p.dw_vulnerability_score},
     {label:'Sanitation vulnerability',cls:severityClassFromScore(p.san_vulnerability_score),score:p.san_vulnerability_score},
     {label:'Poverty & inequality',cls:severityClassFromScore(p.poverty_inequality_score),score:p.poverty_inequality_score},
-    {label:'Physical access',cls:severityClassFromScore(p.physical_access_score),score:p.physical_access_score}
+    {label:'Physical access constraints',cls:severityClassFromScore(p.physical_access_score),score:p.physical_access_score}
   ].filter(x=>x.score!=null).sort((a,b)=>b.score-a.score);
   return candidates.slice(0,4);
 }
@@ -854,7 +852,7 @@ function renderProfileTab(p,tab){
       </div>
       <div class="why-box"><h3>Why is this ${d.priorityClass}?</h3><ul>${drivers.map(x=>`<li><strong>${x.label}: ${x.cls}</strong>${x.detail?` — ${x.detail}`:''}</li>`).join('')}</ul></div>
       <div class="pillar-row"><div class="pillar-name"><strong>Flood impact & WASH service disruption</strong><br><small>${p.p1_class}</small></div><div class="pillar-score">${fmt1.format(p.p1)} / 5</div></div>
-      <div class="pillar-row"><div class="pillar-name"><strong>Current WASH conditions</strong> <small>· provisional</small><br><small>${p.p2_class}</small></div><div class="pillar-score">${fmt1.format(p.p2)} / 5</div></div>
+      <div class="pillar-row"><div class="pillar-name"><strong>Current WASH conditions</strong><br><small>${p.p2_class}</small></div><div class="pillar-score">${fmt1.format(p.p2)} / 5</div></div>
       <div class="pillar-row"><div class="pillar-name"><strong>Pre-existing vulnerability & aggravating factors</strong><br><small>${p.p3_class}</small></div><div class="pillar-score">${fmt1.format(p.p3)} / 5</div></div>
       <div class="note" style="margin-top:10px">Need Score ${fmt1.format(d.score)} / 5 · numerical score shown for transparency.</div>`;
   } else {

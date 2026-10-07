@@ -181,11 +181,11 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
         <article class="info-card">
           <h3>How the score is built</h3>
           <div class="method-grid">
-            <div class="method-box"><strong>50%</strong><span>Flood Impact & WSS Damage</span><p>Where DDA exists, P1 combines 40% affected-population impact and 60% WSS impact. WSS impact uses beneficiary magnitude/share and physical damage.</p></div>
-            <div class="method-box"><strong>35%</strong><span>Current Water Service & Safety</span><p>Direct P2 combines service functionality and water safety/public-health, adjusted by a WSS-beneficiary / affected-population evidence-coverage proxy.</p></div>
+            <div class="method-box"><strong>50%</strong><span>Flood & WSS impact</span><p>Uses the number and share of people affected and, where PDNA raw data are available, the scale and physical damage of assessed water-supply systems.</p></div>
+            <div class="method-box"><strong>35%</strong><span>Current water service & safety</span><p>Looks at whether assessed water systems are working and whether drinking water is considered safe. PDNA findings have more influence where the assessed systems represent more of the affected population.</p></div>
             <div class="method-box"><strong>15%</strong><span>Vulnerability & Aggravating Factors</span><p>Drinking-water vulnerability, sanitation vulnerability, poverty/inequality and physical access.</p></div>
           </div>
-          <p style="margin-top:10px"><strong>Overall Need Score = 50% P1 + 35% P2 + 15% P3.</strong> Municipalities without current DDA use a provisional P2 of 2.5 and are explicitly flagged as lower-confidence evidence.</p>
+          <p style="margin-top:10px"><strong>Overall Need Score = 50% P1 + 35% P2 + 15% P3.</strong> Where no current PDNA raw data are available, P2 is provisionally set to 2.5 and the lower evidence strength is shown.</p>
         </article>
 
         <article class="info-card">
@@ -202,7 +202,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 
         <article class="info-card">
           <h3>Current Water Service & Safety</h3>
-          <p>Direct P2 is calculated from 50% current service condition and 50% water safety/public-health. Its influence is adjusted by an evidence-coverage proxy: assessed DDA WSS beneficiary population divided by affected population, capped at 100%. Where current DDA is unavailable, P2 is set provisionally to 2.5 and the lower evidence strength is shown explicitly.</p>
+          <p>This part looks at two simple questions: are the assessed water systems working, and is the drinking water considered safe? Where the assessed systems represent more of the affected population, the PDNA findings have more influence on the score. Where no current PDNA raw data are available, a provisional score of 2.5 is used.</p>
           <table class="method-table">
             <thead><tr><th>Indicator</th><th>Weight</th></tr></thead>
             <tbody><tr><td>Current water access</td><td>35%</td></tr><tr><td>Water quality</td><td>25%</td></tr><tr><td>Sanitation & hygiene</td><td>20%</td></tr><tr><td>Displacement pressure</td><td>20%</td></tr></tbody>
@@ -230,7 +230,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 
         <article class="info-card">
           <h3>Data sources</h3>
-          <p>The platform consolidates source material already used in the Nepal flood analysis, including Flash Appeal affected-population estimates, affected-ward population estimates, government WSS damage information, current WASH evidence, IOM displacement and holding-centre assessments, vulnerability data, access evidence, flood-extent mapping and operational road-status information.</p>
+          <p>The platform uses several datasets. Some are used directly in the severity score, while others are shown only as supporting or map context. The list below identifies each source and how it is used. Key scoring sources include affected-population estimates, PDNA raw water-supply-system assessment data, baseline vulnerability indicators and physical-access evidence. Supporting layers include IOM holding-centre assessments, government WSS damage information, flood extent, administrative boundaries and operational road status.</p>
           <div id="about-source-list" class="source-list"></div>
         </article>
 
@@ -361,10 +361,10 @@ function scoreBand(v){
 }
 function absoluteNeedBand(v){
   const x=Number(v);
-  if(x>=4)return {level:5,className:'Very High'};
-  if(x>=3.25)return {level:4,className:'High'};
+  if(x>3.5)return {level:5,className:'Very High'};
+  if(x>=3.0)return {level:4,className:'High'};
   if(x>=2.5)return {level:3,className:'Moderate'};
-  if(x>=1.75)return {level:2,className:'Low'};
+  if(x>=2.0)return {level:2,className:'Low'};
   return {level:1,className:'Minimal'};
 }
 function affectedScore(p){

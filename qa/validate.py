@@ -108,6 +108,8 @@ if isinstance(profiles,list):
     for p in profiles:
         name=p.get("municipality")
         fail_if(p.get("model_version")!=EXPECTED_VERSION,f"{name}: profile model version mismatch")
+        for legacy in ("response_footprint_score","response_footprint_class","operational_gap","evidence_confidence","verification_priority"):
+            fail_if(legacy in p,f"{name}: legacy/deferred public field remains: {legacy}")
         vals=[p.get("p1"),p.get("p2"),p.get("p3")]
         if all(v is not None for v in vals):
             calc=vals[0]*w.get("p1",0)+vals[1]*w.get("p2",0)+vals[2]*w.get("p3",0)
@@ -177,6 +179,8 @@ if isinstance(source_cfg,dict):
     fail_if(pg.get("contains_exact_coordinates") is not True,"PDNA point GIS coordinate sensitivity flag missing")
     fail_if("Do not publish exact point data automatically" not in pg.get("publication_rule",""),"PDNA point publication rule weakened")
     fail_if(source_cfg.get("five_w",{}).get("status")!="not_configured","5W source unexpectedly configured without model update")
+    tabs=source_cfg.get("severity_master",{}).get("authoritative_tabs",[])
+    fail_if(tabs!=["Analysis v15 Locked","Methods v15 Locked","00 Read Me"],"Severity Master authoritative tabs are not explicitly locked to v15")
 
 # Frontend / documentation regressions.
 html=text("index.html")

@@ -17,12 +17,12 @@
       "level": 4
     },
     {
-      "min": 2.5,
+      "min": 2.25,
       "class": "Moderate",
       "level": 3
     },
     {
-      "min": 2,
+      "min": 1.75,
       "class": "Low",
       "level": 2
     },
@@ -47,13 +47,13 @@
     },
     {
       "maxRank": 17,
-      "minScore": 2.5,
+      "minScore": 2.25,
       "class": "Moderate",
       "level": 3
     },
     {
       "maxRank": 17,
-      "minScore": 2,
+      "minScore": 1.75,
       "class": "Low",
       "level": 2
     },
@@ -71,10 +71,15 @@
       "method": "P1 uses affected-population impact and, where PDNA raw data are available, water-supply-system impact. Within P1, affected-population impact contributes 40% and WSS impact contributes 60%."
     },
     "p2": {
-      "name": "Current Water Service & Safety",
+      "name": "Current WASH Conditions",
       "weight": 0.35,
-      "method": "P2 uses current water-system service status and drinking-water safety/public-health observations from PDNA raw data. The PDNA signal has more influence where assessed WSS beneficiaries represent more of the affected population. Where no current PDNA raw data are available, P2 is provisionally set to 2.5.",
-      "provisionalPrior": 2.5
+      "method": "P2 is designed around water access and service continuity, water quality and safety, and sanitation and hygiene. Current PDNA raw data provide comparable municipality-level information for the first two. Sanitation and hygiene is not yet scored because comparable municipality-level data are not available. Where PDNA raw data exist, the water-access/service and water-quality/safety evidence is combined and adjusted by how much of the affected population is represented by assessed water systems. Where no current PDNA raw data exist, P2 is provisionally set to 2.5.",
+      "provisionalPrior": 2.5,
+      "currentScoredDomains": [
+        "Water access & service continuity",
+        "Water quality & safety"
+      ],
+      "pendingDomain": "Sanitation & hygiene"
     },
     "p3": {
       "name": "Vulnerability & Aggravating Factors",

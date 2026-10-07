@@ -1,212 +1,59 @@
 [
   {
-    "source_id": "S01",
-    "source_dataset": "Nepal Flood 2026 Municipal WASH Database (existing compilation)",
-    "type": "Internal compiled dataset",
-    "reference_date": "2026",
-    "geographic_level": "Municipality / district",
-    "use_in_analysis": "Population, hard-hit wards, RDNA impacts, initial damaged-WSS map, MICS context",
-    "key_limitation_handling": "Contains mixed source dates; blanks must not be read as zero",
-    "file_url": "Nepal_Flood_2026_Municipal_WASH_Database(3).xlsx"
-  },
-  {
-    "source_id": "S02",
-    "source_dataset": "Government: Details of Damage in the Drinking Water Sector",
-    "type": "Government project list",
-    "reference_date": "2026",
-    "geographic_level": "Project / municipality / ward",
-    "use_in_analysis": "Named damaged WSS, damage cost, beneficiary population",
-    "key_limitation_handling": "Published district totals not independently reconciled; analysis uses individual project rows",
-    "file_url": "Pasted markdown(20261002-034824).md"
-  },
-  {
-    "source_id": "S03",
-    "source_dataset": "Municipality indicator extract provided by user",
-    "type": "Baseline vulnerability indicator dataset",
-    "reference_date": "2026-01-16 / 2026-01-20",
+    "source_id": "A01",
+    "source_dataset": "Population Projections, 2021–2051",
+    "source_organization": "National Statistics Office, Nepal",
+    "reference_date": "2021–2051 projections",
     "geographic_level": "Municipality",
-    "use_in_analysis": "Drinking-water access, sanitation, poverty, child vulnerability, WASH-related baseline scores",
-    "key_limitation_handling": "Original extract did not contain the affected Gandaki/Tanahu municipalities; the same indicator definitions were later supplemented through S13. Do not impute other missing values.",
-    "file_url": "Pasted markdown(20261002-043944).md"
+    "indicators_used": "2026 projected municipality population",
+    "use_in_analysis": "P1 denominator for affected-population share and PDNA WSS beneficiary share.",
+    "source_url": "https://censusresults.nsonepal.gov.np/population-projection"
   },
   {
-    "source_id": "S04",
-    "source_dataset": "Nepal Logistics & Telecommunications Cluster meeting minutes, 29 Sep 2026",
-    "type": "Operational access update",
-    "reference_date": "2026-09-29",
-    "geographic_level": "District / route / corridor",
-    "use_in_analysis": "Latest physical-access context for Rasuwa/Nuwakot corridor",
-    "key_limitation_handling": "Dynamic; route-level evidence should not be treated as precise municipality-level status",
-    "file_url": "https://logcluster.org/en/documents/nepal-meeting-minutes-29-september-2026-0"
-  },
-  {
-    "source_id": "S05",
-    "source_dataset": "Nepal Logistics Concept of Operations, Sep/Oct 2026",
-    "type": "Operational logistics assessment",
-    "reference_date": "2026-09-30",
-    "geographic_level": "District / response area",
-    "use_in_analysis": "Access constraints and hard-to-reach context",
-    "key_limitation_handling": "Broad operational context; not a municipal road-condition inventory",
-    "file_url": "https://logcluster.org/en/documents/nepal-logistics-concept-operations-september-2026"
-  },
-  {
-    "source_id": "S06",
-    "source_dataset": "Kathmandu Post: E. coli in flood-hit Bidur",
-    "type": "Media citing municipal laboratory",
-    "reference_date": "2026-09-04",
-    "geographic_level": "Bidur Municipality",
-    "use_in_analysis": "Confirmed water-quality concern",
-    "key_limitation_handling": "Single municipality; should not be extrapolated to other locations",
-    "file_url": "https://kathmandupost.com/health/2026/09/04/five-of-15-drinking-water-sources-in-flood-hit-bidur-contaminated-with-e-coli"
-  },
-  {
-    "source_id": "S07",
-    "source_dataset": "Kathmandu Post: water shortages and disease risk in holding centres",
-    "type": "Field/media reporting citing local officials",
-    "reference_date": "2026-09-14",
-    "geographic_level": "Rasuwa / Nuwakot / holding centres",
-    "use_in_analysis": "Current water access, temporary supply, displacement-site WASH",
-    "key_limitation_handling": "Conditions are time-sensitive and location-specific",
-    "file_url": "https://kathmandupost.com/health/2026/09/14/flood-survivors-face-water-shortages-disease-risk-in-crowded-holding-centres"
-  },
-  {
-    "source_id": "S08",
-    "source_dataset": "RRN consolidated flood summary",
-    "type": "NGO situation summary / secondary synthesis",
-    "reference_date": "2026-09-09",
-    "geographic_level": "District / response-wide",
-    "use_in_analysis": "WSS restoration, pipe dispatch, tanker supply, water testing",
-    "key_limitation_handling": "Some items aggregate multiple initiatives and may be repeated in later updates",
-    "file_url": "https://rrn.org.np/rrn-rasuwa-bhotekoshi-flood-consolidated-summary-9-september-2026/"
-  },
-  {
-    "source_id": "S09",
-    "source_dataset": "INSEC: Galchhi flood impacts",
-    "type": "Field/media report",
-    "reference_date": "2026-09-01",
-    "geographic_level": "Galchhi RM / Baireni",
-    "use_in_analysis": "Current water-access disruption and affected households",
-    "key_limitation_handling": "Localized evidence, not municipality-wide",
-    "file_url": "https://inseconline.org/en/main_news/156727/"
-  },
-  {
-    "source_id": "S10",
-    "source_dataset": "OnlineKhabar: drinking water restored in Galchhi",
-    "type": "Media / restoration update",
-    "reference_date": "2026-10-01",
-    "geographic_level": "Galchhi RM-6 / Baireni",
-    "use_in_analysis": "Latest restoration status for one scheme / 180 households",
-    "key_limitation_handling": "Localized restoration does not imply full municipal recovery",
-    "file_url": "https://english.onlinekhabar.com/drinking-water-restored-for-180-flood-affected-households-in-dhading.html"
-  },
-  {
-    "source_id": "S11",
-    "source_dataset": "WHO: post-disaster surveillance after Nepal floods",
-    "type": "UN / health situation evidence",
-    "reference_date": "2026-09-09",
-    "geographic_level": "Affected districts / holding centres",
-    "use_in_analysis": "WASH-health risk, displacement, difficult access, water-quality monitoring",
-    "key_limitation_handling": "Broad affected-area evidence rather than municipality scoring",
-    "file_url": "https://www.who.int/nepal/news/detail/09-09-2026-strengthening-post-disaster-surveillance-after-nepal-s-flash-floods"
-  },
-  {
-    "source_id": "S12",
-    "source_dataset": "Oxfam Rapid Integrated Emergency Needs & Markets Assessment",
-    "type": "NGO rapid assessment",
-    "reference_date": "2026-09-16",
-    "geographic_level": "Uttargaya / Rasuwa / Nuwakot",
-    "use_in_analysis": "Field triangulation, WASH observation, holding-centre and access evidence",
-    "key_limitation_handling": "Direct access to Uttargaya Wards 1–3 was not possible; findings there remain provisional",
-    "file_url": "https://nepal.oxfam.org/latest/publications/rapid-integrated-emergency-needs-markets-assessment"
-  },
-  {
-    "source_id": "S13",
-    "source_dataset": "Gandaki Province municipality indicator extract provided by user",
-    "type": "Baseline vulnerability indicator dataset",
-    "reference_date": "2026-01-16 / 2026-01-20",
-    "geographic_level": "Municipality",
-    "use_in_analysis": "Drinking-water access, sanitation and poverty/inequality inputs for affected municipalities in Gorkha and Tanahu",
-    "key_limitation_handling": "Only the same P3 indicators already used elsewhere are scored; other CCRI indicators remain contextual to avoid overlap",
-    "file_url": "Pasted markdown(20261005-030558).md"
-  },
-  {
-    "source_id": "S14",
-    "source_dataset": "2026 affected-population estimates (Flash Appeal / response-planning compilation)",
-    "type": "Response-planning population estimates",
+    "source_id": "A02",
+    "source_dataset": "Nepal Flood 2026 affected-population estimates",
+    "source_organization": "UN Flash Appeal / inter-agency response planning",
     "reference_date": "2026",
     "geographic_level": "Municipality",
-    "use_in_analysis": "Direct scoring input: affected population used in P1 and in population-share calculations.",
-    "key_limitation_handling": "Affected population is distinct from population residing in affected wards.",
-    "file_url": "Nepal WASH Cluster severity-analysis master inputs"
+    "indicators_used": "Affected population",
+    "use_in_analysis": "P1 affected-population magnitude and share."
   },
   {
-    "source_id": "S15",
-    "source_dataset": "PDNA raw water-supply-system assessment data",
-    "type": "Post-disaster infrastructure assessment raw data",
+    "source_id": "A03",
+    "source_dataset": "PDNA WASH infrastructure assessment data",
+    "source_organization": "PDNA WASH assessment / Government water-sector assessment process",
     "reference_date": "Sep–Oct 2026",
     "geographic_level": "Water-supply system / municipality",
-    "use_in_analysis": "Direct scoring input: assessed WSS beneficiary population and physical damage inform P1; current service status and drinking-water safety/public-health inform P2.",
-    "key_limitation_handling": "Scheme beneficiary populations may overlap and are not unique people. Coverage ratios are capped at 100%. Exact infrastructure coordinates are not published.",
-    "file_url": "Nepal WASH Cluster controlled PDNA raw dataset"
+    "indicators_used": "WSS beneficiary population; physical damage; current service status; drinking-water safety/public-health",
+    "use_in_analysis": "P1 WSS impact and P2 current WASH conditions.",
+    "key_limitation": "Water-system beneficiary figures may overlap between schemes; ratios are capped at 100% where used for scoring."
   },
   {
-    "source_id": "S16",
-    "source_dataset": "IOM holding-centre / site-level assessment",
-    "type": "Site-level displacement and WASH assessment",
-    "reference_date": "2026-08-31 to 2026-09-06",
-    "geographic_level": "Site",
-    "use_in_analysis": "Supporting/map context only: holding-centre locations and site-level WASH/displacement information.",
-    "key_limitation_handling": "Site-level evidence is not treated as municipality-wide coverage and is not a direct v15 severity-score component.",
-    "file_url": "IOM assessment shared with Nepal response"
+    "source_id": "A04",
+    "source_dataset": "CCRI-DRM municipal indicators",
+    "source_organization": "UNICEF",
+    "reference_date": "Current baseline used in analysis",
+    "geographic_level": "Municipality",
+    "indicators_used": "Drinking-water vulnerability; sanitation vulnerability",
+    "use_in_analysis": "P3 underlying vulnerability."
   },
   {
-    "source_id": "S17",
-    "source_dataset": "Nepal administrative boundaries",
-    "type": "Official administrative boundary GIS",
-    "reference_date": "2024 boundary version used in analysis",
-    "geographic_level": "Municipality / available ward",
-    "use_in_analysis": "Mapping and PCODE-based joins for the 17 affected municipalities and available ward boundaries.",
-    "key_limitation_handling": "Boundaries are used for spatial display and joins; they do not change severity scores.",
-    "file_url": "Official Nepal administrative boundary layer supplied for the response analysis"
+    "source_id": "A05",
+    "source_dataset": "Small Area Estimation of Poverty 2023 and National Population and Housing Census 2021",
+    "source_organization": "National Statistics Office, Nepal",
+    "reference_date": "2023 / 2021",
+    "geographic_level": "Municipality",
+    "indicators_used": "Poverty & inequality",
+    "use_in_analysis": "P3 underlying vulnerability."
   },
   {
-    "source_id": "S18",
-    "source_dataset": "2026 flood-extent GIS layer",
-    "type": "Flood footprint GIS",
-    "reference_date": "2026 flood event",
-    "geographic_level": "Flood polygon",
-    "use_in_analysis": "Map/context layer showing the flood footprint.",
-    "key_limitation_handling": "Displayed as spatial context; not used as a standalone scoring variable in final v15.",
-    "file_url": "Flood-extent GIS layer supplied for the Nepal flood response"
-  },
-  {
-    "source_id": "S19",
-    "source_dataset": "Operational road-status layer",
-    "type": "Response access GIS",
+    "source_id": "A06",
+    "source_dataset": "Operational physical-access information",
+    "source_organization": "NDRRMA / WFP / Nepal Logistics Cluster",
     "reference_date": "Sep–Oct 2026",
-    "geographic_level": "Road segment / corridor",
-    "use_in_analysis": "Map context and physical-access evidence; source attributes include NDRRMA and WFP updates.",
-    "key_limitation_handling": "Road status is dynamic and route-level; it should not be read as a complete municipality-wide road inventory.",
-    "file_url": "Nepal response operational road-status layer"
-  },
-  {
-    "source_id": "S20",
-    "source_dataset": "OpenStreetMap / CARTO basemap",
-    "type": "Basemap",
-    "reference_date": "Current platform basemap",
-    "geographic_level": "Map background",
-    "use_in_analysis": "Platform basemap only.",
-    "key_limitation_handling": "Basemap is for orientation and does not affect analytical scores.",
-    "file_url": "https://www.openstreetmap.org/"
-  },
-  {
-    "source_id": "S21",
-    "source_dataset": "Rasuwa Flood in Figures – Total Affected municipal context table",
-    "type": "Response situational compilation",
-    "reference_date": "Sep 2026",
-    "geographic_level": "Municipality / hard-hit wards",
-    "use_in_analysis": "Context only: children aged 0–17 in hard-hit wards and households in hard-hit areas shown in municipality profiles where available.",
-    "key_limitation_handling": "These fields are contextual and are not used in the severity score. Coverage is not complete for all 17 municipalities.",
-    "file_url": "Rasuwa flood 2026 in figures_draft.xlsx"
+    "geographic_level": "Route / corridor / affected municipality context",
+    "indicators_used": "Physical access constraints",
+    "use_in_analysis": "P3 aggravating factor where evidence is available.",
+    "key_limitation": "Operational access information is time-sensitive and is not a complete municipality-wide road inventory."
   }
 ]

@@ -8,7 +8,7 @@
   "generated_date": "2026-10-07",
   "affected_municipalities": 17,
   "five_w_status": "not_ingested_in_v1",
-  "publication_mode": "validated_static_snapshot",
+  "publication_mode": "manual_validated_sync",
   "notes": [
     "Official model weights: P1 50%, P2 30%, P3 20%.",
     "P2 is a broader Current WASH Conditions pillar covering water access/service continuity, water quality/safety and sanitation/hygiene.",
@@ -19,5 +19,6 @@
     "Exact PDNA infrastructure coordinates remain non-public.",
     "Analytical-framework sources are documented in data/source_registry.json and displayed in the About page."
   ],
-  "operational_source_connections": "Configured outside the public repository."
+  "operational_source_connections": "Configured outside the public repository.",
+  "pdna_publication": "Municipality-level aggregate only; exact scheme coordinates remain non-public."
 }

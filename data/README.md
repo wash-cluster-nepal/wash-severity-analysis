@@ -1,17 +1,26 @@
-# Generated public data
+# Public platform data
 
-This directory contains publication-ready outputs generated from the current analytical workbook and GIS source files.
+This folder contains publication-ready data used by the Nepal Flood 2026 WASH Severity Analysis platform.
 
-Current files:
+## Main files
 
-- `municipality_profiles.json` — 17 affected-municipality analytical profiles
-- `current_wash_evidence.json` — current-condition evidence records
-- `source_registry.json` — source catalogue
-- `metadata.json` — build/model metadata
+- `municipality_profiles.json` — municipality-level scores, ranks and supporting indicators
+- `source_registry.json` — source catalogue explaining where the data came from and how each source is used
+- `current_wash_evidence.json` — supporting current-condition evidence
 - `adm3_affected.geojson` — affected municipality boundaries
-- `adm4_available.geojson` — available ward boundaries from supplied ADM4 source
-- `flood_extent.geojson` — flood extent
-- `holding_centres.geojson` — public-safe holding-centre attributes
-- `roads_nepal_response.geojson` — Nepal response road/access segments
+- `adm4_available.geojson` — available ward boundaries
+- `flood_extent.geojson` — flood footprint
+- `holding_centres.geojson` — public-safe holding-centre information
+- `roads_nepal_response.geojson` — operational road/access information
+- `metadata.json` — model and build metadata
 
-Do not manually edit derived output files as the long-term source of truth.
+## Source disclosure
+
+The platform distinguishes between:
+
+1. **data used directly in the severity score**, and
+2. **supporting/map layers used for context**.
+
+See `source_registry.json` and the platform's **About** page for the full source list.
+
+Exact PDNA infrastructure coordinates and other non-public operational fields remain in Cluster-controlled source data and are not published here.

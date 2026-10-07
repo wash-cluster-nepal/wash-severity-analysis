@@ -18,21 +18,20 @@ See `config/data-sources.json` for the publication-safe source roles and join ke
 
 Google Drive / Google Sheets are the operational source of truth. For the Severity Master, only the locked v15 tabs named above are current analytical authority. GitHub contains the application, QA logic, and publication-safe analytical outputs.
 
-The severity site currently publishes a validated static snapshot. This prevents accidental publication of operational or sensitive fields while the automated source-to-publication workflow is being finalized.
+The site uses a **manual validated sync**. An authorised user starts the GitHub Actions workflow `Publish latest WASH data`, which reads approved Google Sheets server-side, rebuilds publication-safe outputs, runs static and browser QA, and commits changes only when the run is explicitly started in **publish** mode and every validation passes. There is no scheduled refresh.
 
-## Planned automated sync
+## Manual publication workflow
 
-The production sync should:
+The manual workflow:
 
-1. authenticate to the Cluster Google Drive using a non-personal service identity and source IDs supplied through protected runtime configuration;
-2. fetch only approved source tabs;
-3. validate schema, PCODEs and expected record counts;
-4. recalculate/rebuild analytical outputs;
-5. strip non-public fields;
-6. prohibit exact PDNA point coordinates unless an explicit publication rule allows them;
-7. run `qa/validate.py` and `qa/smoke.mjs`;
-8. update public JSON/GeoJSON only if all checks pass;
-9. allow GitHub Pages to deploy only after validation succeeds.
+1. authenticates to Google through GitHub OIDC using a non-personal service identity;
+2. reads the locked Severity Master tabs and approved source tables;
+3. reads the PDNA integrated **municipality summary** — never the point-GIS tab;
+4. rebuilds `municipality_profiles.json`, `pdna_municipality_summary.json` and metadata;
+5. strips non-public fields and never publishes exact PDNA point coordinates;
+6. runs `qa/validate.py` and `qa/smoke.mjs`;
+7. in **validate** mode, shows the proposed diff without publishing;
+8. in **publish** mode, commits only after all QA passes; GitHub Pages then deploys the validated commit.
 
 ## PDNA governance
 
@@ -41,3 +40,15 @@ The public Infrastructure page does not automatically retrieve the private PDNA 
 ## 5W
 
 5W integration is intentionally deferred until the authoritative consolidated response source is selected.
+
+
+## One-time GitHub environment configuration
+
+The `production` environment needs these protected secrets:
+
+- `GCP_WORKLOAD_IDENTITY_PROVIDER`
+- `GCP_SERVICE_ACCOUNT`
+- `SEVERITY_MASTER_SHEET_ID`
+- `PDNA_INTEGRATED_SHEET_ID`
+
+The Google service account needs read-only access to the approved operational Sheets. No long-lived Google service-account key is stored in GitHub.

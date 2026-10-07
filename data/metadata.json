@@ -14,10 +14,11 @@
   "notes": [
     "Official model weights: P1 50%, P2 35%, P3 15%.",
     "P2 is a broader Current WASH Conditions pillar covering water access/service continuity, water quality/safety and sanitation/hygiene.",
-    "Current PDNA raw data support municipality-level scoring for water access/service continuity and water quality/safety. Sanitation/hygiene remains a data gap and is not currently scored.",
-    "Municipalities without current PDNA raw data use a provisional P2 of 2.5 and are flagged as lower-confidence evidence.",
+    "Current PDNA data support municipality-level scoring for water access/service continuity and water quality/safety. Sanitation/hygiene remains a data gap and is not currently scored.",
+    "Municipalities without current PDNA data use a provisional P2 of 2.5 and are flagged as lower-confidence evidence.",
     "Final severity classes: Very High >3.5; High 3.0–3.5; Moderate 2.25–<3.0; Low 1.75–<2.25; Minimal <1.75.",
     "Context fields for children and households in hard-hit areas come from the response 'Total Affected' compilation where available.",
-    "Exact PDNA infrastructure coordinates remain non-public."
+    "Exact PDNA infrastructure coordinates remain non-public.",
+    "Analytical-framework sources are documented in data/source_registry.json and displayed in the About page."
   ]
 }

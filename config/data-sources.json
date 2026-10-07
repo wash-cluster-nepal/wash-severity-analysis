@@ -10,7 +10,13 @@
     "spreadsheet_id": "1ddB5xRofT7i7soCwGH0qwMs_Ro38QzFFCKK1RA5roSs",
     "url": "https://docs.google.com/spreadsheets/d/1ddB5xRofT7i7soCwGH0qwMs_Ro38QzFFCKK1RA5roSs/edit",
     "join_key": "ADM3_PCODE",
-    "publication_mode": "validated_static_snapshot"
+    "publication_mode": "validated_static_snapshot",
+    "authoritative_tabs": [
+      "Analysis v15 Locked",
+      "Methods v15 Locked",
+      "00 Read Me"
+    ],
+    "historical_tabs_note": "Earlier v1/v2 analysis, methods, scoring and sensitivity tabs are retained for audit trail only and are not current publication inputs."
   },
   "pdna_readable": {
     "name": "Nepal Flood WASH DDA PDNA - Readable Decoded",

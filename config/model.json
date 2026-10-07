@@ -7,12 +7,12 @@
   },
   "absoluteClasses": [
     {
-      "min": 4,
+      "min": 3.5000000001,
       "class": "Very High",
       "level": 5
     },
     {
-      "min": 3.25,
+      "min": 3,
       "class": "High",
       "level": 4
     },
@@ -22,7 +22,7 @@
       "level": 3
     },
     {
-      "min": 1.75,
+      "min": 2,
       "class": "Low",
       "level": 2
     },
@@ -35,13 +35,13 @@
   "cohortRankClasses": [
     {
       "maxRank": 17,
-      "minScore": 4,
+      "minScore": 3.5000000001,
       "class": "Very High",
       "level": 5
     },
     {
       "maxRank": 17,
-      "minScore": 3.25,
+      "minScore": 3,
       "class": "High",
       "level": 4
     },
@@ -53,7 +53,7 @@
     },
     {
       "maxRank": 17,
-      "minScore": 1.75,
+      "minScore": 2,
       "class": "Low",
       "level": 2
     },
@@ -68,12 +68,12 @@
     "p1": {
       "name": "Flood Impact & WSS Damage",
       "weight": 0.5,
-      "method": "Where DDA exists: 40% affected-population impact + 60% WSS impact. WSS impact uses assessed WSS beneficiary magnitude/share plus physical damage. Where DDA is absent, P1 uses affected-population impact only."
+      "method": "P1 uses affected-population impact and, where PDNA raw data are available, water-supply-system impact. Within P1, affected-population impact contributes 40% and WSS impact contributes 60%."
     },
     "p2": {
       "name": "Current Water Service & Safety",
       "weight": 0.35,
-      "method": "Direct P2 = 50% current service + 50% water safety/public-health. Final P2 = 2.5 + coverage proxy × max(0, Direct P2 − 2.5). Coverage proxy = assessed DDA WSS beneficiary population / affected population, capped at 100%. No DDA => P2 2.5 provisional.",
+      "method": "P2 uses current water-system service status and drinking-water safety/public-health observations from PDNA raw data. The PDNA signal has more influence where assessed WSS beneficiaries represent more of the affected population. Where no current PDNA raw data are available, P2 is provisionally set to 2.5.",
       "provisionalPrior": 2.5
     },
     "p3": {
@@ -88,9 +88,9 @@
     }
   },
   "cautions": [
-    "DDA WSS beneficiary populations are non-deduplicated service populations and may overlap.",
-    "The P2 coverage ratio is an evidence-coverage proxy, not a unique percentage of affected people assessed.",
-    "Coverage ratios are capped at 100% for scoring.",
-    "Physical damage is used in P1; service functionality is used in P2 to avoid double counting."
+    "PDNA raw WSS beneficiary populations may overlap between schemes and are not treated as unique people.",
+    "The PDNA coverage adjustment compares assessed WSS beneficiary population with affected population and is capped at 100%.",
+    "Physical damage is used in P1; service functionality is used in P2 to avoid double counting.",
+    "A provisional P2 of 2.5 is used only where current PDNA raw data are unavailable."
   ]
 }

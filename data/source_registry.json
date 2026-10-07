@@ -198,5 +198,15 @@
     "use_in_analysis": "Platform basemap only.",
     "key_limitation_handling": "Basemap is for orientation and does not affect analytical scores.",
     "file_url": "https://www.openstreetmap.org/"
+  },
+  {
+    "source_id": "S21",
+    "source_dataset": "Rasuwa Flood in Figures – Total Affected municipal context table",
+    "type": "Response situational compilation",
+    "reference_date": "Sep 2026",
+    "geographic_level": "Municipality / hard-hit wards",
+    "use_in_analysis": "Context only: children aged 0–17 in hard-hit wards and households in hard-hit areas shown in municipality profiles where available.",
+    "key_limitation_handling": "These fields are contextual and are not used in the severity score. Coverage is not complete for all 17 municipalities.",
+    "file_url": "Rasuwa flood 2026 in figures_draft.xlsx"
   }
 ]

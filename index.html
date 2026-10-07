@@ -353,11 +353,15 @@ const CLASS_LEVEL={'Very High':5,'High':4,'Moderate':3,'Low':2,'Minimal':1,'Unkn
 function scoreBand(v){
   if(v==null||Number.isNaN(Number(v))) return {level:0,className:'Unknown'};
   const x=Number(v);
-  if(x>=4.2)return {level:5,className:'Very High'};
-  if(x>=3.4)return {level:4,className:'High'};
-  if(x>=2.6)return {level:3,className:'Moderate'};
-  if(x>=1.8)return {level:2,className:'Low'};
-  return {level:1,className:'Minimal'};
+  const bands=DATA.model?.componentClasses||[
+    {min:4.0,class:'Very High',level:5},
+    {min:3.25,class:'High',level:4},
+    {min:2.5,class:'Moderate',level:3},
+    {min:1.75,class:'Low',level:2},
+    {min:0,class:'Minimal',level:1}
+  ];
+  const b=bands.find(b=>x>=b.min);
+  return b ? {level:b.level,className:b.class} : {level:1,className:'Minimal'};
 }
 function absoluteNeedBand(v){
   const x=Number(v);
@@ -678,11 +682,11 @@ function getLegendSpec(){
     note='Absolute Need Score bands.';
   }else{
     items.push(
-      {label:'Very High  4.20–5.00',color:LEVEL_COLORS[5]},
-      {label:'High  3.40–<4.20',color:LEVEL_COLORS[4]},
-      {label:'Moderate  2.60–<3.40',color:LEVEL_COLORS[3]},
-      {label:'Low  1.80–<2.60',color:LEVEL_COLORS[2]},
-      {label:'Minimal  1.00–<1.80',color:LEVEL_COLORS[1]}
+      {label:'Very High  4.00–5.00',color:LEVEL_COLORS[5]},
+      {label:'High  3.25–<4.00',color:LEVEL_COLORS[4]},
+      {label:'Moderate  2.50–<3.25',color:LEVEL_COLORS[3]},
+      {label:'Low  1.75–<2.50',color:LEVEL_COLORS[2]},
+      {label:'Minimal  1.00–<1.75',color:LEVEL_COLORS[1]}
     );
     const hasUnknown=DATA.profiles.some(p=>analysisResult(p,t.id).level===0);
     if(hasUnknown) items.push({label:'Unknown / no municipality-specific evidence',color:'#B3B5B9'});
@@ -744,11 +748,8 @@ function recomputeScenario(){
   state.scenario=new Map();
   ranked.forEach((x,i)=>{
     const rank=i+1;
-    const rc=DATA.model.cohortRankClasses.find(c=>rank<=c.maxRank && x.score>=(c.minScore??0))
-      || DATA.model.cohortRankClasses.slice().reverse().find(c=>x.score>=(c.minScore??0))
-      || DATA.model.cohortRankClasses.at(-1);
     const ac=DATA.model.absoluteClasses.find(c=>x.score>=c.min) || DATA.model.absoluteClasses.at(-1);
-    state.scenario.set(x.p.adm3_pcode,{score:x.score,rank,priorityClass:rc.class,priorityLevel:rc.level,absoluteClass:ac.class,absoluteLevel:ac.level});
+    state.scenario.set(x.p.adm3_pcode,{score:x.score,rank,priorityClass:ac.class,priorityLevel:ac.level,absoluteClass:ac.class,absoluteLevel:ac.level});
   });
   if(map.getSource('adm3')){
     DATA.adm3.features.forEach(fe=>{
@@ -946,12 +947,16 @@ function renderAnalysis(){
   table.querySelectorAll('tbody tr').forEach(tr=>tr.addEventListener('click',()=>{switchView('map');setTimeout(()=>selectMunicipality(tr.dataset.pcode,true),80);}));
 }
 
-function switchView(name){
+function switchView(name,updateHash=true){
+  if(!['map','analysis','about'].includes(name)) name='map';
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===name));
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===`${name}-view`));
+  if(updateHash && location.hash!==`#${name}`) history.replaceState(null,'',`#${name}`);
   if(name==='map')setTimeout(()=>map.resize(),50);
 }
-document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>switchView(btn.dataset.view)));
+document.querySelectorAll('.tab[data-view]').forEach(btn=>btn.addEventListener('click',()=>switchView(btn.dataset.view)));
+window.addEventListener('hashchange',()=>switchView(location.hash.slice(1)||'map',false));
+if(location.hash) switchView(location.hash.slice(1),false);
 
 
 document.getElementById('export-map').addEventListener('click',e=>{e.stopPropagation();document.getElementById('export-menu').classList.toggle('open');});

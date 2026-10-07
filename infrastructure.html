@@ -29,24 +29,23 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 <body>
 <header class="topbar">
 <div class="brand"><div class="mark">WASH</div><div><div class="eyebrow">NEPAL FLOOD 2026</div><h1>WASH SYSTEMS ASSESSMENT</h1></div></div>
-<div class="meta" id="status">PDNA / DDA scheme-level analysis</div>
+<div class="meta" id="status">PDNA water-system analysis · approved extract required</div>
 </header>
 <nav class="tabs">
-<a class="tab" href="index.html">Map</a>
-<a class="tab" href="index.html">Analysis</a>
+<a class="tab" href="index.html#map">Map</a>
+<a class="tab" href="index.html#analysis">Analysis</a>
 <a class="tab active" href="infrastructure.html">Water Systems</a>
-<a class="tab" href="index.html">About</a>
+<a class="tab" href="index.html#about">About</a>
 </nav>
 <main class="shell">
 <aside class="sidebar">
 <div class="panel">
-<h2>PDNA / DDA data</h2>
+<h2>PDNA data</h2>
 <div class="source-box">
-<div class="source-state"><span id="source-dot" class="source-dot"></span><span id="source-text">Connecting to Cluster Google Sheet…</span></div>
-<div class="note">Scheme-level assessment data are pulled from the Cluster-controlled <b>PDNA Point GIS Source</b>.</div>
-<div style="margin-top:7px"><a href="https://docs.google.com/spreadsheets/d/16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4/edit" target="_blank" rel="noopener" style="color:#024E6C;font-weight:700">Open source Sheet ↗</a></div>
-<div id="fallback" class="fallback" hidden>
-<div class="note" style="margin:0 0 6px">Live access is unavailable. As a fallback, load an approved export:</div>
+<div class="source-state"><span id="source-dot" class="source-dot"></span><span id="source-text">No public point dataset loaded</span></div>
+<div class="note">Exact scheme coordinates remain Cluster-controlled and are not retrieved by the public page. For authorised operational review, load an explicitly approved export locally in your browser; the file is not uploaded by this page.</div>
+<div id="fallback" class="fallback">
+<div class="note" style="margin:0 0 6px">Load approved PDNA export:</div>
 <input id="file-input" type="file" accept=".xlsx,.xls,.csv"/>
 </div>
 </div>
@@ -86,7 +85,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 <section class="mapwrap">
 <div id="infra-map"></div>
 <div id="kpis" class="kpis"></div>
-<div id="legend" class="legend"><div class="legend-title">PDNA / DDA schemes</div><div class="note">Connecting to Cluster source…</div></div>
+<div id="legend" class="legend"><div class="legend-title">PDNA water systems</div><div class="note">Load an approved extract to display scheme-level data.</div></div>
 </section>
 <aside class="profile" id="profile">
 <div class="profile-empty"><div class="sub">Scheme profile</div><h2>Select a scheme</h2><p>Click a mapped WASH scheme to review service disruption, damage, public-health status and recovery requirements.</p></div>
@@ -98,9 +97,6 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 <script>
 const fmt=new Intl.NumberFormat('en-GB',{maximumFractionDigits:0});
 const state={rows:[],filtered:[],color:'service_status',size:'',selected:null,boundaries:true};
-const LIVE_SHEET_ID='16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4';
-const LIVE_SHEET_NAME='PDNA_Point_GIS';
-const LIVE_CSV_URL='https://docs.google.com/spreadsheets/d/'+LIVE_SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(LIVE_SHEET_NAME);
 const map=new maplibregl.Map({container:'infra-map',style:'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',center:[85.05,27.9],zoom:8,minZoom:5.5,maxZoom:15});
 map.addControl(new maplibregl.NavigationControl(),'top-right');map.addControl(new maplibregl.ScaleControl({unit:'metric'}),'bottom-right');
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -150,27 +146,12 @@ function loadCSV(file){
 }
 const fileInput=document.getElementById('file-input');
 if(fileInput)fileInput.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;if(/\.csv$/i.test(f.name))loadCSV(f);else loadWorkbook(f)});
-async function loadLiveSheet(){
- const dot=document.getElementById('source-dot'),txt=document.getElementById('source-text'),fallback=document.getElementById('fallback');
- try{
-  const res=await fetch(LIVE_CSV_URL,{cache:'no-store'});
-  if(!res.ok)throw new Error('HTTP '+res.status);
-  const csv=await res.text();
-  if(!csv||csv.trim().startsWith('<'))throw new Error('Google Sheet not exposed as CSV');
-  const parsed=Papa.parse(csv,{header:true,skipEmptyLines:true});
-  const rows=parsed.data.map(normaliseRow).filter(r=>r.asset_id);
-  if(!rows.length)throw new Error('No PDNA rows returned');
-  dot.className='source-dot ok';txt.textContent='Live Cluster Sheet · '+rows.length+' assessments';fallback.hidden=true;
-  activate(rows,'live');
- }catch(err){
-  dot.className='source-dot bad';txt.textContent='Live Sheet unavailable — use approved export';fallback.hidden=false;
-  document.getElementById('status').textContent='PDNA / DDA source needs access';
-  console.warn('Live PDNA load failed:',err);
- }
-}
 function activate(rows,mode='file'){
  state.rows=rows;
- document.getElementById('status').textContent=(mode==='live'?'Live · ':'Loaded · ')+rows.length+' DDA assessments';
+ const dot=document.getElementById('source-dot'),txt=document.getElementById('source-text');
+ if(dot)dot.className='source-dot ok';
+ if(txt)txt.textContent='Approved local extract · '+rows.length+' assessments';
+ document.getElementById('status').textContent='Loaded · '+rows.length+' PDNA assessments';
  populateFilters();applyFilters();
 }
 function unique(field){return [...new Set(state.rows.map(r=>r[field]).filter(Boolean))].sort()}
@@ -283,6 +264,6 @@ function selectScheme(p){
  if(p.longitude!=null)new maplibregl.Popup({maxWidth:'340px'}).setLngLat([Number(p.longitude),Number(p.latitude)]).setHTML('<div class="popup-title">'+esc(p.scheme_name)+'</div><div>'+esc(p.service_status||'')+'</div><div>'+esc(gradeText(p.damage_grade,DAMAGE_LABELS))+'</div>').addTo(map);
 }
 function section(title,items){return '<div class="section"><h3>'+title+'</h3>'+items.map(([a,b])=>'<div class="metric"><span>'+a+'</span><b>'+ (typeof b==='string'&&b.startsWith('NPR ')?b:esc(b??'—')) +'</b></div>').join('')+'</div>'}
-map.on('load',()=>{renderKPIs();loadLiveSheet()});
+map.on('load',()=>{renderKPIs();draw();});
 </script>
 </body></html>

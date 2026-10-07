@@ -57,8 +57,14 @@ await page.locator('.tab[data-view="map"]').click();
 await page.selectOption('#map-indicator','need');
 await page.waitForTimeout(200);
 const needLegend=await page.locator('#map-legend').innerText();
-for(const phrase of ['Very High  > 3.50','High  3.00–3.50','Moderate  2.25–<3.00','Low  1.75–<2.25','Minimal  < 1.75']){
-  if(!needLegend.includes(phrase)) throw new Error('Need Score legend missing: '+phrase);
+for(const [label,pattern] of [
+  ['Very High >3.50',/Very High\s*>\s*3\.50/],
+  ['High 3.00–3.50',/High\s*3\.00–3\.50/],
+  ['Moderate 2.25–<3.00',/Moderate\s*2\.25–<3\.00/],
+  ['Low 1.75–<2.25',/Low\s*1\.75–<2\.25/],
+  ['Minimal <1.75',/Minimal\s*<\s*1\.75/]
+]){
+  if(!pattern.test(needLegend)) throw new Error('Need Score legend missing: '+label+'; got: '+needLegend);
 }
 
 // Water Systems must not retrieve the private point Sheet and navigation must deep-link.

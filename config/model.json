@@ -32,38 +32,6 @@
       "level": 1
     }
   ],
-  "cohortRankClasses": [
-    {
-      "maxRank": 17,
-      "minScore": 3.5000000001,
-      "class": "Very High",
-      "level": 5
-    },
-    {
-      "maxRank": 17,
-      "minScore": 3,
-      "class": "High",
-      "level": 4
-    },
-    {
-      "maxRank": 17,
-      "minScore": 2.25,
-      "class": "Moderate",
-      "level": 3
-    },
-    {
-      "maxRank": 17,
-      "minScore": 1.75,
-      "class": "Low",
-      "level": 2
-    },
-    {
-      "maxRank": 17,
-      "minScore": 0,
-      "class": "Minimal",
-      "level": 1
-    }
-  ],
   "pillars": {
     "p1": {
       "name": "Flood Impact & WSS Damage",
@@ -97,5 +65,33 @@
     "The PDNA coverage adjustment compares assessed WSS beneficiary population with affected population and is capped at 100%.",
     "Physical damage is used in P1; service functionality is used in P2 to avoid double counting.",
     "A provisional P2 of 2.5 is used only where current PDNA data are unavailable."
-  ]
+  ],
+  "componentClasses": [
+    {
+      "min": 4,
+      "class": "Very High",
+      "level": 5
+    },
+    {
+      "min": 3.25,
+      "class": "High",
+      "level": 4
+    },
+    {
+      "min": 2.5,
+      "class": "Moderate",
+      "level": 3
+    },
+    {
+      "min": 1.75,
+      "class": "Low",
+      "level": 2
+    },
+    {
+      "min": 0,
+      "class": "Minimal",
+      "level": 1
+    }
+  ],
+  "componentClassNote": "Component/pillar classes use the established five-point component bands. Final severity uses absoluteClasses only."
 }

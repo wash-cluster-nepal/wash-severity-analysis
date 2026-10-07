@@ -14,9 +14,9 @@ The final Need Score combines:
 
 ### P1 — Flood and water-supply-system impact
 
-P1 considers the number and share of people affected. Where **PDNA raw data** are available, it also considers the number of people served by assessed water-supply systems and the physical damage recorded for those systems.
+P1 considers the number and share of people affected. Where **PDNA data** are available, it also considers the number of people served by assessed water-supply systems and the physical damage recorded for those systems.
 
-Within P1, affected-population impact contributes **40%** and water-supply-system impact contributes **60%** where PDNA raw data are available.
+Within P1, affected-population impact contributes **40%** and water-supply-system impact contributes **60%** where PDNA data are available.
 
 ### P2 — Current WASH conditions
 
@@ -26,9 +26,9 @@ P2 is designed around three WASH areas:
 - **Water quality and safety**
 - **Sanitation and hygiene**
 
-The current **PDNA raw data** provide comparable municipality-level information for the first two. Sanitation and hygiene remains an identified data gap and will be added when comparable municipality-level information is available.
+The current **PDNA data** provide comparable municipality-level information for the first two. Sanitation and hygiene remains an identified data gap and will be added when comparable municipality-level information is available.
 
-Where the assessed water systems represent more of the affected population, the PDNA findings have more influence on P2. Where no current PDNA raw data are available, a **provisional P2 score of 2.5** is used and the lower evidence strength is flagged.
+Where the assessed water systems represent more of the affected population, the PDNA findings have more influence on P2. Where no current PDNA data are available, a **provisional P2 score of 2.5** is used and the lower evidence strength is flagged.
 
 ### P3 — Underlying vulnerability
 
@@ -44,26 +44,21 @@ P3 combines pre-existing drinking-water, sanitation, poverty/inequality and phys
 
 ## Data sources
 
-The analysis and platform combine several response datasets. They are not all used in the same way.
+Only sources used directly in the analytical framework are listed here.
 
-### Used directly in the severity score
+| Indicator used in the analysis | Source |
+|---|---|
+| 2026 municipality population | **National Statistics Office, Nepal — Population Projections, 2021–2051** |
+| Affected population | **UN Flash Appeal / inter-agency response-planning estimates** |
+| WSS beneficiary population, physical damage, service status and drinking-water safety | **PDNA WASH infrastructure assessment data** |
+| Drinking-water vulnerability | **UNICEF CCRI-DRM data** |
+| Sanitation vulnerability | **UNICEF CCRI-DRM data** |
+| Poverty & inequality | **National Statistics Office — Small Area Estimation of Poverty 2023 and National Population and Housing Census 2021** |
+| Physical access constraints | **NDRRMA / WFP / Nepal Logistics Cluster operational access information** |
 
-- **2026 municipality population and affected-population estimates** — response-planning / Flash Appeal and Nepal Flood municipal WASH compilation; used for P1 and population-share calculations.
-- **PDNA raw water-supply-system assessment data** — scheme beneficiary population, physical damage, current service status and drinking-water safety/public-health observations; used in P1 and P2.
-- **Municipality baseline vulnerability indicators** — drinking-water, sanitation and poverty/inequality indicators; used in P3.
-- **Physical-access evidence** — response access information used for the P3 physical-access component where available.
+Population projection source: https://censusresults.nsonepal.gov.np/population-projection
 
-### Shown as supporting or map context
-
-- **IOM holding-centre/site assessments (31 August–6 September 2026)** — site-level displacement and WASH context.
-- **Government drinking-water-sector damage information** — named systems, beneficiaries and damage estimates; retained as supporting context and not used as a separate final-v15 scoring component.
-- **Operational road-status information** — NDRRMA/WFP and Logistics Cluster response information.
-- **Flood-extent GIS layer** — spatial context for the flood footprint.
-- **Official Nepal administrative boundaries** — municipality and available ward boundaries used for mapping.
-- **Current WASH field/context evidence** — selected WHO, Oxfam, RRN and local/municipal or media-sourced updates used for triangulation and interpretation.
-- **Basemap:** OpenStreetMap contributors / CARTO.
-
-The detailed source register is stored in `data/source_registry.json` and is displayed in the platform's **About** page.
+The platform's **About** page shows the same source-to-indicator mapping.
 
 ## Important data notes
 

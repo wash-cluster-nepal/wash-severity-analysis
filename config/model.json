@@ -68,12 +68,12 @@
     "p1": {
       "name": "Flood Impact & WSS Damage",
       "weight": 0.5,
-      "method": "P1 uses affected-population impact and, where PDNA raw data are available, water-supply-system impact. Within P1, affected-population impact contributes 40% and WSS impact contributes 60%."
+      "method": "P1 uses affected-population impact and, where PDNA data are available, water-supply-system impact. Within P1, affected-population impact contributes 40% and WSS impact contributes 60%."
     },
     "p2": {
       "name": "Current WASH Conditions",
       "weight": 0.35,
-      "method": "P2 is designed around water access and service continuity, water quality and safety, and sanitation and hygiene. Current PDNA raw data provide comparable municipality-level information for the first two. Sanitation and hygiene is not yet scored because comparable municipality-level data are not available. Where PDNA raw data exist, the water-access/service and water-quality/safety evidence is combined and adjusted by how much of the affected population is represented by assessed water systems. Where no current PDNA raw data exist, P2 is provisionally set to 2.5.",
+      "method": "P2 is designed around water access and service continuity, water quality and safety, and sanitation and hygiene. Current PDNA data provide comparable municipality-level information for the first two. Sanitation and hygiene is not yet scored because comparable municipality-level data are not available. Where PDNA data exist, the water-access/service and water-quality/safety evidence is combined and adjusted by how much of the affected population is represented by assessed water systems. Where no current PDNA data exist, P2 is provisionally set to 2.5.",
       "provisionalPrior": 2.5,
       "currentScoredDomains": [
         "Water access & service continuity",
@@ -93,9 +93,9 @@
     }
   },
   "cautions": [
-    "PDNA raw WSS beneficiary populations may overlap between schemes and are not treated as unique people.",
+    "PDNA WSS beneficiary populations may overlap between schemes and are not treated as unique people.",
     "The PDNA coverage adjustment compares assessed WSS beneficiary population with affected population and is capped at 100%.",
     "Physical damage is used in P1; service functionality is used in P2 to avoid double counting.",
-    "A provisional P2 of 2.5 is used only where current PDNA raw data are unavailable."
+    "A provisional P2 of 2.5 is used only where current PDNA data are unavailable."
   ]
 }

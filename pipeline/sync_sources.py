@@ -43,6 +43,14 @@ def classify_final(x):
     if x>=1.75: return "Low",2
     return "Minimal",1
 
+def classify_component(x):
+    if x is None: return None
+    if x>=4.0: return "Very High"
+    if x>=3.25: return "High"
+    if x>=2.5: return "Moderate"
+    if x>=1.75: return "Low"
+    return "Minimal"
+
 analysis=records(values(MASTER_ID,"'Analysis v15 Locked'!A1:L100"))
 municipal=records(values(MASTER_ID,"'Municipal Database'!A1:AZ100"))
 affected=records(values(MASTER_ID,"'Flash Appeal Affected Pop'!A1:J100"))
@@ -76,9 +84,12 @@ for ar in analysis:
         "priority_rank": integer(ar.get("Rank")),
         "p1": num(ar.get("P1")),
         "p2_direct": num(ar.get("Direct P2")),
+        "p2_observed": num(ar.get("Direct P2")),
         "p2_evidence_coverage_proxy": num(ar.get("P2 coverage proxy")),
+        "p2_coverage_adjustment": num(ar.get("P2 coverage proxy")),
         "p2": num(ar.get("Final P2")),
         "p2_final": num(ar.get("Final P2")),
+        "p2_provisional": ar.get("Direct P2") in (None,""),
         "p3": num(ar.get("P3")),
         "need_score": num(ar.get("Need Score")),
         "priority_class": ar.get("Severity Class") or ar.get("Absolute Severity Class"),
@@ -95,6 +106,9 @@ for ar in analysis:
         pop=p.get("population_2026")
         if pop and p.get("affected_population") is not None:
             p["affected_share"]=p["affected_population"]/pop
+    p["p1_class"]=classify_component(p.get("p1"))
+    p["p2_class"]=classify_component(p.get("p2"))
+    p["p3_class"]=classify_component(p.get("p3"))
     cls,level=classify_final(p["need_score"])
     if p["priority_class"]!=cls:
         raise SystemExit(f"{pc}: Sheet severity class {p['priority_class']} does not match Need Score {p['need_score']} ({cls})")

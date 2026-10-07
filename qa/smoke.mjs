@@ -36,7 +36,7 @@ if(/Unknown\s+Unknown/i.test(indicatorText)) throw new Error('Duplicated Unknown
 if(/Very High\s+Very High/i.test(indicatorText)) throw new Error('Duplicated severity label remains in indicator panel');
 
 // Analysis filters and sorting.
-await page.getByRole('button',{name:'Analysis'}).click();
+await page.locator('.tab[data-view="analysis"]').click();
 await page.locator('#analysis-search').fill('Bidur');
 await page.waitForTimeout(100);
 const rows=await page.locator('#analysis-table tbody tr').count();
@@ -45,7 +45,7 @@ await page.locator('#analysis-search').fill('');
 await page.locator('#analysis-table th[data-sort="municipality"]').click();
 
 // About methodology.
-await page.getByRole('button',{name:'About'}).click();
+await page.locator('.tab[data-view="about"]').click();
 const about=await page.locator('#about-view').textContent();
 for(const phrase of ['50%','30%','20%','Current WASH conditions','Data sources']){
   if(!about.includes(phrase)) throw new Error('About section missing: '+phrase);
@@ -53,7 +53,7 @@ for(const phrase of ['50%','30%','20%','Current WASH conditions','Data sources']
 
 
 // Locked v15 final severity legend.
-await page.getByRole('button',{name:'Map'}).click();
+await page.locator('.tab[data-view="map"]').click();
 await page.selectOption('#map-indicator','need');
 await page.waitForTimeout(200);
 const needLegend=await page.locator('#map-legend').innerText();

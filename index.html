@@ -914,7 +914,7 @@ function renderAboutSources(){
   const root=document.getElementById('about-source-list'); if(!root)return;
   const unique=[]; const seen=new Set();
   DATA.sources.forEach(x=>{const name=x.source_name||x.source_dataset||x.source||x.title||x.dataset||x.source_id;if(name&&!seen.has(name)){seen.add(name);unique.push(x);}});
-  root.innerHTML=unique.slice(0,24).map(x=>`<div class="source-row"><strong>${esc(safe(x.source_name||x.source_dataset||x.source||x.title||x.dataset||x.source_id))}</strong>${x.source_date?` · ${x.source_date}`:''}${x.use_in_analysis||x.analytical_use?`<br><span>${safe(x.use_in_analysis||x.analytical_use)}</span>`:''}</div>`).join('');
+  root.innerHTML=unique.slice(0,24).map(x=>`<div class="source-row"><strong>${esc(safe(x.source_name||x.source_dataset||x.source||x.title||x.dataset||x.source_id))}</strong>${x.reference_date||x.source_date?` · ${safe(x.reference_date||x.source_date)}`:''}${x.use_in_analysis||x.analytical_use?`<br><span>${safe(x.use_in_analysis||x.analytical_use)}</span>`:''}</div>`).join('');
 }
 function renderAnalysis(){
   if(!DATA.profiles) return;

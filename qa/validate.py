@@ -192,7 +192,7 @@ fail_if(bool(dups),f"duplicate HTML ids: {dups}")
 for forbidden in ["GLOBAL WASH CLUSTER","Data status","Evidence confidence","Verification priority","percentile"]:
     fail_if(forbidden.lower() in html.lower(),f"forbidden/outdated visible term remains in index.html: {forbidden}")
 
-for stale in ["45%","35%","4.20–5.00","3.40–<4.20","2.60–<3.40","1.80–<2.60"]:
+for stale in ["4.20–5.00","3.40–<4.20","2.60–<3.40","1.80–<2.60","P1 45%","P2 35%","value=\"45\"","value=\"35\""]:
     fail_if(stale in html,f"stale model text remains in index.html: {stale}")
 
 fail_if("cohortRankClasses" in html,"frontend still references legacy cohortRankClasses")

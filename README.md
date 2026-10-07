@@ -1,46 +1,75 @@
-# Nepal Flood WASH Severity Analysis
+# Nepal Flood 2026 — WASH Severity Analysis
 
-Institutional repository for the Nepal WASH Cluster's 2026 flood severity and infrastructure analysis.
+This repository contains the Nepal WASH Cluster's municipality-level WASH severity analysis for the 2026 flood response.
 
-## Locked v15 analytical model
+## What the analysis does
 
-The official model uses **P1 50% / P2 35% / P3 15%**.
+The analysis compares WASH severity across **17 flood-affected municipalities** to help identify where needs are greatest and where follow-up should be prioritised.
 
-### P1 — Flood Impact & WSS Damage
+The final Need Score combines:
 
-Where DDA water-system evidence exists, P1 combines **40% affected-population impact + 60% WSS impact**. WSS impact uses assessed-WSS beneficiary magnitude/share plus physical damage. Where DDA is absent, P1 uses affected-population impact only.
+- **50% — Flood and water-supply-system impact (P1)**
+- **35% — Current water service and safety (P2)**
+- **15% — Underlying vulnerability (P3)**
 
-### P2 — Current Water Service & Safety
+### P1 — Flood and water-supply-system impact
 
-Direct P2 = **50% current service + 50% water safety/public-health**.
+P1 considers the number and share of people affected. Where **PDNA raw data** are available, it also considers the number of people served by assessed water-supply systems and the physical damage recorded for those systems.
 
-The direct signal is adjusted by an evidence-coverage proxy:
+Within P1, affected-population impact contributes **40%** and water-supply-system impact contributes **60%** where PDNA raw data are available.
 
-**assessed DDA WSS beneficiary population / affected population**, capped at 100%.
+### P2 — Current water service and safety
 
-Final P2 for DDA municipalities:
+P2 looks at:
 
-**2.5 + coverage proxy × max(0, Direct P2 − 2.5)**
+- whether assessed water systems are working; and
+- whether drinking water is considered safe or requires restrictions/action.
 
-Where current DDA is unavailable, **P2 = 2.5 provisional**.
+Where the assessed systems represent more of the affected population, the PDNA findings have more influence on the P2 score. Where no current PDNA raw data are available, a **provisional P2 score of 2.5** is used and the lower evidence strength is clearly flagged.
 
-The coverage ratio is an analytical evidence proxy, not a unique percentage of affected people assessed. DDA scheme beneficiary populations may overlap.
+### P3 — Underlying vulnerability
 
-### P3 — Vulnerability & Aggravating Factors
+P3 combines pre-existing drinking-water, sanitation, poverty/inequality and physical-access vulnerability.
 
-- drinking-water vulnerability: 30%
-- sanitation vulnerability: 30%
-- poverty / inequality: 25%
-- physical access: 15%
+## Severity classes
 
-## Final outputs
+- **Very High:** > 3.5
+- **High:** 3.0–3.5
+- **Moderate:** 2.5–<3.0
+- **Low:** 2.0–<2.5
+- **Minimal:** <2.0
 
-The official product publishes the continuous **Need Score**, fixed **absolute severity class**, municipality **rank**, and **evidence strength**. There is no separate rank-derived severity class in v15.
+## Data sources
 
-## Data governance and publication
+The analysis and platform combine several response datasets. They are not all used in the same way.
 
-Only publication-safe fields are stored in the public repository. Exact DDA infrastructure coordinates remain in Cluster-controlled source data. Operational source files remain in the Nepal WASH Cluster Google Drive; GitHub Pages uses a validated static publication snapshot.
+### Used directly in the severity score
 
-## Phase 2
+- **2026 municipality population and affected-population estimates** — response-planning / Flash Appeal and Nepal Flood municipal WASH compilation; used for P1 and population-share calculations.
+- **PDNA raw water-supply-system assessment data** — scheme beneficiary population, physical damage, current service status and drinking-water safety/public-health observations; used in P1 and P2.
+- **Municipality baseline vulnerability indicators** — drinking-water, sanitation and poverty/inequality indicators; used in P3.
+- **Physical-access evidence** — response access information used for the P3 physical-access component where available.
 
-The operational 5W Google Sheet will be added later as a separate response-monitoring module.
+### Shown as supporting or map context
+
+- **IOM holding-centre/site assessments (31 August–6 September 2026)** — site-level displacement and WASH context.
+- **Government drinking-water-sector damage information** — named systems, beneficiaries and damage estimates; retained as supporting context and not used as a separate final-v15 scoring component.
+- **Operational road-status information** — NDRRMA/WFP and Logistics Cluster response information.
+- **Flood-extent GIS layer** — spatial context for the flood footprint.
+- **Official Nepal administrative boundaries** — municipality and available ward boundaries used for mapping.
+- **Current WASH field/context evidence** — selected WHO, Oxfam, RRN and local/municipal or media-sourced updates used for triangulation and interpretation.
+- **Basemap:** OpenStreetMap contributors / CARTO.
+
+The detailed source register is stored in `data/source_registry.json` and is displayed in the platform's **About** page.
+
+## Important data notes
+
+PDNA water-system beneficiary figures may overlap between schemes, so they are used as an analytical measure of scale rather than as a count of unique people. Ratios based on these figures are capped at 100% for scoring.
+
+Exact infrastructure coordinates and other non-public operational fields remain in Cluster-controlled source data and are not published in this repository.
+
+## Main outputs
+
+The platform publishes the **Need Score, severity class, rank and evidence strength** for each municipality.
+
+GitHub Pages: https://wash-cluster-nepal.github.io/wash-severity-analysis/

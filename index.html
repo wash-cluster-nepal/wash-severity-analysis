@@ -205,7 +205,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
           <p>P2 is designed around three WASH areas: water access and service continuity, water quality and safety, and sanitation and hygiene. Current PDNA raw data provide comparable information for the first two. Sanitation and hygiene remains a data gap and will be added when comparable municipality-level information becomes available. Where no current PDNA raw data are available, a provisional score of 2.5 is used.</p>
           <table class="method-table">
             <thead><tr><th>Indicator</th><th>Weight</th></tr></thead>
-            <tbody><tr><td>Current water access</td><td>35%</td></tr><tr><td>Water quality</td><td>25%</td></tr><tr><td>Sanitation & hygiene</td><td>20%</td></tr><tr><td>Displacement pressure</td><td>20%</td></tr></tbody>
+            <tbody><tr><td>Water access & service continuity</td><td>Currently scored</td></tr><tr><td>Water quality & safety</td><td>Currently scored</td></tr><tr><td>Sanitation & hygiene</td><td>Data gap — not currently scored</td></tr></tbody>
           </table>
         </article>
 
@@ -398,17 +398,15 @@ const ANALYSIS_LAYERS=[
 function analysisResult(p,id=state.mapIndicator){
   const d=getDisplayResult(p.adm3_pcode);
   if(id==='priority') return {level:d.priorityLevel,className:d.priorityClass,value:d.score,label:'Final WASH severity'};
-  if(id==='need'){const b=absoluteNeedBand(d.score);return {...b,value:d.score,label:'Need severity'};}
-  if(id==='impact') return {level:CLASS_LEVEL[p.p1_class]||0,className:p.p1_class,value:p.p1,label:'Flood impact & WASH service disruption'};
-  if(id==='affected'){const v=affectedScore(p),b=scoreBand(v);return {...b,value:v,label:'People affected'};}
-  if(id==='damaged_wss'){const v=damagedWssScore(p),b=scoreBand(v);return {...b,value:v,label:'People served by damaged water-supply systems'};}
-  if(id==='govt_damage'){const v=n(p.govt_wss_damage_score),b=scoreBand(v);return {...b,value:v,label:'Government-reported water-supply damage'};}
-  if(id==='current') return {level:CLASS_LEVEL[p.p2_class]||0,className:p.p2_class,value:p.p2,label:'Current WASH conditions'};
-  if(id==='water_access'){const v=n(p.water_access_score),b=scoreBand(v);return {...b,value:v,label:'Current water access — provisional'};}
-  if(id==='water_quality'){const v=n(p.water_quality_score),b=scoreBand(v);return {...b,value:v,label:'Water quality — provisional'};}
-  if(id==='san_hyg'){const v=n(p.sanitation_hygiene_score),b=scoreBand(v);return {...b,value:v,label:'Sanitation & hygiene — provisional'};}
-  if(id==='displacement'){const v=n(p.displacement_pressure_score),b=scoreBand(v);return {...b,value:v,label:'Displacement pressure — provisional'};}
-  if(id==='vulnerability') return {level:CLASS_LEVEL[p.p3_class]||0,className:p.p3_class,value:p.p3,label:'Pre-existing vulnerability & aggravating factors'};
+   if(id==='need'){const b=absoluteNeedBand(d.score);return {...b,value:d.score,label:'Need Score'};}
+   if(id==='impact') return {level:CLASS_LEVEL[p.p1_class]||0,className:p.p1_class,value:p.p1,label:'Flood impact & WSS damage'};
+   if(id==='current') return {level:CLASS_LEVEL[p.p2_class]||0,className:p.p2_class,value:p.p2,label:'Current WASH conditions'};
+   if(id==='vulnerability') return {level:CLASS_LEVEL[p.p3_class]||0,className:p.p3_class,value:p.p3,label:'Pre-existing vulnerability & aggravating factors'};
+   if(id==='affected'){const v=affectedScore(p),b=scoreBand(v);return {...b,value:v,label:'People affected'};}
+   if(id==='damaged_wss'){const v=damagedWssScore(p),b=scoreBand(v);return {...b,value:v,label:'People served by assessed water-supply systems'};}
+   if(id==='physical_damage'){const v=n(p.physical_damage_score),b=scoreBand(v);return {...b,value:v,label:'Physical damage to assessed water-supply systems'};}
+   if(id==='water_access'){const v=n(p.water_access_service_score),b=scoreBand(v);return {...b,value:v,label:'Water access & service continuity'};}
+   if(id==='water_quality'){const v=n(p.water_quality_safety_score),b=scoreBand(v);return {...b,value:v,label:'Water quality & safety'};}
   if(id==='dw_vulnerability'){const v=n(p.dw_vulnerability_score),b=scoreBand(v);return {...b,value:v,label:'Drinking Water vulnerability'};}
   if(id==='san_vulnerability'){const v=n(p.san_vulnerability_score),b=scoreBand(v);return {...b,value:v,label:'Sanitation vulnerability'};}
   if(id==='poverty'){const v=n(p.poverty_inequality_score),b=scoreBand(v);return {...b,value:v,label:'Poverty & inequality'};}
@@ -620,7 +618,7 @@ const THEMATIC_LAYERS=[
   {id:'vulnerability',name:'Pre-existing vulnerability & aggravating factors',kind:'score',note:'Component score'},
   {id:'affected',name:'People affected',kind:'score',note:'Magnitude-first score with possible uplift for high affected share'},
   {id:'damaged_wss',name:'People served by damaged water-supply systems',kind:'score',note:'Magnitude-first score with possible uplift for high affected share'},
-  {id:'govt_damage',name:'Government-reported water-supply damage',kind:'score',note:'Government-reported WSS damage-cost score'},
+  {id:'govt_damage',name:'Government-reported water-supply damage',kind:'score',note:'Physical damage to assessed water-supply systems-cost score'},
   {id:'water_access',name:'Current water access — provisional',kind:'score',note:'Current WASH indicator'},
   {id:'water_quality',name:'Water quality — provisional',kind:'score',note:'Current WASH indicator'},
   {id:'san_hyg',name:'Sanitation & hygiene — provisional',kind:'score',note:'Current WASH indicator'},
@@ -820,7 +818,7 @@ function driverNarrative(p){
     {label:'Pre-existing vulnerability & aggravating factors',cls:p.p3_class,score:p.p3},
     {label:'People affected',cls:severityClassFromScore(affectedPopCombinedScore(p)),score:affectedPopCombinedScore(p),detail:`${fmtInt.format(p.affected_population||0)} people affected`},
     {label:'People served by damaged water-supply systems',cls:severityClassFromScore(damagedWssCombinedScore(p)),score:damagedWssCombinedScore(p),detail:`${fmtInt.format(p.damaged_wss_beneficiaries||0)} people`},
-    {label:'Government-reported WSS damage',cls:severityClassFromScore(p.govt_wss_damage_score),score:p.govt_wss_damage_score,detail:p.govt_wss_damage_cost_npr? `NPR ${fmtInt.format(p.govt_wss_damage_cost_npr)} reported damage`:null},
+    {label:'Physical damage to assessed water-supply systems',cls:severityClassFromScore(p.govt_wss_damage_score),score:p.govt_wss_damage_score,detail:p.govt_wss_damage_cost_npr? `NPR ${fmtInt.format(p.govt_wss_damage_cost_npr)} reported damage`:null},
     {label:'Drinking Water vulnerability',cls:severityClassFromScore(p.dw_vulnerability_score),score:p.dw_vulnerability_score},
     {label:'Sanitation vulnerability',cls:severityClassFromScore(p.san_vulnerability_score),score:p.san_vulnerability_score},
     {label:'Poverty & inequality',cls:severityClassFromScore(p.poverty_inequality_score),score:p.poverty_inequality_score},
@@ -845,32 +843,43 @@ function renderProfileTab(p,tab){
     const drivers=driverNarrative(p);
     root.innerHTML=`
       <div class="metric-grid">
-        <div class="metric"><span>Priority</span><strong class="severity-label" style="color:${classColor(d.priorityClass)}">${d.priorityClass}</strong></div>
+        <div class="metric"><span>Severity</span><strong class="severity-label" style="color:${classColor(d.priorityClass)}">${d.priorityClass}</strong></div>
         <div class="metric"><span>People affected</span><strong>${fmtInt.format(p.affected_population||0)}</strong></div>
         <div class="metric"><span>Population in affected wards</span><strong>${p.affected_ward_population==null?'—':fmtInt.format(p.affected_ward_population)}</strong></div>
-        <div class="metric"><span>People served by damaged WSS</span><strong>${fmtInt.format(p.damaged_wss_beneficiaries||0)}</strong></div>
+        <div class="metric"><span>People served by assessed WSS</span><strong>${fmtInt.format(p.damaged_wss_beneficiaries||0)}</strong></div>
       </div>
       <div class="why-box"><h3>Why is this ${d.priorityClass}?</h3><ul>${drivers.map(x=>`<li><strong>${x.label}: ${x.cls}</strong>${x.detail?` — ${x.detail}`:''}</li>`).join('')}</ul></div>
-      <div class="pillar-row"><div class="pillar-name"><strong>Flood impact & WASH service disruption</strong><br><small>${p.p1_class}</small></div><div class="pillar-score">${fmt1.format(p.p1)} / 5</div></div>
+      <div class="pillar-row"><div class="pillar-name"><strong>Flood impact & WSS damage</strong><br><small>${p.p1_class}</small></div><div class="pillar-score">${fmt1.format(p.p1)} / 5</div></div>
       <div class="pillar-row"><div class="pillar-name"><strong>Current WASH conditions</strong><br><small>${p.p2_class}</small></div><div class="pillar-score">${fmt1.format(p.p2)} / 5</div></div>
       <div class="pillar-row"><div class="pillar-name"><strong>Pre-existing vulnerability & aggravating factors</strong><br><small>${p.p3_class}</small></div><div class="pillar-score">${fmt1.format(p.p3)} / 5</div></div>
       <div class="note" style="margin-top:10px">Need Score ${fmt1.format(d.score)} / 5 · numerical score shown for transparency.</div>`;
   } else {
     const affectedScoreValue=affectedPopCombinedScore(p);
     const wssScoreValue=damagedWssCombinedScore(p);
-    root.innerHTML=`<table class="indicator-table">
-      <tr><td>People affected</td><td>${indicatorCell(affectedScoreValue,fmtInt.format(p.affected_population||0)+' people')}</td></tr>
-      <tr><td>People served by damaged WSS</td><td>${indicatorCell(wssScoreValue,fmtInt.format(p.damaged_wss_beneficiaries||0)+' people')}</td></tr>
-      <tr><td>Government-reported WSS damage</td><td>${indicatorCell(p.govt_wss_damage_score,p.govt_wss_damage_cost_npr?'NPR '+fmtInt.format(p.govt_wss_damage_cost_npr):'')}</td></tr>
-      <tr><td>Current water access</td><td>${indicatorCell(p.water_access_score)}</td></tr>
-      <tr><td>Water quality</td><td>${indicatorCell(p.water_quality_score)}</td></tr>
-      <tr><td>Sanitation & hygiene</td><td>${indicatorCell(p.sanitation_hygiene_score)}</td></tr>
-      <tr><td>Displacement pressure</td><td>${indicatorCell(p.displacement_pressure_score)}</td></tr>
-      <tr><td>Drinking Water vulnerability</td><td>${indicatorCell(p.dw_vulnerability_score)}</td></tr>
-      <tr><td>Sanitation vulnerability</td><td>${indicatorCell(p.san_vulnerability_score)}</td></tr>
-      <tr><td>Poverty & inequality</td><td>${indicatorCell(p.poverty_inequality_score)}</td></tr>
-      <tr><td>Physical access</td><td>${indicatorCell(p.physical_access_score)}</td></tr>
-    </table>`;
+    root.innerHTML=`
+      <div class="why-box"><h3>Population context</h3><ul>
+        <li><strong>Total population:</strong> ${fmtInt.format(p.population_2026||0)}</li>
+        <li><strong>People affected:</strong> ${fmtInt.format(p.affected_population||0)}${p.affected_share==null?'':' ('+(p.affected_share*100).toFixed(1)+'%)'}</li>
+        <li><strong>Population in affected wards:</strong> ${p.affected_ward_population==null?'—':fmtInt.format(p.affected_ward_population)}</li>
+        <li><strong>Households in hard-hit area:</strong> ${p.households_hard_hit_area==null?'—':fmtInt.format(p.households_hard_hit_area)}</li>
+        <li><strong>Children 0–17 in hard-hit wards:</strong> ${p.children_hard_hit_wards_0_17==null?'—':fmtInt.format(p.children_hard_hit_wards_0_17)}</li>
+        <li><strong>Approx. household size in hard-hit area:</strong> ${p.approx_hh_size_hard_hit_area==null?'—':p.approx_hh_size_hard_hit_area.toFixed(1)}</li>
+      </ul></div>
+      <table class="indicator-table">
+        <tr><td colspan="2"><strong>Flood impact & WSS damage</strong></td></tr>
+        <tr><td>People affected</td><td>${indicatorCell(affectedScoreValue,fmtInt.format(p.affected_population||0)+' people')}</td></tr>
+        <tr><td>People served by assessed water-supply systems</td><td>${indicatorCell(wssScoreValue,fmtInt.format(p.damaged_wss_beneficiaries||0)+' people')}</td></tr>
+        <tr><td>Physical damage to assessed water-supply systems</td><td>${indicatorCell(p.physical_damage_score)}</td></tr>
+        <tr><td colspan="2"><strong>Current WASH conditions</strong></td></tr>
+        <tr><td>Water access & service continuity</td><td>${indicatorCell(p.water_access_service_score)}</td></tr>
+        <tr><td>Water quality & safety</td><td>${indicatorCell(p.water_quality_safety_score)}</td></tr>
+        <tr><td>Sanitation & hygiene</td><td><strong>Data gap</strong><br><small>Not currently scored</small></td></tr>
+        <tr><td colspan="2"><strong>Underlying vulnerability</strong></td></tr>
+        <tr><td>Drinking Water vulnerability</td><td>${indicatorCell(p.dw_vulnerability_score)}</td></tr>
+        <tr><td>Sanitation vulnerability</td><td>${indicatorCell(p.san_vulnerability_score)}</td></tr>
+        <tr><td>Poverty & inequality</td><td>${indicatorCell(p.poverty_inequality_score)}</td></tr>
+        <tr><td>Physical access constraints</td><td>${indicatorCell(p.physical_access_score)}</td></tr>
+      </table>`;
   }
 }
 

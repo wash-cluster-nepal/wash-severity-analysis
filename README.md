@@ -2,57 +2,44 @@
 
 Institutional repository for the Nepal WASH Cluster's 2026 flood severity and infrastructure analysis.
 
-Open-source, source-driven web GIS for municipality-level WASH severity analysis following the 2026 Nepal floods.
+## Locked v15 analytical model
 
-## Current v1
+The official model uses **P1 50% / P2 35% / P3 15%**.
 
-The public GitHub Pages application includes:
+### P1 — Flood Impact & WSS Damage
 
-- municipality-level WASH priority for 17 affected municipalities;
-- component and indicator map layers;
-- municipality profiles with key severity drivers;
-- user-adjustable scenario weights that do not overwrite the default analysis;
-- flood extent polygons;
-- IOM holding-centre points with selected WASH fields;
-- road/access status lines;
-- available ward boundaries;
-- sortable/filterable municipality analysis table;
-- CSV export; and
-- PNG map export, including A4 landscape output with legend and attribution.
+Where DDA water-system evidence exists, P1 combines **40% affected-population impact + 60% WSS impact**. WSS impact uses assessed-WSS beneficiary magnitude/share plus physical damage. Where DDA is absent, P1 uses affected-population impact only.
 
-## Default analytical model
+### P2 — Current Water Service & Safety
 
-- Flood impact & WASH service disruption: **45%**
-- Current WASH conditions: **35%** (provisional)
-- Pre-existing vulnerability & aggravating factors: **20%**
+Direct P2 = **50% current service + 50% water safety/public-health**.
 
-The final priority is interpreted across the 17 affected municipalities while applying minimum Need Score guardrails. The continuous Need Score and absolute class are retained separately.
+The direct signal is adjusted by an evidence-coverage proxy:
 
-## Institutional source architecture
+**assessed DDA WSS beneficiary population / affected population**, capped at 100%.
 
-Current publication flow:
+Final P2 for DDA municipalities:
 
-- operational source files are maintained in the WASH Cluster Google Drive;
-- the validated severity master and PDNA/DDA workbooks have Cluster-owned copies;
+**2.5 + coverage proxy × max(0, Direct P2 − 2.5)**
 
+Where current DDA is unavailable, **P2 = 2.5 provisional**.
 
-- analytical source: native Google Sheet imported from the latest analytical workbook;
-- spatial sources: supplied GIS files;
-- public outputs: JSON / GeoJSON under `data/`;
-- frontend: static HTML/CSS/JavaScript + MapLibre;
-- hosting: GitHub Pages.
+The coverage ratio is an analytical evidence proxy, not a unique percentage of affected people assessed. DDA scheme beneficiary populations may overlap.
 
-### Current publication mode
+### P3 — Vulnerability & Aggravating Factors
 
-The Cluster-owned Google Sheets are now the operational sources of truth. The public site intentionally uses a **validated static publication snapshot** while the authenticated source-validation-build-publish workflow is finalized. This keeps operational and non-public fields from being exposed unintentionally.
+- drinking-water vulnerability: 30%
+- sanitation vulnerability: 30%
+- poverty / inequality: 25%
+- physical access: 15%
 
-## Data governance
+## Final outputs
 
-The public site has no authentication. Only publication-safe fields should be included in public JSON/GeoJSON outputs. The IOM holding-centre layer currently includes selected demographic and WASH fields only; direct contact fields were excluded.
+The official product publishes the continuous **Need Score**, fixed **absolute severity class**, municipality **rank**, and **evidence strength**. There is no separate rank-derived severity class in v15.
 
-## Infrastructure assessment
+## Data governance and publication
 
-A separate `infrastructure.html` page provides scheme-level PDNA/DDA exploration. Exact infrastructure coordinates are not stored in the public repository; the current page can load the prepared PDNA point-GIS workbook locally in the browser. The canonical Cluster PDNA point source is recorded in `config/data-sources.json`. Exact coordinates remain non-public unless an explicit publication decision is made.
+Only publication-safe fields are stored in the public repository. Exact DDA infrastructure coordinates remain in Cluster-controlled source data. Operational source files remain in the Nepal WASH Cluster Google Drive; GitHub Pages uses a validated static publication snapshot.
 
 ## Phase 2
 

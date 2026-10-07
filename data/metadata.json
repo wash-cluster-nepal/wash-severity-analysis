@@ -3,20 +3,22 @@
   "institution": "Nepal WASH Cluster",
   "repository": "wash-cluster-nepal/wash-severity-analysis",
   "pages_url": "https://wash-cluster-nepal.github.io/wash-severity-analysis/",
-  "model_version": "WASH_SEVERITY_V1",
+  "model_version": "WASH_SEVERITY_V15_LOCKED",
   "analysis_source": "Nepal Flood WASH Severity Analysis - Master Data",
   "severity_master_sheet_id": "1ddB5xRofT7i7soCwGH0qwMs_Ro38QzFFCKK1RA5roSs",
   "pdna_point_sheet_id": "16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4",
-  "generated_date": "2026-10-06",
+  "generated_date": "2026-10-07",
   "affected_municipalities": 17,
   "five_w_status": "not_ingested_in_v1",
   "publication_mode": "validated_static_snapshot",
   "notes": [
-    "Current WASH conditions are provisional because municipality-level evidence is uneven.",
-    "Custom scenario weights do not overwrite the default analysis.",
-    "5W response monitoring is not yet ingested in v1.",
-    "Operational source files are now maintained under the Nepal WASH Cluster Google Drive.",
-    "The public GitHub Pages build uses validated publication-safe static JSON/GeoJSON outputs.",
-    "Exact PDNA infrastructure coordinates remain in Cluster-controlled source data and are not committed to the public repository."
+    "Official model weights: P1 50%, P2 35%, P3 15%.",
+    "P1 is WASH-weighted: 40% affected-population impact and 60% WSS impact where DDA is available.",
+    "P2 uses direct service and water-safety/public-health evidence adjusted by an assessed-WSS-beneficiary / affected-population coverage proxy.",
+    "The P2 coverage ratio is a proxy, not a unique population coverage rate; scheme beneficiary populations may overlap and the ratio is capped at 100%.",
+    "Municipalities without current DDA use a provisional P2 prior of 2.5 and are flagged as lower-confidence evidence.",
+    "No second rank-derived severity class is used; the published class is the absolute Need Score class.",
+    "5W response monitoring is not yet ingested.",
+    "Exact DDA infrastructure coordinates remain non-public."
   ]
 }

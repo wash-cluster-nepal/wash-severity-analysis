@@ -47,12 +47,40 @@ await page.locator('#analysis-table th[data-sort="municipality"]').click();
 // About methodology.
 await page.getByRole('button',{name:'About'}).click();
 const about=await page.locator('#about-view').textContent();
-for(const phrase of ['45%','35%','20%','Current WASH conditions','Data sources']){
+for(const phrase of ['50%','30%','20%','Current WASH conditions','Data sources']){
   if(!about.includes(phrase)) throw new Error('About section missing: '+phrase);
 }
 
-// Return to map and verify export produces a download.
+
+// Locked v15 final severity legend.
 await page.getByRole('button',{name:'Map'}).click();
+await page.selectOption('#map-indicator','need');
+await page.waitForTimeout(200);
+const needLegend=await page.locator('#map-legend').innerText();
+for(const phrase of ['Very High  > 3.50','High  3.00–3.50','Moderate  2.25–<3.00','Low  1.75–<2.25','Minimal  < 1.75']){
+  if(!needLegend.includes(phrase)) throw new Error('Need Score legend missing: '+phrase);
+}
+
+// Water Systems must not retrieve the private point Sheet and navigation must deep-link.
+await page.goto('http://127.0.0.1:8000/infrastructure.html',{waitUntil:'domcontentloaded'});
+await page.waitForTimeout(300);
+const infraText=await page.locator('body').innerText();
+if(/PDNA \/ DDA|Connecting to Cluster Google Sheet/i.test(infraText)) throw new Error('Water Systems contains stale/public live-source terminology');
+const bodyHtml=await page.locator('body').innerHTML();
+if(/docs\.google\.com\/spreadsheets|gviz\/tq|LIVE_SHEET_ID|LIVE_CSV_URL/.test(bodyHtml)) throw new Error('Water Systems exposes direct private Sheet access');
+for(const href of ['index.html#map','index.html#analysis','index.html#about']){
+  if(!bodyHtml.includes('href="'+href+'"')) throw new Error('Water Systems navigation missing '+href);
+}
+
+// Deep-link routing on main application.
+await page.goto('http://127.0.0.1:8000/index.html#analysis',{waitUntil:'domcontentloaded'});
+await page.waitForFunction(() => document.querySelector('#analysis-view')?.classList.contains('active'),{timeout:10000});
+await page.goto('http://127.0.0.1:8000/index.html#about',{waitUntil:'domcontentloaded'});
+await page.waitForFunction(() => document.querySelector('#about-view')?.classList.contains('active'),{timeout:10000});
+
+// Return to map and verify export produces a download.
+await page.goto('http://127.0.0.1:8000/index.html#map',{waitUntil:'domcontentloaded'});
+await page.waitForFunction(() => document.querySelectorAll('#map-indicator option').length >= 10,{timeout:20000});
 await page.locator('#export-map').click();
 const [download] = await Promise.all([
   page.waitForEvent('download',{timeout:15000}),

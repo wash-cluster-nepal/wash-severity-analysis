@@ -1,0 +1,86 @@
+name: Publish latest WASH data
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Validate latest Google Sheet data or publish after QA"
+        required: true
+        type: choice
+        default: validate
+        options:
+          - validate
+          - publish
+
+concurrency:
+  group: wash-data-publication
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install sync dependencies
+        run: pip install google-api-python-client google-auth
+
+      - name: Pull approved source data and rebuild publication files
+        env:
+          SEVERITY_MASTER_SHEET_ID: ${{ secrets.SEVERITY_MASTER_SHEET_ID }}
+          PDNA_INTEGRATED_SHEET_ID: ${{ secrets.PDNA_INTEGRATED_SHEET_ID }}
+        run: python pipeline/sync_sources.py
+
+      - name: Validate published data and governance invariants
+        run: python qa/validate.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install browser test dependency
+        run: |
+          npm install --no-save playwright@1.49.1
+          npx playwright install --with-deps chromium
+
+      - name: Start local site
+        run: |
+          python -m http.server 8000 > /tmp/wash-http.log 2>&1 &
+          sleep 2
+
+      - name: Browser smoke test
+        run: node qa/smoke.mjs
+
+      - name: Show publication changes
+        run: |
+          git status --short
+          git diff --stat
+          git diff -- data/municipality_profiles.json data/pdna_municipality_summary.json data/metadata.json || true
+
+      - name: Publish validated update
+        if: ${{ inputs.mode == 'publish' }}
+        run: |
+          if git diff --quiet; then
+            echo "No source-data changes to publish."
+            exit 0
+          fi
+          git config user.name "wash-cluster-nepal"
+          git config user.email "nepalwashcluster2026@gmail.com"
+          git add data/municipality_profiles.json data/pdna_municipality_summary.json data/metadata.json
+          git commit -m "Publish validated WASH data refresh"
+          git push

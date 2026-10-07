@@ -103,16 +103,16 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
           </div>
           <div id="scenario-controls" class="scenario-controls" hidden>
             <div class="weight-row">
-              <div><label for="weight-p1">Flood impact & service disruption</label><output id="weight-p1-out">45%</output></div>
-              <input id="weight-p1" type="range" min="0" max="100" value="45" />
+              <div><label for="weight-p1">Flood impact & WSS damage</label><output id="weight-p1-out">50%</output></div>
+              <input id="weight-p1" type="range" min="0" max="100" value="50" />
             </div>
             <div class="weight-row">
-              <div><label for="weight-p2">Current WASH conditions</label><output id="weight-p2-out">35%</output></div>
+              <div><label for="weight-p2">Current water service & safety</label><output id="weight-p2-out">35%</output></div>
               <input id="weight-p2" type="range" min="0" max="100" value="35" />
             </div>
             <div class="weight-row">
-              <div><label for="weight-p3">Vulnerability & aggravating factors</label><output id="weight-p3-out">20%</output></div>
-              <input id="weight-p3" type="range" min="0" max="100" value="20" />
+              <div><label for="weight-p3">Vulnerability & aggravating factors</label><output id="weight-p3-out">15%</output></div>
+              <input id="weight-p3" type="range" min="0" max="100" value="15" />
             </div>
             <p class="note">Scenario weights change interpretation only. Source evidence and official results remain unchanged.</p>
           </div>
@@ -121,7 +121,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 
       <div class="map-shell">
         <div id="map" aria-label="Interactive WASH severity map"></div>
-        <div id="map-badge" class="map-badge">Official priority</div>
+        <div id="map-badge" class="map-badge">Official severity</div>
         <div class="map-tools">
           <div style="position:relative">
             <button id="export-map" class="map-tool-btn">Export map ▾</button>
@@ -145,7 +145,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 
     <section id="analysis-view" class="view content-view">
       <div class="page-head">
-        <div><div class="eyebrow dark">ANALYTICAL OVERVIEW</div><h2>Municipality prioritisation</h2></div>
+        <div><div class="eyebrow dark">ANALYTICAL OVERVIEW</div><h2>Municipality severity ranking</h2></div>
         <button id="download-csv" class="primary-btn">Download CSV</button>
       </div>
       <div id="analysis-kpis" class="kpi-grid"></div>
@@ -175,17 +175,17 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
           <h3>What the final priority means</h3>
           <p>The final map is a prioritisation view across the 17 affected municipalities. It combines three groups of information: <strong>flood impact and WASH service disruption</strong>, <strong>current WASH conditions</strong>, and <strong>pre-existing vulnerability and aggravating factors</strong>. The class labels — Very High, High, Moderate, Low and Minimal — are intended to be read together with the underlying drivers rather than as stand-alone labels.</p>
           <p style="margin-top:8px">A municipality can therefore be Very High for different reasons. One municipality may have a very large affected population and major disruption to water-supply systems, while another may have lower direct impact but much higher pre-existing vulnerability. The municipality panel explicitly shows the dominant drivers.</p>
-          <p style="margin-top:8px">For the final priority classification, municipalities are ordered within the 17 affected-municipality cohort, while minimum Need Score guardrails prevent a location from receiving a Very High, High or Moderate label purely because of its relative position. The continuous Need Score and its absolute class remain available separately.</p>
+          <p style="margin-top:8px">The final class is based on fixed Need Score thresholds. Rank is shown separately for comparison across the 17 affected municipalities; there is no second rank-derived severity class in v15.</p>
         </article>
 
         <article class="info-card">
           <h3>How the score is built</h3>
           <div class="method-grid">
-            <div class="method-box"><strong>45%</strong><span>Flood impact & WASH service disruption</span><p>People affected, people served by damaged water-supply systems, and government-reported WSS damage cost.</p></div>
-            <div class="method-box"><strong>35%</strong><span>Current WASH conditions</span><p>Current water access, water quality, sanitation/hygiene and displacement pressure. This component is provisional because municipality-level evidence is still uneven.</p></div>
-            <div class="method-box"><strong>20%</strong><span>Pre-existing vulnerability & aggravating factors</span><p>Drinking Water vulnerability, sanitation vulnerability, poverty & inequality, and physical access constraints.</p></div>
+            <div class="method-box"><strong>50%</strong><span>Flood Impact & WSS Damage</span><p>Where DDA exists, P1 combines 40% affected-population impact and 60% WSS impact. WSS impact uses beneficiary magnitude/share and physical damage.</p></div>
+            <div class="method-box"><strong>35%</strong><span>Current Water Service & Safety</span><p>Direct P2 combines service functionality and water safety/public-health, adjusted by a WSS-beneficiary / affected-population evidence-coverage proxy.</p></div>
+            <div class="method-box"><strong>15%</strong><span>Vulnerability & Aggravating Factors</span><p>Drinking-water vulnerability, sanitation vulnerability, poverty/inequality and physical access.</p></div>
           </div>
-          <p style="margin-top:10px"><strong>Overall Need Score = 45% impact/service disruption + 35% current WASH conditions + 20% vulnerability/aggravating factors.</strong> Where an input within a component is missing, the available inputs are reweighted where the methodology allows. If the entire vulnerability component is unavailable, the remaining major components are reweighted so that missing data do not automatically become a low score.</p>
+          <p style="margin-top:10px"><strong>Overall Need Score = 50% P1 + 35% P2 + 15% P3.</strong> Municipalities without current DDA use a provisional P2 of 2.5 and are explicitly flagged as lower-confidence evidence.</p>
         </article>
 
         <article class="info-card">
@@ -194,16 +194,15 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
           <table class="method-table">
             <thead><tr><th>Indicator</th><th>Weight within this component</th><th>How it is interpreted</th></tr></thead>
             <tbody>
-              <tr><td>People affected</td><td>40%</td><td>Magnitude first, with an uplift where the affected share is unusually high.</td></tr>
-              <tr><td>People served by damaged WSS</td><td>40%</td><td>Magnitude first, with an uplift where disruption affects a high share of the municipality.</td></tr>
-              <tr><td>Government-reported WSS damage cost</td><td>20%</td><td>Observed physical damage evidence from named water-supply systems.</td></tr>
+              <tr><td>Affected-population impact</td><td>40%</td><td>Absolute affected population with an upward adjustment for affected share.</td></tr>
+              <tr><td>WSS impact</td><td>60%</td><td>Assessed WSS beneficiary magnitude/share, refined by physical damage grade. Service functionality is excluded from P1.</td></tr>
             </tbody>
           </table>
         </article>
 
         <article class="info-card">
-          <h3>Current WASH conditions — provisional</h3>
-          <p>Current-condition evidence is not equally complete in every municipality. To avoid making municipalities with more reporting look automatically worse, the current WASH component is deliberately conservative. Where there is no municipality-specific evidence, the model remains around Moderate rather than treating missing information as either good or bad. Available evidence adjusts that baseline only modestly until more systematic current-condition information is available.</p>
+          <h3>Current Water Service & Safety</h3>
+          <p>Direct P2 is calculated from 50% current service condition and 50% water safety/public-health. Its influence is adjusted by an evidence-coverage proxy: assessed DDA WSS beneficiary population divided by affected population, capped at 100%. Where current DDA is unavailable, P2 is set provisionally to 2.5 and the lower evidence strength is shown explicitly.</p>
           <table class="method-table">
             <thead><tr><th>Indicator</th><th>Weight</th></tr></thead>
             <tbody><tr><td>Current water access</td><td>35%</td></tr><tr><td>Water quality</td><td>25%</td></tr><tr><td>Sanitation & hygiene</td><td>20%</td></tr><tr><td>Displacement pressure</td><td>20%</td></tr></tbody>
@@ -249,7 +248,7 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 const DATA = {};
 const state = {
   mode: 'official',
-  weights: { p1: 45, p2: 35, p3: 20 },
+  weights: { p1: 50, p2: 35, p3: 15 },
   selectedPcode: null,
   analysisSort: { key:'rank', dir:'asc' },
   analysisFilter: { query:'', district:'', priority:'' },
@@ -779,10 +778,10 @@ function getDisplayResult(pcode){
 }
 function bindScenario(){
   const official=document.getElementById('mode-official'), custom=document.getElementById('mode-scenario'), controls=document.getElementById('scenario-controls'), badge=document.getElementById('map-badge');
-  official.addEventListener('click',()=>{state.mode='official';official.classList.add('active');custom.classList.remove('active');controls.hidden=true;badge.textContent='Official priority';restoreOfficial();});
+  official.addEventListener('click',()=>{state.mode='official';official.classList.add('active');custom.classList.remove('active');controls.hidden=true;badge.textContent='Official severity';restoreOfficial();});
   custom.addEventListener('click',()=>{state.mode='scenario';custom.classList.add('active');official.classList.remove('active');controls.hidden=false;badge.textContent='Custom scenario';recomputeScenario();});
   ['p1','p2','p3'].forEach(k=>{const input=document.getElementById(`weight-${k}`);input.addEventListener('input',()=>{state.weights[k]=Number(input.value);normaliseWeights(k);recomputeScenario();});});
-  document.getElementById('reset-weights').addEventListener('click',()=>{state.weights={p1:45,p2:35,p3:20};syncWeightUI();if(state.mode==='scenario')recomputeScenario();});
+  document.getElementById('reset-weights').addEventListener('click',()=>{state.weights={p1:50,p2:35,p3:15};syncWeightUI();if(state.mode==='scenario')recomputeScenario();});
 }
 function normaliseWeights(changed){
   const keys=['p1','p2','p3'];const other=keys.filter(k=>k!==changed);const remainder=Math.max(0,100-state.weights[changed]);const otherTotal=other.reduce((s,k)=>s+state.weights[k],0)||1;
@@ -801,7 +800,7 @@ function renderProfile(pcode){
       <div class="profile-district">${p.district} · ${p.adm3_pcode}</div>
       <h2>${p.municipality}</h2>
       <div class="priority-hero" style="background:${classColor(d.priorityClass)}">
-        <div class="class">${d.priorityClass.toUpperCase()} PRIORITY</div>
+        <div class="class">${d.priorityClass.toUpperCase()} SEVERITY</div>
         <div class="score">${state.mode==='scenario'?'Custom scenario':'Default analysis'} · Need Score ${fmt1.format(d.score)} / 5 · Rank ${d.rank} of ${DATA.profiles.length}</div>
       </div>
     </div>

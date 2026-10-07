@@ -5,8 +5,6 @@
   "pages_url": "https://wash-cluster-nepal.github.io/wash-severity-analysis/",
   "model_version": "WASH_SEVERITY_V15_LOCKED",
   "analysis_source": "Nepal Flood WASH Severity Analysis - Master Data",
-  "severity_master_sheet_id": "1ddB5xRofT7i7soCwGH0qwMs_Ro38QzFFCKK1RA5roSs",
-  "pdna_point_sheet_id": "16XZFca74OIKjRHijmwLzx9C8zIUAMKtQXu0aT6FmYN4",
   "generated_date": "2026-10-07",
   "affected_municipalities": 17,
   "five_w_status": "not_ingested_in_v1",
@@ -20,5 +18,6 @@
     "Context fields for children and households in hard-hit areas come from the response 'Total Affected' compilation where available.",
     "Exact PDNA infrastructure coordinates remain non-public.",
     "Analytical-framework sources are documented in data/source_registry.json and displayed in the About page."
-  ]
+  ],
+  "operational_source_connections": "Configured outside the public repository."
 }

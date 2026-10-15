@@ -18,7 +18,7 @@ from googleapiclient.discovery import build
 
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 MASTER_ID=os.environ["SEVERITY_MASTER_SHEET_ID"]
-PDNA_ID=os.environ["PDNA_CORRECTIONS_SHEET_ID"]
+PDNA_ID=os.environ["PDNA_INTEGRATED_SHEET_ID"]
 MODEL_VERSION="WASH_SEVERITY_V16_PDNA90"
 
 parser=argparse.ArgumentParser()
@@ -135,7 +135,7 @@ by_name={p["municipality"]:p["adm3_pcode"] for p in existing}
 municipal=records(values(MASTER_ID,"'Municipal Database'!A1:AZ100"))
 affected=records(values(MASTER_ID,"'Flash Appeal Affected Pop'!A1:J100"))
 analysis=records(values(MASTER_ID,"'Analysis v16 PDNA90'!A1:R100"))
-pdna=records(values(PDNA_ID,"'corrections'!A1:GV200"))
+pdna=records(values(PDNA_ID,"'09_Corrections_90'!A1:Y200"))
 
 if len(existing)!=17:raise SystemExit(f"Expected 17 publication profiles, found {len(existing)}")
 if len([r for r in pdna if r.get("reference_id")])!=90:raise SystemExit("PDNA corrections source must contain exactly 90 records")

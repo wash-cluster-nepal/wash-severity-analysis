@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Compile publication pipeline
+        run: python -m py_compile pipeline/sync_sources.py
       - name: Validate published data and frontend invariants
         run: python qa/validate.py
       - uses: actions/setup-node@v4

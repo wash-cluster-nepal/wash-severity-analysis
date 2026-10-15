@@ -26,7 +26,7 @@ The manual workflow:
 
 1. authenticates to Google through GitHub OIDC using a non-personal service identity;
 2. reads the locked Severity Master tabs and approved source tables;
-3. reads the approved 90-scheme PDNA **corrections** tab server-side and calculates municipality P1/P2 directly from the documented v16 rules;
+3. reads the approved 90-scheme PDNA **09_Corrections_90** curated tab in the established integrated workbook server-side and calculates municipality P1/P2 directly from the documented v16 rules;
 4. rebuilds `municipality_profiles.json`, `pdna_municipality_summary.json`, the filtered `pdna_water_systems.json` scheme extract and metadata;
 5. strips assessor/contact and other non-public fields; the explicitly approved publication-safe scheme extract may include assessment coordinates for the Water Systems dashboard;
 6. runs `qa/validate.py` and `qa/smoke.mjs`;
@@ -49,7 +49,7 @@ The `production` environment needs these protected secrets:
 - `GCP_WORKLOAD_IDENTITY_PROVIDER`
 - `GCP_SERVICE_ACCOUNT`
 - `SEVERITY_MASTER_SHEET_ID`
-- `PDNA_CORRECTIONS_SHEET_ID`
+- `PDNA_INTEGRATED_SHEET_ID`
 
 The Google service account needs read access for validation and edit access to the Severity Master only if validated write-back is enabled. No long-lived Google service-account key is stored in GitHub.
 

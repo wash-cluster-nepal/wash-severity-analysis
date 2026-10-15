@@ -1,6 +1,6 @@
-# Nepal Flood 2026 — WASH Severity Analysis
+# Nepal Flood 2026 — WASH Analysis Platform
 
-This repository contains the Nepal WASH Cluster's municipality-level WASH severity analysis for the 2026 flood response.
+This repository contains the Nepal WASH Cluster's integrated 2026 flood WASH analysis platform: municipality severity analysis, a 90-scheme PDNA water-system dashboard, and operational/context map layers.
 
 ## What the analysis does
 
@@ -26,7 +26,7 @@ P2 is designed around three WASH areas:
 - **Water quality and safety**
 - **Sanitation and hygiene**
 
-The current **PDNA data** provide comparable municipality-level information for the first two. Sanitation and hygiene remains an identified data gap and will be added when comparable municipality-level information is available.
+The current **PDNA90 corrections dataset (9 Oct 2026)** provides comparable municipality-level information for the first two. Sanitation and hygiene remains an identified data gap and will be added when comparable municipality-level information is available.
 
 Where the assessed water systems represent more of the affected population, the PDNA findings have more influence on P2. Where no current PDNA data are available, a **provisional P2 score of 2.5** is used and the lower evidence strength is flagged.
 
@@ -58,16 +58,26 @@ Only sources used directly in the analytical framework are listed here.
 
 Population projection source: https://censusresults.nsonepal.gov.np/population-projection
 
-The platform's **About** page shows the same source-to-indicator mapping.
+The platform's **Methodology & Sources** page shows the same source-to-indicator mapping.
 
 ## Important data notes
 
 PDNA water-system beneficiary figures may overlap between schemes, so they are used as an analytical measure of scale rather than as a count of unique people. Ratios based on these figures are capped at 100% for scoring.
 
-Exact infrastructure coordinates and other non-public operational fields remain in Cluster-controlled source data and are not published in this repository.
+The Water Systems dashboard publishes an explicitly approved, filtered PDNA90 scheme extract with assessment coordinates. Assessor/contact fields and other non-public operational fields are excluded.
 
 ## Main outputs
 
 The platform publishes the **Need Score, severity class, rank and evidence strength** for each municipality.
 
 GitHub Pages: https://wash-cluster-nepal.github.io/wash-severity-analysis/
+
+
+## Platform sections
+
+- **Overview** — severity choropleths plus flood, roads, holding centres, and HOT/OSM health and education facility context layers.
+- **Severity Analysis** — v16 municipality Need Scores, components, drivers and ranking.
+- **Water Systems** — PDNA90 infrastructure dashboard with D0–D5 damage, S1–S5 site safety, service status, primary actions, reconstruction cost and individual assessed systems.
+- **Methodology & Sources** — scoring methodology, interpretation notes, versioning and source registers.
+
+Current model: **WASH_SEVERITY_V16_PDNA90**. PDNA reconstruction finance uses **w9.reconstructionCost (Excel column GR)**.

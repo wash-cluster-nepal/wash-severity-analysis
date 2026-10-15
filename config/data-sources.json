@@ -10,11 +10,11 @@
     "join_key": "ADM3_PCODE",
     "publication_mode": "manual_validated_sync",
     "authoritative_tabs": [
-      "Analysis v15 Locked",
-      "Methods v15 Locked",
+      "Analysis v16 PDNA90",
+      "Methods v16 PDNA90",
       "00 Read Me"
     ],
-    "historical_tabs_note": "Earlier v1/v2 analysis, methods, scoring and sensitivity tabs are retained for audit trail only and are not current publication inputs.",
+    "historical_tabs_note": "v15 and earlier v1/v2 analytical tabs are retained for audit trail only.",
     "connection": "Configured outside the public repository for authorised pipeline/runtime use."
   },
   "pdna_readable": {
@@ -25,12 +25,14 @@
     "connection": "Configured outside the public repository for authorised pipeline/runtime use."
   },
   "pdna_integrated": {
-    "name": "Nepal Flood 2026 - DDA PDNA Integrated Clean",
+    "name": "Nepal Flood 2026 - PDNA Corrections 90 Schemes - 09 Oct 2026",
     "record_key": "asset_id",
     "join_key": "ADM3_PCODE",
     "public": false,
     "connection": "Configured outside the public repository for authorised pipeline/runtime use.",
-    "publication_output": "data/pdna_municipality_summary.json (municipality-level aggregate only)"
+    "publication_output": "data/pdna_municipality_summary.json and publication-safe data/pdna_water_systems.json",
+    "source_tab": "corrections",
+    "record_count": 90
   },
   "pdna_point_gis": {
     "name": "Nepal Flood 2026 - PDNA Point GIS Source",

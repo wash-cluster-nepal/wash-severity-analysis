@@ -43,7 +43,7 @@ jobs:
       - name: Pull approved source data and rebuild publication files
         env:
           SEVERITY_MASTER_SHEET_ID: ${{ secrets.SEVERITY_MASTER_SHEET_ID }}
-          PDNA_CORRECTIONS_SHEET_ID: ${{ secrets.PDNA_CORRECTIONS_SHEET_ID }}
+          PDNA_INTEGRATED_SHEET_ID: ${{ secrets.PDNA_INTEGRATED_SHEET_ID }}
         run: python pipeline/sync_sources.py
 
       - name: Validate published data and governance invariants
@@ -76,7 +76,7 @@ jobs:
         if: ${{ inputs.mode == 'publish' }}
         env:
           SEVERITY_MASTER_SHEET_ID: ${{ secrets.SEVERITY_MASTER_SHEET_ID }}
-          PDNA_CORRECTIONS_SHEET_ID: ${{ secrets.PDNA_CORRECTIONS_SHEET_ID }}
+          PDNA_INTEGRATED_SHEET_ID: ${{ secrets.PDNA_INTEGRATED_SHEET_ID }}
         run: python pipeline/sync_sources.py --write-master
 
       - name: Publish validated update

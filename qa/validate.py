@@ -34,8 +34,12 @@ metadata=load("data/metadata.json")
 sources=load("data/source_registry.json")
 source_cfg=load("config/data-sources.json")
 pdna_summary=load("data/pdna_municipality_summary.json")
+pdna_systems=load("data/pdna_water_systems.json")
+health=load("data/health_facilities.json")
+education=load("data/education_facilities.json")
+context_sources=load("data/context_source_registry.json")
 
-EXPECTED_VERSION="WASH_SEVERITY_V15_LOCKED"
+EXPECTED_VERSION="WASH_SEVERITY_V16_PDNA90"
 EXPECTED_WEIGHTS={"p1":0.5,"p2":0.3,"p3":0.2}
 EXPECTED_FINAL=[
     ("Very High",5,3.5000000001),
@@ -60,7 +64,7 @@ def classify(score,bands):
 
 # Model and metadata alignment.
 if isinstance(model,dict):
-    fail_if(model.get("modelVersion")!=EXPECTED_VERSION,"model version is not locked v15")
+    fail_if(model.get("modelVersion")!=EXPECTED_VERSION,"model version is not v16 PDNA90")
     w=model.get("officialWeights",{})
     for k,v in EXPECTED_WEIGHTS.items():
         fail_if(not math.isclose(w.get(k,-1),v,abs_tol=1e-12),f"official weight {k} is not {v}")
@@ -82,7 +86,7 @@ if isinstance(model,dict):
         fail_if(got.get("class")!=c or got.get("level")!=l or not math.isclose(got.get("min",-1),m,abs_tol=1e-10),
                 f"component severity band mismatch for {c}")
 
-    fail_if("cohortRankClasses" in model,"legacy cohortRankClasses must not remain in locked v15 model")
+    fail_if("cohortRankClasses" in model,"legacy cohortRankClasses must not remain in v16 model")
 
 if isinstance(metadata,dict):
     fail_if(metadata.get("model_version")!=EXPECTED_VERSION,"metadata model_version differs from model")
@@ -174,12 +178,43 @@ if isinstance(holding,dict):
 # Publication-safe PDNA municipality aggregate.
 if isinstance(pdna_summary,list):
     fail_if(len(pdna_summary)!=17,"PDNA municipality summary must contain 17 analytical municipalities")
+    fail_if(sum(1 for r in pdna_summary if int(r.get("assessment_records") or 0)>0)!=10,"Exactly 10 municipalities should have PDNA90 evidence")
+    fail_if(sum(int(r.get("assessment_records") or 0) for r in pdna_summary)!=90,"PDNA municipality assessment counts must sum to 90")
     pcodes=[r.get("adm3_pcode") for r in pdna_summary]
     fail_if(len(pcodes)!=len(set(pcodes)),"PDNA municipality summary contains duplicate ADM3 PCODEs")
     prohibited={"latitude","longitude","scheme_name","asset_id","contact","phone","email","free_text"}
     for r in pdna_summary:
         leaked=sorted(set(r.keys()) & prohibited)
         fail_if(bool(leaked),f"PDNA municipality summary exposes prohibited fields: {leaked}")
+
+# Publication-safe PDNA90 scheme extract.
+if isinstance(pdna_systems,list):
+    fail_if(len(pdna_systems)!=90,"PDNA water-system publication must contain 90 schemes")
+    refs=[r.get("reference_id") for r in pdna_systems]
+    fail_if(len(refs)!=len(set(refs)),"PDNA water-system publication contains duplicate reference IDs")
+    mapped=[r for r in pdna_systems if r.get("latitude") is not None and r.get("longitude") is not None]
+    fail_if(len(mapped)!=82,f"Expected 82 mapped PDNA schemes, found {len(mapped)}")
+    prohibited={"assessor","assessor_name","assessorName","contact","contact_person","contactPhone","contact_phone","collector","phone","email","managing_agency"}
+    for r in pdna_systems:
+        leaked=sorted(set(r.keys()) & prohibited)
+        fail_if(bool(leaked),f"PDNA public scheme extract exposes prohibited fields: {leaked}")
+        if r.get("latitude") is not None:
+            fail_if(not (26 < float(r["latitude"]) < 30 and 80 < float(r["longitude"]) < 90),f"PDNA coordinate outside expected Nepal bounds: {r.get('reference_id')}")
+    fail_if(sum(1 for r in pdna_systems if r.get("scheme_name"))!=90,"All 90 PDNA records should retain a scheme name")
+    fail_if(sum(1 for r in pdna_systems if r.get("reconstruction_cost_npr") is not None)<1,"PDNA reconstruction cost field is missing")
+
+# Context facility layers.
+if isinstance(health,list):
+    fail_if(len(health)!=5,f"Expected 5 health facilities, found {len(health)}")
+if isinstance(education,list):
+    fail_if(len(education)!=60,f"Expected 60 education facilities, found {len(education)}")
+for rows,label in ((health,"health"),(education,"education")):
+    if isinstance(rows,list):
+        for r in rows:
+            fail_if(not r.get("adm3_pcode"),f"{label} facility missing ADM3 PCODE")
+            fail_if(r.get("lat") is None or r.get("lon") is None,f"{label} facility missing coordinates")
+if isinstance(context_sources,list):
+    fail_if([x.get("source_id") for x in context_sources]!=["C01","C02"],"Context source registry must contain health and education source records")
 
 # Source registry and source-governance configuration.
 if isinstance(sources,list):
@@ -192,7 +227,11 @@ if isinstance(source_cfg,dict):
     fail_if("Do not publish exact point data automatically" not in pg.get("publication_rule",""),"PDNA point publication rule weakened")
     fail_if(source_cfg.get("five_w",{}).get("status")!="not_configured","5W source unexpectedly configured without model update")
     tabs=source_cfg.get("severity_master",{}).get("authoritative_tabs",[])
-    fail_if(tabs!=["Analysis v15 Locked","Methods v15 Locked","00 Read Me"],"Severity Master authoritative tabs are not explicitly locked to v15")
+    fail_if(tabs!=["Analysis v16 PDNA90","Methods v16 PDNA90","00 Read Me"],"Severity Master authoritative tabs are not explicitly set to v16 PDNA90")
+    public_extract=source_cfg.get("pdna_public_extract",{})
+    fail_if(public_extract.get("public") is not True,"PDNA90 approved public extract must be explicitly public")
+    fail_if(public_extract.get("record_count")!=90,"PDNA90 public extract record count must be 90")
+    fail_if(public_extract.get("mapped_records")!=82,"PDNA90 mapped-record count must be 82")
 
 # Frontend / documentation regressions.
 html=text("index.html")
@@ -207,7 +246,7 @@ metadata_text=text("data/metadata.json")
 for public_text,label in [
     (source_config_text,"config/data-sources.json"),
     (metadata_text,"data/metadata.json"),
-    (pipeline,"pipeline/README.md"),
+
     (infra,"infrastructure.html"),
 ]:
     for unsafe in ["docs.google.com/spreadsheets","spreadsheet_id","severity_master_sheet_id","pdna_point_sheet_id"]:
@@ -225,14 +264,19 @@ for stale in ["4.20–5.00","3.40–<4.20","2.60–<3.40","1.80–<2.60","P1 45%
 
 fail_if("cohortRankClasses" in html,"frontend still references legacy cohortRankClasses")
 fail_if("componentClasses" not in html,"frontend does not consume component class configuration")
-for route in ["index.html#map","index.html#analysis","index.html#about"]:
+for phrase in ["Overview","Severity Analysis","Water Systems","Methodology &amp; Sources","data/health_facilities.json","data/education_facilities.json"]:
+    fail_if(phrase not in html,f"expanded platform frontend missing: {phrase}")
+fail_if("WASH_SEVERITY_V15_LOCKED" in html or "in v15" in html,"stale v15 reference remains in frontend")
+for route in ["index.html#overview","index.html#severity","index.html#methodology"]:
     fail_if(route not in infra,f"Water Systems navigation missing deep link {route}")
 
-for unsafe in ["docs.google.com/spreadsheets","gviz/tq","LIVE_SHEET_ID","LIVE_CSV_URL","loadLiveSheet()"]:
+for unsafe in ["docs.google.com/spreadsheets","gviz/tq","LIVE_SHEET_ID","LIVE_CSV_URL","loadLiveSheet()","PDNA_CORRECTIONS_SHEET_ID"]:
     fail_if(unsafe in infra,f"public Water Systems page still contains direct Sheet access: {unsafe}")
 for stale in ["PDNA / DDA","DDA assessments","Connecting to Cluster Google Sheet"]:
     fail_if(stale in infra,f"stale public Water Systems terminology remains: {stale}")
-fail_if(not ("approved" in infra.lower() and "export" in infra.lower()),"Water Systems page does not state approved-export requirement")
+fail_if("data/pdna_water_systems.json" not in infra,"Water Systems dashboard does not use the publication-safe PDNA90 scheme extract")
+fail_if("w9.reconstructionCost" not in infra,"Water Systems dashboard does not document corrected reconstruction-cost field")
+fail_if("D0–D5" not in infra or "S1–S5" not in infra,"Water Systems dashboard is missing damage/site-safety analytical framing")
 
 for doc in [readme,pipeline]:
     for stale in ["P1 50% + P2 35% + P3 15%","Very High ≥4.00; High 3.25"]:

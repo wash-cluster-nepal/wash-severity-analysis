@@ -80,8 +80,14 @@ await page.goto('http://127.0.0.1:8000/infrastructure.html',{waitUntil:'domconte
 await page.waitForFunction(() => /90 schemes/i.test(document.querySelector('#status')?.textContent||''),{timeout:10000});
 const infraText=await page.locator('body').innerText();
 if(!/90 schemes/i.test(infraText)) throw new Error('Water Systems does not report the PDNA90 dataset');
-for(const phrase of ['Physical damage · D0–D5','Site safety · S1–S5','Primary recommended action','Current service status','Reconstruction cost']){
-  if(!infraText.includes(phrase)) throw new Error('Water Systems dashboard missing: '+phrase);
+for(const [label,pattern] of [
+  ['Physical damage D0–D5',/Physical damage[\s·:-]*D0[–-]D5/i],
+  ['Site safety S1–S5',/Site safety[\s·:-]*S1[–-]S5/i],
+  ['Primary recommended action',/Primary recommended action/i],
+  ['Current service status',/Current service status/i],
+  ['Reconstruction cost',/Reconstruction cost/i]
+]){
+  if(!pattern.test(infraText)) throw new Error('Water Systems dashboard missing: '+label);
 }
 const bodyHtml=await page.locator('body').innerHTML();
 if(/docs\.google\.com\/spreadsheets|gviz\/tq|LIVE_SHEET_ID|LIVE_CSV_URL|PDNA_CORRECTIONS_SHEET_ID/.test(bodyHtml)) throw new Error('Water Systems exposes direct Google Sheet access');

@@ -1,0 +1,20 @@
+[
+  {
+    "source_id": "C01",
+    "layer": "Health facilities",
+    "source_dataset": "HOT/OSM Nepal flood health facilities extract",
+    "reference_date": "27 Sep 2026",
+    "use": "Context overlay on Overview map; not used in Need Score.",
+    "records": 5,
+    "limitation": "OSM/HOT mapped facilities are contextual and not an authoritative health-facility master list."
+  },
+  {
+    "source_id": "C02",
+    "layer": "Education facilities",
+    "source_dataset": "HOT/OSM Nepal flood education facilities extract",
+    "reference_date": "27 Sep 2026",
+    "use": "Context overlay on Overview map; not used in Need Score.",
+    "records": 60,
+    "limitation": "OSM/HOT mapped facilities are contextual and not an authoritative education-facility master list; source status fields are shown as provided."
+  }
+]

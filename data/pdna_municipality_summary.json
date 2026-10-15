@@ -7,7 +7,7 @@
     "assessment_records": 26,
     "unique_assets": 26,
     "beneficiary_population_sum_not_deduped": 115114,
-    "physical_damage_score": null,
+    "physical_damage_score": 3.730769230769231,
     "water_access_service_score": 4.538461538461538,
     "water_quality_safety_score": 4,
     "p2_observed": 4.269230769230769,
@@ -15,9 +15,27 @@
     "reconstruction_cost_npr_sum": 429000000,
     "physical_damage_cost_npr_sum": 45000000,
     "total_cost_npr_sum": 45000000,
-    "damage_grade_counts": {},
-    "site_safety_counts": {},
-    "primary_action_counts": {},
+    "damage_grade_counts": {
+      "D2": 3,
+      "D3": 3,
+      "D4": 9,
+      "D1": 1,
+      "D5": 9,
+      "D0": 1
+    },
+    "site_safety_counts": {
+      "S3": 13,
+      "S1": 2,
+      "S4": 10,
+      "S5": 1
+    },
+    "primary_action_counts": {
+      "R2": 2,
+      "R3": 3,
+      "R9": 6,
+      "R5": 14,
+      "R4": 1
+    },
     "priority_counts": {
       "P3": 25,
       "P4": 1
@@ -37,7 +55,7 @@
     "assessment_records": 6,
     "unique_assets": 6,
     "beneficiary_population_sum_not_deduped": 6970,
-    "physical_damage_score": null,
+    "physical_damage_score": 2.8333333333333335,
     "water_access_service_score": 4,
     "water_quality_safety_score": 4.333333333333333,
     "p2_observed": 4.166666666666666,
@@ -45,9 +63,18 @@
     "reconstruction_cost_npr_sum": 35500000,
     "physical_damage_cost_npr_sum": 38000000,
     "total_cost_npr_sum": 30000001,
-    "damage_grade_counts": {},
-    "site_safety_counts": {},
-    "primary_action_counts": {},
+    "damage_grade_counts": {
+      "D3": 5,
+      "D2": 1
+    },
+    "site_safety_counts": {
+      "S3": 2,
+      "S4": 4
+    },
+    "primary_action_counts": {
+      "R4": 2,
+      "R3": 4
+    },
     "priority_counts": {
       "P3": 2,
       "P2": 4
@@ -67,7 +94,7 @@
     "assessment_records": 10,
     "unique_assets": 10,
     "beneficiary_population_sum_not_deduped": 6750,
-    "physical_damage_score": null,
+    "physical_damage_score": 3.3,
     "water_access_service_score": 4.4,
     "water_quality_safety_score": 4.4,
     "p2_observed": 4.4,
@@ -75,9 +102,21 @@
     "reconstruction_cost_npr_sum": 83860000,
     "physical_damage_cost_npr_sum": 73860000,
     "total_cost_npr_sum": 70000000,
-    "damage_grade_counts": {},
-    "site_safety_counts": {},
-    "primary_action_counts": {},
+    "damage_grade_counts": {
+      "D2": 3,
+      "D4": 6,
+      "D3": 1
+    },
+    "site_safety_counts": {
+      "S2": 1,
+      "S3": 5,
+      "S4": 2,
+      "S1": 2
+    },
+    "primary_action_counts": {
+      "R4": 3,
+      "R9": 7
+    },
     "priority_counts": {
       "P3": 10
     },
@@ -96,7 +135,7 @@
     "assessment_records": 8,
     "unique_assets": 8,
     "beneficiary_population_sum_not_deduped": 3101,
-    "physical_damage_score": null,
+    "physical_damage_score": 3.5,
     "water_access_service_score": 3.875,
     "water_quality_safety_score": 3.5,
     "p2_observed": 3.6875,
@@ -104,9 +143,17 @@
     "reconstruction_cost_npr_sum": 23500000,
     "physical_damage_cost_npr_sum": 23500000,
     "total_cost_npr_sum": 29000000,
-    "damage_grade_counts": {},
-    "site_safety_counts": {},
-    "primary_action_counts": {},
+    "damage_grade_counts": {
+      "D4": 4,
+      "D3": 4
+    },
+    "site_safety_counts": {
+      "S2": 8
+    },
+    "primary_action_counts": {
+      "R4": 2,
+      "R3": 6
+    },
     "priority_counts": {
       "P4": 1,
       "P3": 7
@@ -126,7 +173,7 @@
     "assessment_records": 10,
     "unique_assets": 10,
     "beneficiary_population_sum_not_deduped": 6111,
-    "physical_damage_score": null,
+    "physical_damage_score": 2.3,
     "water_access_service_score": 3.3,
     "water_quality_safety_score": 4.3,
     "p2_observed": 3.8,
@@ -134,9 +181,20 @@
     "reconstruction_cost_npr_sum": 147000000,
     "physical_damage_cost_npr_sum": 67000000,
     "total_cost_npr_sum": 67000000,
-    "damage_grade_counts": {},
-    "site_safety_counts": {},
-    "primary_action_counts": {},
+    "damage_grade_counts": {
+      "D4": 1,
+      "D2": 8,
+      "D3": 1
+    },
+    "site_safety_counts": {
+      "S3": 3,
+      "S2": 7
+    },
+    "primary_action_counts": {
+      "R9": 3,
+      "R3": 6,
+      "R6": 1
+    },
     "priority_counts": {
       "P3": 5,
       "P2": 5
@@ -210,7 +268,7 @@
     "assessment_records": 10,
     "unique_assets": 10,
     "beneficiary_population_sum_not_deduped": 4750,
-    "physical_damage_score": null,
+    "physical_damage_score": 3.6,
     "water_access_service_score": 3.2,
     "water_quality_safety_score": 2.9,
     "p2_observed": 3.05,
@@ -218,9 +276,18 @@
     "reconstruction_cost_npr_sum": 102500000,
     "physical_damage_cost_npr_sum": 55500000,
     "total_cost_npr_sum": 102500000,
-    "damage_grade_counts": {},
-    "site_safety_counts": {},
-    "primary_action_counts": {},
+    "damage_grade_counts": {
+      "D5": 3,
+      "D3": 7
+    },
+    "site_safety_counts": {
+      "S4": 1,
+      "S2": 9
+    },
+    "primary_action_counts": {
+      "R5": 3,
+      "R3": 7
+    },
     "priority_counts": {
       "P3": 4,
       "P2": 6
@@ -240,7 +307,7 @@
     "assessment_records": 5,
     "unique_assets": 5,
     "beneficiary_population_sum_not_deduped": 1350,
-    "physical_damage_score": null,
+    "physical_damage_score": 3.4,
     "water_access_service_score": 5,
     "water_quality_safety_score": 4.8,
     "p2_observed": 4.9,
@@ -248,16 +315,25 @@
     "reconstruction_cost_npr_sum": 106500000,
     "physical_damage_cost_npr_sum": 106500000,
     "total_cost_npr_sum": 106500000,
-    "damage_grade_counts": {},
-    "site_safety_counts": {},
-    "primary_action_counts": {},
+    "damage_grade_counts": {
+      "D1": 1,
+      "D4": 4
+    },
+    "site_safety_counts": {
+      "S2": 1,
+      "S3": 4
+    },
+    "primary_action_counts": {
+      "R3": 1,
+      "R9": 4
+    },
     "priority_counts": {
       "P3": 5
     },
-    "p1": 3,
+    "p1": 3.12,
     "p2": 3.856215989953956,
     "p3": 2.8,
-    "need_score": 3.216864796986187,
+    "need_score": 3.2768647969861866,
     "severity_class": "High",
     "rank": 9
   },
@@ -269,7 +345,7 @@
     "assessment_records": 12,
     "unique_assets": 12,
     "beneficiary_population_sum_not_deduped": 2655,
-    "physical_damage_score": null,
+    "physical_damage_score": 3.1666666666666665,
     "water_access_service_score": 3.9166666666666665,
     "water_quality_safety_score": 4,
     "p2_observed": 3.958333333333333,
@@ -277,17 +353,28 @@
     "reconstruction_cost_npr_sum": 61000000,
     "physical_damage_cost_npr_sum": 63000000,
     "total_cost_npr_sum": 52999999,
-    "damage_grade_counts": {},
-    "site_safety_counts": {},
-    "primary_action_counts": {},
+    "damage_grade_counts": {
+      "D3": 11,
+      "D5": 1
+    },
+    "site_safety_counts": {
+      "S3": 2,
+      "S2": 4,
+      "S4": 6
+    },
+    "primary_action_counts": {
+      "R4": 3,
+      "R5": 1,
+      "R3": 8
+    },
     "priority_counts": {
       "P2": 11,
       "P3": 1
     },
-    "p1": 3.4,
+    "p1": 3.4499999999999997,
     "p2": 2.9845294706544863,
     "p3": 2.25,
-    "need_score": 3.045358841196346,
+    "need_score": 3.070358841196346,
     "severity_class": "High",
     "rank": 10
   },
@@ -299,7 +386,7 @@
     "assessment_records": 1,
     "unique_assets": 1,
     "beneficiary_population_sum_not_deduped": 536,
-    "physical_damage_score": null,
+    "physical_damage_score": 3,
     "water_access_service_score": 3,
     "water_quality_safety_score": 1,
     "p2_observed": 2,
@@ -307,16 +394,22 @@
     "reconstruction_cost_npr_sum": 5000000,
     "physical_damage_cost_npr_sum": 4999997,
     "total_cost_npr_sum": 0,
-    "damage_grade_counts": {},
-    "site_safety_counts": {},
-    "primary_action_counts": {},
+    "damage_grade_counts": {
+      "D3": 1
+    },
+    "site_safety_counts": {
+      "S2": 1
+    },
+    "primary_action_counts": {
+      "R5": 1
+    },
     "priority_counts": {
       "P3": 1
     },
-    "p1": 2,
+    "p1": 2.3,
     "p2": 2.5,
     "p3": 2.8,
-    "need_score": 2.31,
+    "need_score": 2.46,
     "severity_class": "Moderate",
     "rank": 11
   },
@@ -328,7 +421,7 @@
     "assessment_records": 2,
     "unique_assets": 2,
     "beneficiary_population_sum_not_deduped": 800,
-    "physical_damage_score": null,
+    "physical_damage_score": 2,
     "water_access_service_score": 3,
     "water_quality_safety_score": 1,
     "p2_observed": 2,
@@ -336,9 +429,16 @@
     "reconstruction_cost_npr_sum": 0,
     "physical_damage_cost_npr_sum": 0,
     "total_cost_npr_sum": 0,
-    "damage_grade_counts": {},
-    "site_safety_counts": {},
-    "primary_action_counts": {},
+    "damage_grade_counts": {
+      "D2": 2
+    },
+    "site_safety_counts": {
+      "S1": 1,
+      "S2": 1
+    },
+    "primary_action_counts": {
+      "R4": 2
+    },
     "priority_counts": {
       "P2": 1,
       "P3": 1

@@ -71,8 +71,8 @@ for(const [label,pattern] of [
 await page.locator('.tab[data-view="map"]').click();
 const layers=await page.locator('#layer-list').innerText();
 if(!/Health facilities/i.test(layers)||!/Education facilities/i.test(layers)) throw new Error('Overview facility layers are missing');
-await page.getByText('Health facilities',{exact:true}).click();
-await page.getByText('Education facilities',{exact:true}).click();
+await page.locator('input[data-layer="health"]').check();
+await page.locator('input[data-layer="education"]').check();
 await page.waitForTimeout(150);
 
 // Water Systems must use the publication-safe PDNA90 files and never retrieve Google Sheets.

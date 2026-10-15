@@ -121,7 +121,9 @@ function renderKPIs(){
 }
 function counts(field,order=[]){const o={};state.filtered.forEach(x=>{const k=x[field]||'Unknown';o[k]=(o[k]||0)+1});const keys=[...order.filter(k=>o[k]!=null),...Object.keys(o).filter(k=>!order.includes(k)).sort()];return keys.map(k=>[k,o[k]])}
 function donutHTML(items,palette){
- const total=items.reduce((s,[,v])=>s+v,0)||1;let cur=0;const stops=[];
+ const total=items.reduce((s,[,v])=>s+v,0);
+ if(!total) return '<p style="padding:35px 10px;text-align:center">No schemes match the current filters.</p>';
+ let cur=0;const stops=[];
  items.forEach(([k,v],i)=>{const start=cur/total*360;cur+=v;const end=cur/total*360;stops.push((palette[k]||['#009999','#2C7FB8','#FFB340','#E36159','#B2182B','#7A5AA6'][i%6])+' '+start+'deg '+end+'deg')});
  return '<div class="donut-layout"><div style="position:relative"><div class="donut" style="background:conic-gradient('+stops.join(',')+')"></div><div class="donut-center">'+total+'<small>schemes</small></div></div><div class="chart-legend">'+items.map(([k,v],i)=>'<div class="legend-row"><span class="legend-left"><span class="swatch" style="background:'+(palette[k]||['#009999','#2C7FB8','#FFB340','#E36159','#B2182B','#7A5AA6'][i%6])+'"></span>'+esc(k)+'</span><b>'+v+'</b></div>').join('')+'</div></div>';
 }

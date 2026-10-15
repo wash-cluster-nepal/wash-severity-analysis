@@ -29,10 +29,11 @@
     "record_key": "asset_id",
     "join_key": "ADM3_PCODE",
     "public": false,
-    "connection": "Configured outside the public repository through PDNA_CORRECTIONS_SHEET_ID.",
+    "connection": "Configured outside the public repository through the established PDNA_INTEGRATED_SHEET_ID.",
     "publication_output": "Publication-safe municipality aggregate and 90-scheme dashboard extract.",
-    "source_tab": "corrections",
-    "record_count": 90
+    "source_tab": "09_Corrections_90",
+    "record_count": 90,
+    "source_note": "Curated 90-scheme publication/scoring input derived from the 9 Oct 2026 corrections workbook; includes w9.reconstructionCost from original Excel column GR."
   },
   "pdna_point_gis": {
     "name": "Nepal Flood 2026 - PDNA Point GIS Source",

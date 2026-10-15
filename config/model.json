@@ -1,5 +1,5 @@
 {
-  "modelVersion": "WASH_SEVERITY_V15_LOCKED",
+  "modelVersion": "WASH_SEVERITY_V16_PDNA90",
   "officialWeights": {
     "p1": 0.5,
     "p2": 0.3,
@@ -36,7 +36,8 @@
     "p1": {
       "name": "Flood Impact & WSS Damage",
       "weight": 0.5,
-      "method": "P1 uses affected-population impact and, where PDNA data are available, water-supply-system impact. Within P1, affected-population impact contributes 40% and WSS impact contributes 60%."
+      "method": "P1 uses affected-population impact and, where PDNA data are available, water-supply-system impact. Within P1, affected-population impact contributes 40% and WSS impact contributes 60%.",
+      "description": "Affected-population impact (40%) plus PDNA WSS impact (60%) where current PDNA exists. WSS impact combines non-deduplicated beneficiary magnitude/share with physical damage D0–D5."
     },
     "p2": {
       "name": "Current WASH Conditions",
@@ -47,7 +48,8 @@
         "Water access & service continuity",
         "Water quality & safety"
       ],
-      "pendingDomain": "Sanitation & hygiene"
+      "pendingDomain": "Sanitation & hygiene",
+      "description": "Current WASH conditions from PDNA service status and water quality/public-health safety. Municipality evidence is moderated by an affected-population coverage proxy; no-PDNA municipalities retain provisional 2.5."
     },
     "p3": {
       "name": "Vulnerability & Aggravating Factors",
@@ -61,10 +63,9 @@
     }
   },
   "cautions": [
-    "PDNA WSS beneficiary populations may overlap between schemes and are not treated as unique people.",
-    "The PDNA coverage adjustment compares assessed WSS beneficiary population with affected population and is capped at 100%.",
     "Physical damage is used in P1; service functionality is used in P2 to avoid double counting.",
-    "A provisional P2 of 2.5 is used only where current PDNA data are unavailable."
+    "PDNA scheme beneficiary populations may overlap and are used as a scale/coverage proxy, not unique people.",
+    "PDNA reconstruction cost uses corrected w9.reconstructionCost (Excel column GR)."
   ],
   "componentClasses": [
     {
@@ -93,5 +94,12 @@
       "level": 1
     }
   ],
-  "componentClassNote": "Component/pillar classes use the established five-point component bands. Final severity uses absoluteClasses only."
+  "componentClassNote": "Component/pillar classes use the established five-point component bands. Final severity uses absoluteClasses only.",
+  "generatedDate": "2026-10-15",
+  "pdnaVersion": {
+    "source": "PDNA corrections sheet",
+    "recordCount": 90,
+    "sourceDate": "2026-10-09",
+    "reconstructionCostField": "w9.reconstructionCost (Excel column GR)"
+  }
 }

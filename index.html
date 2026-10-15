@@ -235,6 +235,12 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
         </article>
 
         <article class="info-card">
+          <h3>Context map sources</h3>
+          <p>These layers support operational interpretation but do not contribute to the Need Score.</p>
+          <div id="context-source-list" class="source-list"></div>
+        </article>
+
+        <article class="info-card">
           <h3>Important interpretation notes</h3>
           <p><strong>People affected</strong> and <strong>population residing in affected wards</strong> are different measures and are shown separately. The latter should not be interpreted as the number of people affected. Municipality-level WASH-specific People in Need are not invented where no separate source exists.</p>
           <p style="margin-top:8px">Holding-centre information is site-level evidence and should not be treated as a complete municipality-wide assessment. The current WASH component remains provisional and should be updated as more systematic field evidence becomes available.</p>
@@ -298,7 +304,7 @@ async function boot(){
       health:'data/health_facilities.json',
       education:'data/education_facilities.json'
     };
-    const optional={evidence:'data/current_wash_evidence.json',sources:'data/source_registry.json'};
+    const optional={evidence:'data/current_wash_evidence.json',sources:'data/source_registry.json',contextSources:'data/context_source_registry.json'};
     for(const [k,url] of Object.entries(mandatory)){
       try{ DATA[k]=await fetchJSON(url); }
       catch(err){ throw new Error(`Required dataset failed: ${url} — ${err.message}`); }
@@ -951,8 +957,10 @@ function setupAnalysisFilters(){
   }
 }
 function renderAboutSources(){
-  const root=document.getElementById('about-source-list'); if(!root)return;
-  root.innerHTML=(DATA.sources||[]).map(x=>`<div class="source-row"><strong>${esc(safe(x.indicators_used||x.source_dataset))}</strong><br><span>${esc(safe(x.source_organization||''))}${x.source_dataset?` — ${esc(safe(x.source_dataset))}`:''}</span>${x.reference_date?` · ${esc(safe(x.reference_date))}`:''}${x.use_in_analysis?`<br><span>${esc(safe(x.use_in_analysis))}</span>`:''}</div>`).join('');
+  const root=document.getElementById('about-source-list');
+  if(root) root.innerHTML=(DATA.sources||[]).map(x=>`<div class="source-row"><strong>${esc(safe(x.indicators_used||x.source_dataset))}</strong><br><span>${esc(safe(x.source_organization||''))}${x.source_dataset?` — ${esc(safe(x.source_dataset))}`:''}</span>${x.reference_date?` · ${esc(safe(x.reference_date))}`:''}${x.use_in_analysis?`<br><span>${esc(safe(x.use_in_analysis))}</span>`:''}</div>`).join('');
+  const ctx=document.getElementById('context-source-list');
+  if(ctx) ctx.innerHTML=(DATA.contextSources||[]).map(x=>`<div class="source-row"><strong>${esc(safe(x.layer))}</strong><br><span>${esc(safe(x.source_dataset))} · ${esc(safe(x.reference_date))}</span><br><span>${esc(safe(x.use))}</span>${x.limitation?`<br><span>${esc(safe(x.limitation))}</span>`:''}</div>`).join('');
 }
 function renderAnalysis(){
   if(!DATA.profiles) return;

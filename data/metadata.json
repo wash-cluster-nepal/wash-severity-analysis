@@ -3,22 +3,25 @@
   "institution": "Nepal WASH Cluster",
   "repository": "wash-cluster-nepal/wash-severity-analysis",
   "pages_url": "https://wash-cluster-nepal.github.io/wash-severity-analysis/",
-  "model_version": "WASH_SEVERITY_V15_LOCKED",
+  "model_version": "WASH_SEVERITY_V16_PDNA90",
   "analysis_source": "Nepal Flood WASH Severity Analysis - Master Data",
-  "generated_date": "2026-10-07",
+  "generated_date": "2026-10-15",
   "affected_municipalities": 17,
   "five_w_status": "not_ingested_in_v1",
   "publication_mode": "manual_validated_sync",
   "notes": [
     "Official model weights: P1 50%, P2 30%, P3 20%.",
     "P2 is a broader Current WASH Conditions pillar covering water access/service continuity, water quality/safety and sanitation/hygiene.",
-    "Current PDNA data support municipality-level scoring for water access/service continuity and water quality/safety. Sanitation/hygiene remains a data gap and is not currently scored.",
-    "Municipalities without current PDNA data use a provisional P2 of 2.5 and are flagged as lower-confidence evidence.",
     "Final severity classes: Very High >3.5; High 3.0–3.5; Moderate 2.25–<3.0; Low 1.75–<2.25; Minimal <1.75.",
     "Context fields for children and households in hard-hit areas come from the response 'Total Affected' compilation where available.",
     "Exact PDNA infrastructure coordinates remain non-public.",
-    "Analytical-framework sources are documented in data/source_registry.json and displayed in the About page."
+    "Analytical-framework sources are documented in data/source_registry.json and displayed in the About page.",
+    "Current PDNA evidence is based on the 90-scheme corrections dataset dated 9 Oct 2026; ten municipalities have direct or limited PDNA evidence.",
+    "PDNA reconstruction cost uses corrected w9.reconstructionCost (Excel column GR)."
   ],
   "operational_source_connections": "Configured outside the public repository.",
-  "pdna_publication": "Municipality-level aggregate only; exact scheme coordinates remain non-public."
+  "pdna_publication": "Municipality-level aggregate only; exact scheme coordinates remain non-public.",
+  "pdna_version": "90-scheme corrections dataset, 9 Oct 2026",
+  "pdna_records": 90,
+  "pdna_municipalities": 10
 }

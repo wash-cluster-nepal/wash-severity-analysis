@@ -29,8 +29,8 @@
     "record_key": "asset_id",
     "join_key": "ADM3_PCODE",
     "public": false,
-    "connection": "Configured outside the public repository for authorised pipeline/runtime use.",
-    "publication_output": "data/pdna_municipality_summary.json and publication-safe data/pdna_water_systems.json",
+    "connection": "Configured outside the public repository through PDNA_CORRECTIONS_SHEET_ID.",
+    "publication_output": "Publication-safe municipality aggregate and 90-scheme dashboard extract.",
     "source_tab": "corrections",
     "record_count": 90
   },
@@ -46,5 +46,15 @@
   "five_w": {
     "status": "not_configured",
     "note": "Authoritative consolidated 5W source to be selected before integration."
+  },
+  "pdna_public_extract": {
+    "name": "PDNA90 publication-safe water-system extract",
+    "output": "data/pdna_water_systems.json",
+    "record_count": 90,
+    "mapped_records": 82,
+    "public": true,
+    "contains_coordinates": true,
+    "excluded_fields": "Assessor names, contact names/numbers, collector details and other non-public source fields.",
+    "publication_rule": "Generated only through the manually triggered validated publication workflow."
   }
 }

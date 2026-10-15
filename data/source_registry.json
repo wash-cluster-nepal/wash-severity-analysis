@@ -20,13 +20,13 @@
   },
   {
     "source_id": "A03",
-    "source_dataset": "PDNA WASH infrastructure assessment data",
+    "source_dataset": "PDNA WASH infrastructure assessment — 90-scheme corrections dataset",
     "source_organization": "PDNA WASH assessment / Government water-sector assessment process",
-    "reference_date": "Sep–Oct 2026",
+    "reference_date": "9 Oct 2026",
     "geographic_level": "Water-supply system / municipality",
-    "indicators_used": "WSS beneficiary population; physical damage; current service status; drinking-water safety/public-health",
-    "use_in_analysis": "P1 WSS impact and P2 current WASH conditions.",
-    "key_limitation": "Water-system beneficiary figures may overlap between schemes; ratios are capped at 100% where used for scoring."
+    "indicators_used": "WSS beneficiary population; D0–D5 physical damage; current service status; drinking-water safety/service-public-health safety",
+    "use_in_analysis": "P1 WSS impact and P2 current WASH conditions under the v16 PDNA90 methodology.",
+    "key_limitation": "Scheme beneficiary populations may overlap. They are used as a scale/evidence proxy; P2 coverage ratios are capped at 100%. Scheme coordinates are used only in the separate publication-safe Water Systems dashboard."
   },
   {
     "source_id": "A04",

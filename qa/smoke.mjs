@@ -75,28 +75,38 @@ await page.locator('input[data-layer="health"]').check();
 await page.locator('input[data-layer="education"]').check();
 await page.waitForTimeout(150);
 
-// Water Systems must use the publication-safe PDNA90 files and never retrieve Google Sheets.
+// Water Systems publication dashboard.
 await page.goto('http://127.0.0.1:8000/infrastructure.html',{waitUntil:'domcontentloaded'});
-await page.waitForFunction(() => /90 schemes/i.test(document.querySelector('#status')?.textContent||''),{timeout:10000});
+await page.waitForFunction(() => /90 assessed water-supply schemes/i.test(document.querySelector('#status')?.textContent||''),{timeout:10000});
 const infraText=await page.locator('body').innerText();
-if(!/90 schemes/i.test(infraText)) throw new Error('Water Systems does not report the PDNA90 dataset');
-for(const [label,pattern] of [
-  ['Physical damage D0–D5',/Physical damage[\s·:-]*D0[–-]D5/i],
-  ['Site safety S1–S5',/Site safety[\s·:-]*S1[–-]S5/i],
-  ['Primary recommended action',/Primary recommended action/i],
-  ['Current service status',/Current service status/i],
-  ['Reconstruction cost',/Reconstruction cost/i]
-]){
-  if(!pattern.test(infraText)) throw new Error('Water Systems dashboard missing: '+label);
+for(const phrase of ['Water-supply schemes','Beneficiary population','Reconstruction cost','Condition profile','Where the burden is concentrated','Classification key']){
+  if(!infraText.includes(phrase)) throw new Error('Water Systems dashboard missing: '+phrase);
 }
 const bodyHtml=await page.locator('body').innerHTML();
 if(/docs\.google\.com\/spreadsheets|gviz\/tq|LIVE_SHEET_ID|LIVE_CSV_URL|PDNA_CORRECTIONS_SHEET_ID/.test(bodyHtml)) throw new Error('Water Systems exposes direct Google Sheet access');
 for(const href of ['index.html#overview','index.html#severity','index.html#methodology']){
   if(!bodyHtml.includes('href="'+href+'"')) throw new Error('Water Systems navigation missing '+href);
 }
-if(await page.locator('#kpis .kpi').count()<5) throw new Error('Water Systems KPI cards did not render');
-if(await page.locator('#damage-chart .donut').count()!==1) throw new Error('Damage donut did not render');
-if(await page.locator('#safety-chart .donut').count()!==1) throw new Error('Site-safety donut did not render');
+if(await page.locator('#kpis .kpi').count()!==4) throw new Error('Water Systems should render exactly four KPI cards');
+if(await page.locator('#municipality-indicator option').count()!==3) throw new Error('Municipality indicator selector should contain exactly three options');
+if(await page.locator('#point-size option').count()!==2) throw new Error('Point size selector should contain exactly two options');
+if(!/D0/.test(await page.locator('#classification-key').innerText())||!/D5/.test(await page.locator('#classification-key').innerText())) throw new Error('D0–D5 definitions are missing');
+await page.selectOption('#condition-variable','site_safety_grade');
+await page.waitForTimeout(100);
+const classKey=await page.locator('#classification-key').innerText();
+if(!/S1/.test(classKey)||!/S5/.test(classKey)) throw new Error('S1–S5 definitions are missing');
+await page.selectOption('#condition-variable','damage_grade');
+const firstSegment=page.locator('#condition-chart .segment-btn').first();
+await firstSegment.click();
+await page.waitForTimeout(100);
+if(!/Showing/.test(await page.locator('#breakdown-note').innerText())) throw new Error('Geographic breakdown did not respond to condition selection');
+await page.selectOption('#breakdown-level','district');
+await page.selectOption('#breakdown-measure','reconstruction_cost');
+await page.selectOption('#point-size','reconstruction_cost_npr');
+await page.selectOption('#municipality-indicator','reconstruction_cost');
+await page.locator('#reset-map').click();
+if((await page.locator('#municipality-indicator').inputValue())!=='need_score') throw new Error('Reset map did not restore municipality indicator');
+if((await page.locator('#point-size').inputValue())!=='beneficiary_population') throw new Error('Reset map did not restore point-size variable');
 
 // Deep-link routing on main application.
 await page.goto('http://127.0.0.1:8000/index.html#severity',{waitUntil:'domcontentloaded'});

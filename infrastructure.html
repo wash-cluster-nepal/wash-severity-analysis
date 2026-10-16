@@ -268,8 +268,14 @@ function municipalColorExpression(){
 function updateMap(){
  if(!map.getSource('pdna'))return;
  map.getSource('pdna').setData(geoPoints());
- const pcodes=[...new Set(state.filtered.map(x=>x.adm3_pcode))];
- const f=['in',['get','adm3_pcode'],['literal',pcodes]];
+ let f=null;
+ if(state.municipality){
+   const p=state.profiles.find(x=>x.municipality===state.municipality);
+   if(p) f=['==',['get','adm3_pcode'],p.adm3_pcode];
+ }else if(state.district){
+   const p=state.profiles.find(x=>x.district===state.district);
+   if(p) f=['==',['get','adm2_pcode'],p.adm2_pcode];
+ }
  map.setFilter('municipal-fill',f);map.setFilter('municipal-line',f);
  map.setPaintProperty('municipal-fill','fill-color',municipalColorExpression());
  updatePointStyle();updatePointSize();renderLegend();

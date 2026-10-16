@@ -32,7 +32,7 @@
       "id": "holding",
       "name": "Holding centres",
       "group": "Displacement",
-      "defaultVisible": true,
+      "defaultVisible": false,
       "color": "#532F87"
     },
     {

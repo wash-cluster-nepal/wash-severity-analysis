@@ -69,6 +69,8 @@ for(const [label,pattern] of [
 
 // Overview must expose the new health and education context layers.
 await page.locator('.tab[data-view="map"]').click();
+await page.locator('#reset-map').click();
+await page.waitForTimeout(400);
 const layers=await page.locator('#layer-list').innerText();
 if(!/Health facilities/i.test(layers)||!/Education facilities/i.test(layers)) throw new Error('Overview facility layers are missing');
 if(await page.locator('input[data-layer="holding"]').isChecked()) throw new Error('Holding centres should not be visible by default');

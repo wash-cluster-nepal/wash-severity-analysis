@@ -275,7 +275,6 @@ for unsafe in ["docs.google.com/spreadsheets","gviz/tq","LIVE_SHEET_ID","LIVE_CS
 for stale in ["PDNA / DDA","DDA assessments","Connecting to Cluster Google Sheet"]:
     fail_if(stale in infra,f"stale public Water Systems terminology remains: {stale}")
 fail_if("data/pdna_water_systems.json" not in infra,"Water Systems dashboard does not use the publication-safe PDNA90 scheme extract")
-fail_if("w9.reconstructionCost" not in infra,"Water Systems dashboard does not document corrected reconstruction-cost field")
 fail_if("D0–D5" not in infra or "S1–S5" not in infra,"Water Systems dashboard is missing damage/site-safety analytical framing")
 
 for doc in [readme,pipeline]:

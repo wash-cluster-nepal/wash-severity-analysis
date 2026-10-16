@@ -116,8 +116,8 @@ for(const href of ['index.html#overview','index.html#severity','index.html#metho
   if(!bodyHtml.includes('href="'+href+'"')) throw new Error('Water Systems navigation missing '+href);
 }
 if(await page.locator('#kpis .kpi').count()!==4) throw new Error('Water Systems should render exactly four KPI cards');
-await page.waitForFunction(() => window.map && map.isStyleLoaded && map.isStyleLoaded(),{timeout:10000});
-await page.waitForTimeout(700);
+await page.waitForFunction(() => window.map && map.getSource && map.getSource('pdna') && map.getSource('municipal') && map.getLayer('pdna-points') && map.getLayer('municipal-fill'),{timeout:15000});
+await page.waitForTimeout(500);
 const rendered=await page.evaluate(() => ({
   points: map.queryRenderedFeatures({layers:['pdna-points']}).length,
   polygons: map.queryRenderedFeatures({layers:['municipal-fill']}).length

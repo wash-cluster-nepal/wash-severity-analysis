@@ -239,9 +239,9 @@ function mapPointRows(){
 }
 function geoPoints(){return{type:'FeatureCollection',features:mapPointRows().filter(x=>x.latitude!=null&&x.longitude!=null).map(x=>({type:'Feature',geometry:{type:'Point',coordinates:[x.longitude,x.latitude]},properties:x}))}}
 function clearMapLegendFilters(){state.mapMunicipalLegendFilter=null;state.mapPointLegendFilter=null;state.mapSizeLegendFilter=null;}
-function aggregateForMap(){
+function aggregateForMap(rows=state.systems){
  const out=new Map(state.profiles.map(p=>[p.adm3_pcode,{need_score:Number(p.need_score),municipality:p.municipality,district:p.district,beneficiary_population:0,reconstruction_cost:0}]));
- state.systems.forEach(x=>{const a=out.get(x.adm3_pcode);if(!a)return;a.beneficiary_population+=Number(x.beneficiary_population)||0;a.reconstruction_cost+=Number(x.reconstruction_cost_npr)||0});
+ rows.forEach(x=>{const a=out.get(x.adm3_pcode);if(!a)return;a.beneficiary_population+=Number(x.beneficiary_population)||0;a.reconstruction_cost+=Number(x.reconstruction_cost_npr)||0});
  return out;
 }
 function initMap(){
@@ -266,7 +266,7 @@ function fitFiltered(){
  if(n)map.fitBounds(b,{padding:55,maxZoom:11,duration:300});
 }
 function currentMunicipalRows(){
- const pcodeSet=new Set(state.filtered.map(x=>x.adm3_pcode));const agg=aggregateForMap();return [...agg.entries()].filter(([pc])=>pcodeSet.has(pc)).map(([pc,v])=>({pcode:pc,...v}))
+ const pcodeSet=new Set(state.filtered.map(x=>x.adm3_pcode));const agg=aggregateForMap(state.filtered);return [...agg.entries()].filter(([pc])=>pcodeSet.has(pc)).map(([pc,v])=>({pcode:pc,...v}))
 }
 function scaleBreaks(values,n=4){
  const a=values.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length)return [0,1,2,3];
@@ -314,6 +314,13 @@ function municipalLegendExpression(bin){
 function updateMap(){
  if(!map.getSource('pdna'))return;
  map.getSource('pdna').setData(geoPoints());
+ const filteredAgg=aggregateForMap(state.filtered);
+ state.adm3.features.forEach(f=>{
+   const pcode=f.properties.adm3_pcode,a=filteredAgg.get(pcode);
+   f.properties.beneficiary_population=a?Number(a.beneficiary_population||0):0;
+   f.properties.reconstruction_cost=a?Number(a.reconstruction_cost||0):0;
+ });
+ map.getSource('municipal').setData(state.adm3);
  const base=baseMunicipalFilter();
  const selectedBin=state.mapMunicipalLegendFilter?municipalLegendBins().find(x=>x.key===state.mapMunicipalLegendFilter):null;
  const lf=selectedBin?municipalLegendExpression(selectedBin):null;

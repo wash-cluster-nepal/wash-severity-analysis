@@ -235,10 +235,6 @@ if isinstance(source_cfg,dict):
     fail_if(public_extract.get("record_count")!=90,"PDNA90 public extract record count must be 90")
     fail_if(public_extract.get("mapped_records")!=82,"PDNA90 mapped-record count must be 82")
 
-if isinstance(layers_config,dict):
-    holding_cfg=next((x for x in layers_config.get("layers",[]) if x.get("id")=="holding"),None)
-    fail_if(not holding_cfg or holding_cfg.get("defaultVisible") is not False,"Holding centres must not be default-visible")
-
 # Frontend / documentation regressions.
 html=text("index.html")
 infra=text("infrastructure.html")
@@ -248,6 +244,10 @@ smoke=text("qa/smoke.mjs")
 source_config_text=text("config/data-sources.json")
 layers_config=load("config/layers.json")
 metadata_text=text("data/metadata.json")
+
+if isinstance(layers_config,dict):
+    holding_cfg=next((x for x in layers_config.get("layers",[]) if x.get("id")=="holding"),None)
+    fail_if(not holding_cfg or holding_cfg.get("defaultVisible") is not False,"Holding centres must not be default-visible")
 
 # Public repository must not expose direct operational Google Sheet connections.
 for public_text,label in [

@@ -260,7 +260,7 @@ const state = {
   analysisFilter: { query:'', district:'', priority:'' },
   district: '',
   municipality: '',
-  visibleLayers: new Set(['adm3','flood','holding']),
+  visibleLayers: new Set(['adm3','flood']),
   mapIndicator: 'priority',
   scenario: new Map()
 };
@@ -487,12 +487,20 @@ function initialiseMap(){
   map.addLayer({id:'health-circle',type:'circle',source:'health',layout:{visibility:'none'},paint:{
     'circle-radius':6,'circle-color':'#D73027','circle-opacity':.92,'circle-stroke-color':'#fff','circle-stroke-width':1.4
   }});
+  map.addLayer({id:'health-label',type:'symbol',source:'health',minzoom:7.2,layout:{
+    visibility:'none','text-field':['coalesce',['get','name_latin'],['get','label'],['get','name_en'],['get','name'],['get','name_ne'],'Health facility'],
+    'text-size':10.5,'text-offset':[0,1.15],'text-anchor':'top','text-optional':true
+  },paint:{'text-color':'#7A1E18','text-halo-color':'#ffffff','text-halo-width':1.2}});
   map.addSource('education',{type:'geojson',data:educationGeo});
   map.addLayer({id:'education-circle',type:'circle',source:'education',layout:{visibility:'none'},paint:{
     'circle-radius':6,
     'circle-color':['case',['==',['downcase',['coalesce',['get','status'],'']], 'destroyed'],'#B2182B','#2C7FB8'],
     'circle-opacity':.9,'circle-stroke-color':'#fff','circle-stroke-width':1.3
   }});
+  map.addLayer({id:'education-label',type:'symbol',source:'education',minzoom:7.2,layout:{
+    visibility:'none','text-field':['coalesce',['get','name_latin'],['get','label'],['get','name_en'],['get','name'],['get','name_ne'],'Education facility'],
+    'text-size':10.5,'text-offset':[0,1.15],'text-anchor':'top','text-optional':true
+  },paint:{'text-color':'#174A70','text-halo-color':'#ffffff','text-halo-width':1.2}});
 
   DATA.roads.features.forEach(f=>{
     const c=Number(f.properties.CURR_PHYS);
@@ -514,6 +522,8 @@ function initialiseMap(){
   map.fitBounds(bounds,{padding:{top:42,right:45,bottom:52,left:185},duration:0});
 
   map.on('click','priority-fill',e => {
+    const facilityLayers=['health-circle','health-label','education-circle','education-label'].filter(id=>map.getLayer(id) && map.getLayoutProperty(id,'visibility')!=='none');
+    if(facilityLayers.length && map.queryRenderedFeatures(e.point,{layers:facilityLayers}).length) return;
     const f=e.features?.[0]; if(!f) return;
     selectMunicipality(f.properties.adm3_pcode,true);
   });
@@ -526,7 +536,9 @@ function initialiseMap(){
   map.on('mouseleave','priority-fill',() => {map.getCanvas().style.cursor=''; closeHoverPopup();});
   map.on('click','holding-circle',e => showHoldingPopup(e));
   map.on('click','health-circle',e => showFacilityPopup(e,'Health facility'));
+  map.on('click','health-label',e => showFacilityPopup(e,'Health facility'));
   map.on('click','education-circle',e => showFacilityPopup(e,'Education facility'));
+  map.on('click','education-label',e => showFacilityPopup(e,'Education facility'));
   map.on('click','roads-line',e => showRoadPopup(e));
   applyLayerVisibility();
   applyThematicLayer();
@@ -570,7 +582,7 @@ function showHoldingPopup(e){
 function showFacilityPopup(e,label){
   const p=e.features?.[0]?.properties||{};
   new maplibregl.Popup({maxWidth:'340px'}).setLngLat(e.lngLat).setHTML(
-    `<div class="popup-title">${esc(safe(p.name||label))}</div>
+    `<div class="popup-title">${esc(safe(p.name_latin||p.label||p.name_en||p.name||p.name_ne||label))}</div>
      <div class="popup-sub">${esc(label)} · ${esc(safe(p.district))} · ${esc(safe(p.municipality))}</div>
      <div style="margin-top:6px;font-size:12px;line-height:1.45">Type: <b>${esc(safe(p.type))}</b><br>Status: <b>${esc(safe(p.status))}</b><br><span class="popup-sub">Context layer: HOT/OSM flood facility extract</span></div>`
   ).addTo(map);
@@ -636,7 +648,7 @@ function applyMapFilter(){
   let contextFilter=null;
   if(state.municipality) contextFilter=['==',['get','adm3_pcode'],state.municipality];
   else if(state.district){const match=DATA.profiles.find(x=>x.district===state.district);if(match) contextFilter=['==',['get','adm2_pcode'],match.adm2_pcode];}
-  ['health-circle','education-circle'].forEach(id=>{if(map.getLayer(id))map.setFilter(id,contextFilter);});
+  ['health-circle','health-label','education-circle','education-label'].forEach(id=>{if(map.getLayer(id))map.setFilter(id,contextFilter);});
 }
 function selectMunicipality(pcode,zoom){
   if(state.selectedPcode && map.getSource('adm3')) map.setFeatureState({source:'adm3',id:state.selectedPcode},{selected:false});
@@ -768,7 +780,7 @@ function renderLayerList(){
 }
 function applyLayerVisibility(){
   if(!map.loaded()) return;
-  const mapping={adm3:['adm3-line','adm3-label'],adm4:['adm4-line'],flood:['flood-fill'],holding:['holding-circle'],roads:['roads-line'],health:['health-circle'],education:['education-circle']};
+  const mapping={adm3:['adm3-line','adm3-label'],adm4:['adm4-line'],flood:['flood-fill'],holding:['holding-circle'],roads:['roads-line'],health:['health-circle','health-label'],education:['education-circle','education-label']};
   Object.entries(mapping).forEach(([key,ids])=>ids.forEach(id=>{if(map.getLayer(id)) map.setLayoutProperty(id,'visibility',state.visibleLayers.has(key)?'visible':'none');}));
   renderLegend();
 }

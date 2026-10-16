@@ -250,7 +250,7 @@ function fitFiltered(){
  if(n)map.fitBounds(b,{padding:55,maxZoom:11,duration:300});
 }
 function currentMunicipalRows(){
- const pcodeSet=new Set(state.filtered.map(x=>x.adm3_pcode));const agg=aggregateForMap();return [...agg.entries()].filter(([pc])=>pcodeSet.has(pc)).map(([pc,v])=>({pcode,...v}))
+ const pcodeSet=new Set(state.filtered.map(x=>x.adm3_pcode));const agg=aggregateForMap();return [...agg.entries()].filter(([pc])=>pcodeSet.has(pc)).map(([pc,v])=>({pcode:pc,...v}))
 }
 function scaleBreaks(values,n=4){
  const a=values.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length)return [0,1,2,3];

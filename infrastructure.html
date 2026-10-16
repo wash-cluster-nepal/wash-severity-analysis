@@ -241,7 +241,7 @@ function initMap(){
  updateMap();fitAll();
 }
 function extendBounds(b,c){if(typeof c[0]==='number'){b.extend(c);return}c.forEach(x=>extendBounds(b,x))}
-function fitAll(){if(!map.getSource('municipal'))return;const b=new maplibregl.LngLatBounds();state.adm3.features.forEach(f=>extendBounds(b,f.geometry.coordinates));map.fitBounds(b,{padding:45,maxZoom:10,duration:300})}
+function fitAll(){if(!map.getSource('municipal'))return;const pcodes=new Set(state.systems.map(x=>x.adm3_pcode)),b=new maplibregl.LngLatBounds();let n=0;state.adm3.features.filter(f=>pcodes.has(f.properties.adm3_pcode)).forEach(f=>{extendBounds(b,f.geometry.coordinates);n++});if(n)map.fitBounds(b,{padding:45,maxZoom:10,duration:300})}
 function fitFiltered(){
  if(!map.getSource('municipal'))return;
  if(!state.district&&!state.municipality){fitAll();return}
@@ -255,7 +255,9 @@ function currentMunicipalRows(){
 function scaleBreaks(values,n=4){
  const a=values.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length)return [0,1,2,3];
  const q=p=>a[Math.min(a.length-1,Math.floor((a.length-1)*p))];
- return [q(.25),q(.5),q(.75),a[a.length-1]];
+ const out=[q(.25),q(.5),q(.75),a[a.length-1]];
+ for(let i=1;i<out.length;i++){if(out[i]<=out[i-1])out[i]=out[i-1]+Math.max(1,Math.abs(out[i-1])*.01);}
+ return out;
 }
 function municipalColorExpression(){
  const id=state.municipalityIndicator;
@@ -266,8 +268,11 @@ function municipalColorExpression(){
 function updateMap(){
  if(!map.getSource('pdna'))return;
  map.getSource('pdna').setData(geoPoints());
- let f=null;if(state.municipality){const p=state.profiles.find(x=>x.municipality===state.municipality);if(p)f=['==',['get','adm3_pcode'],p.adm3_pcode]}else if(state.district){const p=state.profiles.find(x=>x.district===state.district);if(p)f=['==',['get','adm2_pcode'],p.adm2_pcode]}
- map.setFilter('municipal-fill',f);map.setFilter('municipal-line',f);map.setPaintProperty('municipal-fill','fill-color',municipalColorExpression());updatePointStyle();updatePointSize();renderLegend();
+ const pcodes=[...new Set(state.filtered.map(x=>x.adm3_pcode))];
+ const f=['in',['get','adm3_pcode'],['literal',pcodes]];
+ map.setFilter('municipal-fill',f);map.setFilter('municipal-line',f);
+ map.setPaintProperty('municipal-fill','fill-color',municipalColorExpression());
+ updatePointStyle();updatePointSize();renderLegend();
 }
 function pointColorExpression(){
  if(state.pointIndicator==='damage_grade')return ['match',['get','damage_grade'],'D0',COLORS.D0,'D1',COLORS.D1,'D2',COLORS.D2,'D3',COLORS.D3,'D4',COLORS.D4,'D5',COLORS.D5,'#7A7D80'];

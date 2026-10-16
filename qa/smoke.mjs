@@ -86,7 +86,8 @@ const schoolClick=await page.evaluate(() => {
   const f=map.queryRenderedFeatures({layers:['education-circle']})[0];
   if(!f) return null;
   const pt=map.project(f.geometry.coordinates);
-  return {x:pt.x,y:pt.y,label:f.properties.name_latin||f.properties.label||f.properties.name};
+  const rect=map.getContainer().getBoundingClientRect();
+  return {x:rect.left+pt.x,y:rect.top+pt.y,label:f.properties.name_latin||f.properties.label||f.properties.name};
 });
 if(!schoolClick) throw new Error('Could not locate an education facility for click test');
 await page.mouse.click(schoolClick.x,schoolClick.y);

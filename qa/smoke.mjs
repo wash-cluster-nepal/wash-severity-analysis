@@ -95,6 +95,14 @@ for(const href of ['index.html#overview','index.html#severity','index.html#metho
   if(!bodyHtml.includes('href="'+href+'"')) throw new Error('Water Systems navigation missing '+href);
 }
 if(await page.locator('#kpis .kpi').count()!==4) throw new Error('Water Systems should render exactly four KPI cards');
+await page.waitForFunction(() => window.map && map.isStyleLoaded && map.isStyleLoaded(),{timeout:10000});
+await page.waitForTimeout(700);
+const rendered=await page.evaluate(() => ({
+  points: map.queryRenderedFeatures({layers:['pdna-points']}).length,
+  polygons: map.queryRenderedFeatures({layers:['municipal-fill']}).length
+}));
+if(rendered.points<1) throw new Error('Water Systems map rendered no WSS points');
+if(rendered.polygons<1) throw new Error('Water Systems map rendered no municipality polygons');
 if(await page.locator('#municipality-indicator option').count()!==3) throw new Error('Municipality indicator selector should contain exactly three options');
 if(await page.locator('#point-size option').count()!==2) throw new Error('Point size selector should contain exactly two options');
 if(!/D0/.test(await page.locator('#classification-key').innerText())||!/D5/.test(await page.locator('#classification-key').innerText())) throw new Error('D0–D5 definitions are missing');

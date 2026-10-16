@@ -71,9 +71,28 @@ for(const [label,pattern] of [
 await page.locator('.tab[data-view="map"]').click();
 const layers=await page.locator('#layer-list').innerText();
 if(!/Health facilities/i.test(layers)||!/Education facilities/i.test(layers)) throw new Error('Overview facility layers are missing');
+if(await page.locator('input[data-layer="holding"]').isChecked()) throw new Error('Holding centres should not be visible by default');
 await page.locator('input[data-layer="health"]').check();
 await page.locator('input[data-layer="education"]').check();
+await page.waitForTimeout(350);
+const facilityRender=await page.evaluate(() => ({
+  educationPoints: map.queryRenderedFeatures({layers:['education-circle']}).length,
+  educationLabels: map.queryRenderedFeatures({layers:['education-label']}).length,
+  healthPoints: map.queryRenderedFeatures({layers:['health-circle']}).length
+}));
+if(facilityRender.educationPoints<1) throw new Error('Education facility points did not render');
+if(facilityRender.educationLabels<1) throw new Error('Education facility Latin-name labels did not render');
+const schoolClick=await page.evaluate(() => {
+  const f=map.queryRenderedFeatures({layers:['education-circle']})[0];
+  if(!f) return null;
+  const pt=map.project(f.geometry.coordinates);
+  return {x:pt.x,y:pt.y,label:f.properties.name_latin||f.properties.label||f.properties.name};
+});
+if(!schoolClick) throw new Error('Could not locate an education facility for click test');
+await page.mouse.click(schoolClick.x,schoolClick.y);
 await page.waitForTimeout(150);
+const popupText=await page.locator('.maplibregl-popup-content').last().innerText();
+if(!popupText.includes(schoolClick.label)) throw new Error('Education facility click did not open facility popup using Latin label');
 
 // Water Systems publication dashboard.
 await page.goto('http://127.0.0.1:8000/infrastructure.html',{waitUntil:'domcontentloaded'});
@@ -105,6 +124,32 @@ if(rendered.points<1) throw new Error('Water Systems map rendered no WSS points'
 if(rendered.polygons<1) throw new Error('Water Systems map rendered no municipality polygons');
 if(await page.locator('#municipality-indicator option').count()!==3) throw new Error('Municipality indicator selector should contain exactly three options');
 if(await page.locator('#point-size option').count()!==2) throw new Error('Point size selector should contain exactly two options');
+if(await page.locator('#damage-filter option').count()!==7) throw new Error('Global D0–D5 damage filter is incomplete');
+if(await page.locator('#breakdown-damage option').count()!==7) throw new Error('Breakdown D0–D5 focus is incomplete');
+await page.selectOption('#damage-filter','D5');
+await page.waitForTimeout(100);
+const d5Kpi=await page.locator('#kpis .kpi').first().innerText();
+if(!/13/.test(d5Kpi)) throw new Error('Global D5 filter did not reduce scheme KPI to 13');
+await page.selectOption('#damage-filter','');
+const toggle=page.locator('#municipality-indicator-toggle');
+await toggle.uncheck();
+await page.waitForTimeout(100);
+const fillVisibilityOff=await page.evaluate(() => map.getLayoutProperty('municipal-fill','visibility'));
+if(fillVisibilityOff!=='none') throw new Error('Municipality shading toggle did not turn fill off');
+await toggle.check();
+await page.waitForTimeout(100);
+const fillVisibilityOn=await page.evaluate(() => map.getLayoutProperty('municipal-fill','visibility'));
+if(fillVisibilityOn!=='visible') throw new Error('Municipality shading toggle did not turn fill on');
+const pointLegend=page.locator('#map-legend [data-point-legend="D5"]');
+await pointLegend.click();
+await page.waitForTimeout(100);
+const legendFocused=await page.evaluate(() => map.getSource('pdna')._data.features.every(f=>f.properties.damage_grade==='D5'));
+if(!legendFocused) throw new Error('Clickable point legend did not filter map to D5');
+await pointLegend.click();
+await page.selectOption('#breakdown-damage','D4');
+await page.waitForTimeout(100);
+if(!/D4/.test(await page.locator('#breakdown-note').innerText())) throw new Error('Geographic breakdown damage focus did not apply');
+await page.selectOption('#breakdown-damage','');
 if(!/D0/.test(await page.locator('#classification-key').innerText())||!/D5/.test(await page.locator('#classification-key').innerText())) throw new Error('D0–D5 definitions are missing');
 await page.selectOption('#condition-variable','site_safety_grade');
 await page.waitForTimeout(100);

@@ -12,25 +12,24 @@
 <style>
 :root{--teal:#009999;--dark:#024E6C;--yellow:#FFB340;--text:#303438;--muted:#6E7178;--border:#D9E0E2;--bg:#F3F6F6;--white:#fff;--red:#B2182B;--orange:#E36159;--blue:#2C7FB8}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Roboto Condensed",Arial,sans-serif;color:var(--text);background:var(--bg)}
-button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);border-bottom:5px solid var(--yellow);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;gap:20px}
+button,select{font:inherit}.topbar{height:78px;background:var(--teal);border-bottom:5px solid var(--yellow);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;gap:20px}
 .brand{display:flex;align-items:center;gap:12px}.mark{width:46px;height:46px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.13em}.topbar h1{font-size:25px;line-height:1;margin:4px 0 0}.meta{font-size:13px}
 .tabs{height:43px;display:flex;align-items:stretch;background:#fff;border-bottom:1px solid var(--border);padding-left:12px}.tab{height:43px;display:flex;align-items:center;justify-content:center;border:0;background:transparent;padding:0 17px;font-weight:700;color:#69767A;border-bottom:3px solid transparent;text-decoration:none;white-space:nowrap}.tab.active{color:var(--teal);border-bottom-color:var(--teal)}
-.dashboard{padding:14px;display:grid;gap:12px}.controls{display:flex;gap:9px;flex-wrap:wrap;align-items:end;background:#fff;border:1px solid var(--border);padding:10px 12px}.control{min-width:175px}.control label{display:block;font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px}.control select{width:100%;border:1px solid var(--border);background:#fff;padding:7px}
-.source-note{margin-left:auto;max-width:390px;font-size:11px;line-height:1.35;color:var(--muted)}
-.kpis{display:grid;grid-template-columns:repeat(5,minmax(135px,1fr));gap:9px}.kpi{background:#fff;border:1px solid var(--border);padding:11px 12px}.kpi span{font-size:10px;text-transform:uppercase;color:var(--muted);display:block}.kpi strong{font-size:24px;color:var(--dark);display:block;margin-top:3px}.kpi small{color:var(--muted)}
-.main-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(310px,.75fr);gap:12px;min-height:590px}.map-card,.card{background:#fff;border:1px solid var(--border)}.map-card{position:relative;min-height:590px}.map-head{height:55px;padding:8px 11px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:end;justify-content:space-between}.map-head h2,.card h2{margin:0;color:var(--teal);text-transform:uppercase;font-size:16px}.map-controls{display:flex;gap:8px}.map-controls select{border:1px solid var(--border);padding:5px;max-width:230px}.mapwrap{position:absolute;left:0;right:0;top:55px;bottom:0}#infra-map{position:absolute;inset:0}.legend{position:absolute;left:10px;bottom:22px;z-index:3;background:#fff;border:1px solid var(--border);padding:9px 11px;min-width:190px;max-width:280px;font-size:11px}.legend-title{font-weight:700;color:var(--dark);margin-bottom:5px}.legend-row{display:flex;align-items:center;gap:7px;margin:4px 0}.swatch{width:12px;height:12px;border-radius:2px}.dot{border-radius:50%}
-.side{display:grid;gap:12px;align-content:start}.card{padding:12px}.card p{font-size:11px;color:var(--muted);line-height:1.4}.scheme-profile{max-height:310px;overflow:auto}.profile-name{font-size:19px;color:var(--dark);font-weight:700;margin:4px 0}.profile-sub{font-size:11px;color:var(--muted);text-transform:uppercase}.metric{display:grid;grid-template-columns:1fr auto;gap:8px;font-size:12px;padding:5px 0;border-bottom:1px solid #EEF1F2}.metric b{text-align:right;color:var(--dark);max-width:180px}
-.chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.chart-card{background:#fff;border:1px solid var(--border);padding:12px;min-height:260px}.chart-card h2{margin:0 0 10px;color:var(--teal);font-size:15px;text-transform:uppercase}.donut-layout{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center}.donut{width:140px;height:140px;border-radius:50%;position:relative;margin:auto}.donut:after{content:"";position:absolute;inset:34px;border-radius:50%;background:#fff}.donut-center{position:absolute;inset:0;display:grid;place-items:center;z-index:2;text-align:center;font-weight:700;color:var(--dark);pointer-events:none}.donut-center small{display:block;font-weight:400;color:var(--muted)}
-.chart-legend{font-size:11px}.chart-legend .legend-row{justify-content:space-between}.legend-left{display:flex;gap:6px;align-items:center}.bar-row{display:grid;grid-template-columns:minmax(115px,1.3fr) minmax(90px,2fr) 35px;gap:7px;align-items:center;font-size:11px;margin:7px 0}.bar-track{height:12px;background:#EEF1F2}.bar{height:100%;background:var(--teal)}.bar-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar-value{text-align:right;font-weight:700;color:var(--dark)}
-.footnote{font-size:11px;color:var(--muted);background:#fff;border:1px solid var(--border);padding:10px 12px;line-height:1.45}
+.dashboard{padding:14px;display:grid;gap:12px}.controls{display:flex;gap:9px;flex-wrap:wrap;align-items:end;background:#fff;border:1px solid var(--border);padding:10px 12px}.control{min-width:205px}.control label,.compact-label{display:block;font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px;letter-spacing:.03em}.control select,.map-control select,.chart-controls select{width:100%;border:1px solid var(--border);background:#fff;padding:7px}
+.reset-btn{border:1px solid var(--teal);background:#fff;color:var(--teal);font-weight:700;padding:7px 12px;cursor:pointer}.reset-btn:hover{background:#F0FAFA}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(145px,1fr));gap:9px}.kpi{background:#fff;border:1px solid var(--border);padding:11px 12px}.kpi span{font-size:10px;text-transform:uppercase;color:var(--muted);display:block}.kpi strong{font-size:25px;color:var(--dark);display:block;margin-top:3px}
+.main-grid{display:grid;grid-template-columns:minmax(0,1.62fr) minmax(310px,.68fr);gap:12px;min-height:615px}.map-card,.card,.chart-card{background:#fff;border:1px solid var(--border)}.map-card{position:relative;min-height:615px}.map-head{min-height:86px;padding:9px 11px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:end;justify-content:space-between}.map-head h2,.card h2,.chart-card h2{margin:0;color:var(--teal);text-transform:uppercase;font-size:16px}.map-controls{display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:7px;min-width:min(620px,68%)}.map-control select{padding:5px}.mapwrap{position:absolute;left:0;right:0;top:86px;bottom:0}#infra-map{position:absolute;inset:0}.legend{position:absolute;left:10px;bottom:22px;z-index:3;background:#fff;border:1px solid var(--border);padding:9px 11px;min-width:205px;max-width:310px;font-size:11px;max-height:62%;overflow:auto}.legend-title{font-weight:700;color:var(--dark);margin:7px 0 5px}.legend-title:first-child{margin-top:0}.legend-row{display:flex;align-items:center;gap:7px;margin:4px 0}.swatch{width:12px;height:12px;border-radius:2px;flex:none}.dot{border-radius:50%}.size-dot{border:1.5px solid var(--dark);border-radius:50%;display:inline-block;background:rgba(0,153,153,.18);flex:none}
+.side{display:grid;gap:12px;align-content:start}.card{padding:12px}.scheme-profile{max-height:440px;overflow:auto}.profile-name{font-size:19px;color:var(--dark);font-weight:700;margin:4px 0}.profile-sub{font-size:11px;color:var(--muted);text-transform:uppercase}.metric{display:grid;grid-template-columns:1fr auto;gap:8px;font-size:12px;padding:6px 0;border-bottom:1px solid #EEF1F2}.metric b{text-align:right;color:var(--dark);max-width:190px}.definition-list{display:grid;gap:5px;font-size:11px;line-height:1.3}.definition-row{display:grid;grid-template-columns:30px 1fr;gap:7px}.definition-row b{color:var(--dark)}
+.analysis-grid{display:grid;grid-template-columns:minmax(350px,.72fr) minmax(0,1.28fr);gap:12px}.chart-card{padding:12px;min-height:330px}.chart-head{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-bottom:10px}.chart-controls{display:flex;gap:7px;flex-wrap:wrap}.chart-controls>div{min-width:145px}.donut-layout{display:grid;grid-template-columns:155px 1fr;gap:14px;align-items:center}.donut-wrap{position:relative;width:150px;height:150px;margin:auto}.donut{position:absolute;inset:0;border-radius:50%;background:#ddd}.donut:after{content:"";position:absolute;inset:37px;border-radius:50%;background:#fff}.donut-center{position:absolute;inset:0;display:grid;place-items:center;z-index:2;text-align:center;font-weight:700;color:var(--dark);pointer-events:none}.donut-center small{display:block;font-weight:400;color:var(--muted)}.donut-segment-list{display:grid;gap:4px}.segment-btn{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:7px;border:1px solid transparent;background:#fff;padding:5px 6px;text-align:left;cursor:pointer;font-size:11px}.segment-btn:hover,.segment-btn.active{border-color:var(--teal);background:#F3FAFA}.segment-btn b{color:var(--dark)}
+.breakdown-bars{display:grid;gap:7px;margin-top:4px}.bar-row{display:grid;grid-template-columns:minmax(130px,1.15fr) minmax(120px,2.6fr) 95px;gap:8px;align-items:center;font-size:11px}.bar-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar-track{height:14px;background:#EEF1F2;position:relative}.bar{height:100%;background:var(--teal)}.bar-value{text-align:right;font-weight:700;color:var(--dark)}.selection-note{font-size:11px;color:var(--muted);margin:7px 0 0}.empty{padding:40px 10px;text-align:center;color:var(--muted);font-size:12px}
+@media(max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr)}.main-grid,.analysis-grid{grid-template-columns:1fr}.map-card{min-height:650px}.map-controls{min-width:0;width:100%}.map-head{align-items:stretch;flex-direction:column}.mapwrap{top:132px}.map-card{min-height:700px}}@media(max-width:720px){.topbar{height:auto;align-items:flex-start;flex-direction:column}.tabs{overflow:auto}.kpis{grid-template-columns:1fr 1fr}.controls{display:grid}.map-controls{grid-template-columns:1fr}.mapwrap{top:258px}.map-card{min-height:820px}.donut-layout{grid-template-columns:1fr}.bar-row{grid-template-columns:1fr 1.8fr 78px}.dashboard{padding:8px}}
 .maplibregl-popup-content{font-family:"Roboto Condensed",Arial,sans-serif;border-radius:0}.popup-title{font-size:14px;font-weight:700;color:var(--dark)}
-@media(max-width:1050px){.kpis{grid-template-columns:repeat(3,1fr)}.main-grid{grid-template-columns:1fr}.map-card{min-height:600px}.chart-grid{grid-template-columns:1fr}}@media(max-width:700px){.topbar{height:auto;align-items:flex-start;flex-direction:column}.tabs{overflow:auto}.kpis{grid-template-columns:1fr 1fr}.controls{display:grid}.source-note{margin:0}.donut-layout{grid-template-columns:1fr}.dashboard{padding:8px}}
 </style>
 </head>
 <body>
 <header class="topbar">
 <div class="brand"><div class="mark">WASH</div><div><div class="eyebrow">NEPAL FLOOD 2026</div><h1>WATER SYSTEMS</h1></div></div>
-<div class="meta" id="status">Loading PDNA90 publication…</div>
+<div class="meta" id="status">Loading water-supply schemes…</div>
 </header>
 <nav class="tabs">
 <a class="tab" href="index.html#overview">Overview</a>
@@ -38,44 +37,81 @@ button,select,input{font:inherit}.topbar{height:78px;background:var(--teal);bord
 <a class="tab active" href="infrastructure.html">Water Systems</a>
 <a class="tab" href="index.html#methodology">Methodology &amp; Sources</a>
 </nav>
+
 <main class="dashboard">
 <section class="controls">
 <div class="control"><label for="district">District</label><select id="district"><option value="">All districts</option></select></div>
 <div class="control"><label for="municipality">Municipality</label><select id="municipality"><option value="">All municipalities</option></select></div>
-<div class="control"><label for="service">Service status</label><select id="service"><option value="">All service statuses</option></select></div>
-<div class="control"><label for="damage">Damage grade</label><select id="damage"><option value="">All damage grades</option></select></div>
-<div class="source-note"><b>PDNA corrections dataset · 90 schemes · 9 Oct 2026.</b> This public dashboard uses a publication-safe extract. Reconstruction finance uses corrected <b>w9.reconstructionCost (Excel GR)</b>. Beneficiary sums are not deduplicated.</div>
+<button id="reset-map" class="reset-btn">Reset map</button>
 </section>
+
 <section id="kpis" class="kpis"></section>
+
 <section class="main-grid">
 <article class="map-card">
-<div class="map-head"><div><div class="eyebrow" style="color:#6E7178">SPATIAL ANALYSIS</div><h2>Municipality &amp; water-system map</h2></div>
-<div class="map-controls">
-<select id="municipality-indicator" title="Colour municipalities by"><option value="need_score">WASH severity / Need Score</option><option value="assessment_records">PDNA schemes assessed</option><option value="d4d5_share">D4–D5 scheme share</option><option value="reconstruction_cost_npr_sum">Reconstruction cost</option><option value="p2">Current WASH conditions (P2)</option></select>
-<select id="point-indicator" title="Colour schemes by"><option value="damage_grade">Points: damage grade</option><option value="site_safety_grade">Points: site safety</option><option value="service_status">Points: service status</option><option value="primary_intervention">Points: primary action</option></select>
-</div></div>
+<div class="map-head">
+  <div><div class="eyebrow" style="color:#6E7178">SPATIAL ANALYSIS</div><h2>Water-supply schemes</h2></div>
+  <div class="map-controls">
+    <div class="map-control"><label class="compact-label" for="municipality-indicator">Municipality indicator</label><select id="municipality-indicator"><option value="need_score">WASH severity</option><option value="beneficiary_population">Beneficiary population</option><option value="reconstruction_cost">Reconstruction cost</option></select></div>
+    <div class="map-control"><label class="compact-label" for="point-indicator">Point colour</label><select id="point-indicator"><option value="damage_grade">Physical damage</option><option value="site_safety_grade">Site safety</option><option value="service_status">Service status</option><option value="primary_intervention">Recommended action</option></select></div>
+    <div class="map-control"><label class="compact-label" for="point-size">Point size</label><select id="point-size"><option value="beneficiary_population">Beneficiary population</option><option value="reconstruction_cost_npr">Reconstruction cost</option></select></div>
+  </div>
+</div>
 <div class="mapwrap"><div id="infra-map"></div><div id="map-legend" class="legend"></div></div>
 </article>
+
 <div class="side">
-<article class="card scheme-profile" id="profile"><div class="profile-sub">Scheme profile</div><div class="profile-name">Select a mapped water system</div><p>Click a PDNA point to review damage, site safety, service condition, recommended action and corrected reconstruction cost.</p></article>
-<article class="card"><h2>How to read this dashboard</h2><p>Municipality colours summarize the selected aggregate indicator. Points are individual assessed WASH systems with usable coordinates; schemes without coordinates remain included in KPIs and charts. D0–D5 expresses physical damage and S1–S5 expresses site safety. These infrastructure views complement, but do not replace, municipality severity analysis.</p></article>
+<article class="card scheme-profile" id="profile"><div class="profile-sub">Scheme profile</div><div class="profile-name">Select a water-supply scheme</div><p style="font-size:12px;color:#6E7178;line-height:1.4">Click a mapped scheme to view its condition, service status, population served and reconstruction cost.</p></article>
+<article class="card"><h2>Classification key</h2><div id="classification-key" class="definition-list"></div></article>
 </div>
 </section>
-<section class="chart-grid">
-<article class="chart-card"><h2>Physical damage · D0–D5</h2><div id="damage-chart"></div></article>
-<article class="chart-card"><h2>Site safety · S1–S5</h2><div id="safety-chart"></div></article>
-<article class="chart-card"><h2>Primary recommended action</h2><div id="action-chart"></div></article>
-<article class="chart-card"><h2>Current service status</h2><div id="service-chart"></div></article>
+
+<section class="analysis-grid">
+<article class="chart-card">
+<div class="chart-head">
+  <div><div class="eyebrow" style="color:#6E7178">SYSTEM CONDITION</div><h2>Condition profile</h2></div>
+  <div class="chart-controls"><div><label class="compact-label" for="condition-variable">Variable</label><select id="condition-variable"><option value="damage_grade">Physical damage</option><option value="site_safety_grade">Site safety</option><option value="service_status">Service status</option><option value="primary_intervention">Recommended action</option></select></div></div>
+</div>
+<div id="condition-chart"></div>
+<div id="condition-note" class="selection-note"></div>
+</article>
+
+<article class="chart-card">
+<div class="chart-head">
+  <div><div class="eyebrow" style="color:#6E7178">GEOGRAPHIC BREAKDOWN</div><h2>Where the burden is concentrated</h2></div>
+  <div class="chart-controls">
+    <div><label class="compact-label" for="breakdown-level">Geography</label><select id="breakdown-level"><option value="municipality">Municipality</option><option value="district">District</option></select></div>
+    <div><label class="compact-label" for="breakdown-measure">Measure</label><select id="breakdown-measure"><option value="schemes">Water-supply schemes</option><option value="beneficiary_population">Beneficiary population</option><option value="reconstruction_cost">Reconstruction cost</option></select></div>
+  </div>
+</div>
+<div id="breakdown-chart" class="breakdown-bars"></div>
+<div id="breakdown-note" class="selection-note"></div>
+</article>
 </section>
-<section class="footnote"><b>Data interpretation:</b> the 90 PDNA scheme records are an assessed infrastructure dataset, not a complete inventory of every WASH system in each municipality. Scheme beneficiary populations can overlap and must not be interpreted as unique people. Eight assessed schemes currently have no usable public map coordinate; they remain in all aggregate statistics. Facility-level contacts, assessor details and other non-public fields are excluded.</section>
 </main>
+
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
 const fmt=new Intl.NumberFormat('en-GB',{maximumFractionDigits:0});
 const money=v=>v==null?'—':'NPR '+fmt.format(v);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const state={systems:[],summary:[],profiles:[],adm3:null,filtered:[],district:'',municipality:'',service:'',damage:'',municipalityIndicator:'need_score',pointIndicator:'damage_grade'};
+const state={systems:[],summary:[],profiles:[],adm3:null,filtered:[],district:'',municipality:'',municipalityIndicator:'need_score',pointIndicator:'damage_grade',pointSize:'beneficiary_population',conditionVariable:'damage_grade',conditionSelection:null,breakdownLevel:'municipality',breakdownMeasure:'schemes'};
 const COLORS={D0:'#2E7D32',D1:'#7CB342',D2:'#D4A72C',D3:'#FFB340',D4:'#E36159',D5:'#B2182B',S1:'#2E7D32',S2:'#8BC34A',S3:'#FFB340',S4:'#E36159',S5:'#B2182B'};
+const DEFINITIONS={
+ D0:'None — no visible structural or functional damage; operational',
+ D1:'Minor — surface damage; fully functional without major repairs',
+ D2:'Moderate — partial damage to non-critical components; reduced capacity or minor repairs needed',
+ D3:'Major — significant damage to main structural or pipe components; major rehabilitation required',
+ D4:'Severe — structural failure of major assets; system offline; extensive reconstruction required',
+ D5:'Destroyed — total loss or wash-out; complete rebuild required',
+ S1:'Safe — stable ground; no active geotechnical or flood risk',
+ S2:'Manageable risk — minor erosion or instability manageable with routine mitigation',
+ S3:'Conditional — engineering/geotechnical study required before rehabilitation',
+ S4:'High risk — active threat; relocation preferred',
+ S5:'Prohibited — active channel/erosion or extreme hazard; reconstruction prohibited'
+};
+const SERVICE_COLORS={'Partially operational':'#7CB342','Emergency / temporary service only':'#FFB340','Temporarily closed':'#E36159','Completely non-functional':'#B2182B'};
+const ACTION_COLORS={'R2':'#8BC34A','R3':'#FFB340','R4':'#D4A72C','R5':'#E36159','R6':'#B2182B','R9':'#7A5AA6'};
 const map=new maplibregl.Map({container:'infra-map',style:'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',center:[85.03,27.91],zoom:8,minZoom:5.5,maxZoom:15});
 map.addControl(new maplibregl.NavigationControl(),'top-right');map.addControl(new maplibregl.ScaleControl({unit:'metric'}),'bottom-right');
 
@@ -86,121 +122,196 @@ async function boot(){
    fetchJSON('data/pdna_water_systems.json'),fetchJSON('data/pdna_municipality_summary.json'),
    fetchJSON('data/municipality_profiles.json'),fetchJSON('data/adm3_affected.geojson')
   ]);
-  if(state.systems.length!==90)throw new Error('Expected 90 PDNA systems; got '+state.systems.length);
-  setupFilters();applyFilters();
+  if(state.systems.length!==90)throw new Error('Expected 90 water-supply schemes; got '+state.systems.length);
+  setupControls();applyFilters();renderClassificationKey();
   if(map.loaded())initMap();else map.once('load',initMap);
-  document.getElementById('status').textContent='PDNA90 · 90 schemes · v16 severity model';
+  document.getElementById('status').textContent='90 assessed water-supply schemes';
  }catch(e){document.getElementById('status').textContent='Data load error';console.error(e);}
 }
-function unique(field){return [...new Set(state.systems.map(x=>x[field]).filter(Boolean))].sort()}
+function unique(field,rows=state.systems){return [...new Set(rows.map(x=>x[field]).filter(Boolean))].sort()}
 function fill(id,values,label){const s=document.getElementById(id);s.innerHTML='<option value="">'+label+'</option>';values.forEach(v=>s.add(new Option(v,v)))}
-function setupFilters(){
- fill('district',unique('district'),'All districts');populateMunicipalities();fill('service',unique('service_status'),'All service statuses');fill('damage',unique('damage_grade'),'All damage grades');
- document.getElementById('district').addEventListener('change',e=>{state.district=e.target.value;state.municipality='';populateMunicipalities();applyFilters()});
- document.getElementById('municipality').addEventListener('change',e=>{state.municipality=e.target.value;applyFilters()});
- document.getElementById('service').addEventListener('change',e=>{state.service=e.target.value;applyFilters()});
- document.getElementById('damage').addEventListener('change',e=>{state.damage=e.target.value;applyFilters()});
+function setupControls(){
+ fill('district',unique('district'),'All districts');populateMunicipalities();
+ document.getElementById('district').addEventListener('change',e=>{state.district=e.target.value;state.municipality='';populateMunicipalities();applyFilters();fitFiltered();});
+ document.getElementById('municipality').addEventListener('change',e=>{state.municipality=e.target.value;applyFilters();fitFiltered();});
  document.getElementById('municipality-indicator').addEventListener('change',e=>{state.municipalityIndicator=e.target.value;updateMap();});
  document.getElementById('point-indicator').addEventListener('change',e=>{state.pointIndicator=e.target.value;updatePointStyle();renderLegend();});
+ document.getElementById('point-size').addEventListener('change',e=>{state.pointSize=e.target.value;updatePointSize();renderLegend();});
+ document.getElementById('condition-variable').addEventListener('change',e=>{state.conditionVariable=e.target.value;state.conditionSelection=null;renderCondition();renderBreakdown();renderClassificationKey();});
+ document.getElementById('breakdown-level').addEventListener('change',e=>{state.breakdownLevel=e.target.value;renderBreakdown();});
+ document.getElementById('breakdown-measure').addEventListener('change',e=>{state.breakdownMeasure=e.target.value;renderBreakdown();});
+ document.getElementById('reset-map').addEventListener('click',resetAll);
 }
-function populateMunicipalities(){const vals=[...new Set(state.systems.filter(x=>!state.district||x.district===state.district).map(x=>x.municipality))].sort();fill('municipality',vals,'All municipalities')}
+function populateMunicipalities(){const vals=unique('municipality',state.systems.filter(x=>!state.district||x.district===state.district));fill('municipality',vals,'All municipalities');document.getElementById('municipality').value=state.municipality}
+function resetAll(){
+ state.district='';state.municipality='';state.municipalityIndicator='need_score';state.pointIndicator='damage_grade';state.pointSize='beneficiary_population';state.conditionVariable='damage_grade';state.conditionSelection=null;state.breakdownLevel='municipality';state.breakdownMeasure='schemes';
+ document.getElementById('district').value='';populateMunicipalities();
+ document.getElementById('municipality-indicator').value='need_score';document.getElementById('point-indicator').value='damage_grade';document.getElementById('point-size').value='beneficiary_population';document.getElementById('condition-variable').value='damage_grade';document.getElementById('breakdown-level').value='municipality';document.getElementById('breakdown-measure').value='schemes';
+ document.getElementById('profile').innerHTML='<div class="profile-sub">Scheme profile</div><div class="profile-name">Select a water-supply scheme</div><p style="font-size:12px;color:#6E7178;line-height:1.4">Click a mapped scheme to view its condition, service status, population served and reconstruction cost.</p>';
+ applyFilters();renderClassificationKey();fitAll();
+}
 function applyFilters(){
- state.filtered=state.systems.filter(x=>(!state.district||x.district===state.district)&&(!state.municipality||x.municipality===state.municipality)&&(!state.service||x.service_status===state.service)&&(!state.damage||x.damage_grade===state.damage));
- renderKPIs();renderCharts();if(map.loaded()&&map.getSource('pdna'))updateMap();
+ state.filtered=state.systems.filter(x=>(!state.district||x.district===state.district)&&(!state.municipality||x.municipality===state.municipality));
+ renderKPIs();renderCondition();renderBreakdown();if(map.loaded()&&map.getSource('pdna'))updateMap();
 }
 function renderKPIs(){
- const mapped=state.filtered.filter(x=>x.latitude!=null&&x.longitude!=null).length;
- const municipalities=new Set(state.filtered.map(x=>x.adm3_pcode)).size;
  const benef=state.filtered.reduce((s,x)=>s+(Number(x.beneficiary_population)||0),0);
  const recon=state.filtered.reduce((s,x)=>s+(Number(x.reconstruction_cost_npr)||0),0);
- const severe=state.filtered.filter(x=>['D4','D5'].includes(x.damage_grade)).length;
+ const municipalities=new Set(state.filtered.map(x=>x.adm3_pcode)).size;
  document.getElementById('kpis').innerHTML=[
-  ['Schemes assessed',state.filtered.length,'of 90 records'],['Mapped schemes',mapped,'usable public coordinates'],['Municipalities',municipalities,'with filtered PDNA records'],
-  ['Beneficiary population*',fmt.format(benef),'not deduplicated'],['Reconstruction cost',money(recon),severe+' D4–D5 schemes']
- ].map(([a,b,c])=>'<div class="kpi"><span>'+a+'</span><strong>'+b+'</strong><small>'+c+'</small></div>').join('');
+  ['Water-supply schemes',fmt.format(state.filtered.length)],
+  ['Beneficiary population',fmt.format(benef)],
+  ['Reconstruction cost',money(recon)],
+  ['Municipalities represented',fmt.format(municipalities)]
+ ].map(([a,b])=>'<div class="kpi"><span>'+a+'</span><strong>'+b+'</strong></div>').join('');
 }
-function counts(field,order=[]){const o={};state.filtered.forEach(x=>{const k=x[field]||'Unknown';o[k]=(o[k]||0)+1});const keys=[...order.filter(k=>o[k]!=null),...Object.keys(o).filter(k=>!order.includes(k)).sort()];return keys.map(k=>[k,o[k]])}
-function donutHTML(items,palette){
- const total=items.reduce((s,[,v])=>s+v,0);
- if(!total) return '<p style="padding:35px 10px;text-align:center">No schemes match the current filters.</p>';
- let cur=0;const stops=[];
- items.forEach(([k,v],i)=>{const start=cur/total*360;cur+=v;const end=cur/total*360;stops.push((palette[k]||['#009999','#2C7FB8','#FFB340','#E36159','#B2182B','#7A5AA6'][i%6])+' '+start+'deg '+end+'deg')});
- return '<div class="donut-layout"><div style="position:relative"><div class="donut" style="background:conic-gradient('+stops.join(',')+')"></div><div class="donut-center">'+total+'<small>schemes</small></div></div><div class="chart-legend">'+items.map(([k,v],i)=>'<div class="legend-row"><span class="legend-left"><span class="swatch" style="background:'+(palette[k]||['#009999','#2C7FB8','#FFB340','#E36159','#B2182B','#7A5AA6'][i%6])+'"></span>'+esc(k)+'</span><b>'+v+'</b></div>').join('')+'</div></div>';
+function conditionKey(row,field){
+ if(field==='primary_intervention'){const m=String(row[field]||'').match(/^(R\d+)/);return m?m[1]:(row[field]||'Unknown')}
+ return row[field]||'Unknown';
 }
-function barsHTML(items){const max=Math.max(1,...items.map(x=>x[1]));return items.map(([k,v])=>'<div class="bar-row"><div class="bar-label" title="'+esc(k)+'">'+esc(k)+'</div><div class="bar-track"><div class="bar" style="width:'+(v/max*100)+'%"></div></div><div class="bar-value">'+v+'</div></div>').join('')}
-function renderCharts(){
- document.getElementById('damage-chart').innerHTML=donutHTML(counts('damage_grade',['D0','D1','D2','D3','D4','D5']),COLORS);
- document.getElementById('safety-chart').innerHTML=donutHTML(counts('site_safety_grade',['S1','S2','S3','S4','S5']),COLORS);
- document.getElementById('action-chart').innerHTML=barsHTML(counts('primary_intervention'));
- document.getElementById('service-chart').innerHTML=barsHTML(counts('service_status'));
+function categoryLabel(key,field){
+ if(field==='damage_grade'||field==='site_safety_grade')return DEFINITIONS[key]||key;
+ if(field==='primary_intervention'){
+  const first=state.systems.find(x=>conditionKey(x,field)===key);return first?.primary_intervention||key;
+ }
+ return key;
+}
+function categoryColor(key,field,i=0){
+ if(COLORS[key])return COLORS[key];
+ if(field==='service_status')return SERVICE_COLORS[key]||'#7A7D80';
+ if(field==='primary_intervention')return ACTION_COLORS[key]||'#7A7D80';
+ return ['#009999','#2C7FB8','#FFB340','#E36159','#B2182B','#7A5AA6'][i%6];
+}
+function conditionCounts(){
+ const order=state.conditionVariable==='damage_grade'?['D0','D1','D2','D3','D4','D5']:state.conditionVariable==='site_safety_grade'?['S1','S2','S3','S4','S5']:[];
+ const o={};state.filtered.forEach(x=>{const k=conditionKey(x,state.conditionVariable);o[k]=(o[k]||0)+1});
+ const keys=[...order.filter(k=>o[k]!=null),...Object.keys(o).filter(k=>!order.includes(k)).sort()];
+ return keys.map(k=>[k,o[k]]);
+}
+function renderCondition(){
+ const root=document.getElementById('condition-chart'),items=conditionCounts(),total=items.reduce((s,x)=>s+x[1],0);
+ if(!total){root.innerHTML='<div class="empty">No schemes match the current filters.</div>';document.getElementById('condition-note').textContent='';return}
+ let cur=0,stops=[];
+ items.forEach(([k,v],i)=>{const a=cur/total*360;cur+=v;const b=cur/total*360;stops.push(categoryColor(k,state.conditionVariable,i)+' '+a+'deg '+b+'deg')});
+ root.innerHTML='<div class="donut-layout"><div class="donut-wrap"><div class="donut" style="background:conic-gradient('+stops.join(',')+')"></div><div class="donut-center">'+total+'<small>schemes</small></div></div><div class="donut-segment-list">'+items.map(([k,v],i)=>'<button class="segment-btn '+(state.conditionSelection===k?'active':'')+'" data-segment="'+esc(k)+'"><span class="swatch" style="background:'+categoryColor(k,state.conditionVariable,i)+'"></span><span>'+esc(categoryLabel(k,state.conditionVariable))+'</span><b>'+v+'</b></button>').join('')+'</div></div>';
+ root.querySelectorAll('.segment-btn').forEach(b=>b.addEventListener('click',()=>{state.conditionSelection=state.conditionSelection===b.dataset.segment?null:b.dataset.segment;renderCondition();renderBreakdown()}));
+ document.getElementById('condition-note').textContent=state.conditionSelection?'Selected: '+categoryLabel(state.conditionSelection,state.conditionVariable)+' · click again to clear':'Select a condition category to focus the geographic breakdown.';
+}
+function breakdownRows(){
+ const rows=state.conditionSelection?state.filtered.filter(x=>conditionKey(x,state.conditionVariable)===state.conditionSelection):state.filtered;
+ const field=state.breakdownLevel==='district'?'district':'municipality',o={};
+ rows.forEach(x=>{
+  const k=x[field]||'Unknown';if(!o[k])o[k]={schemes:0,beneficiary_population:0,reconstruction_cost:0};
+  o[k].schemes++;o[k].beneficiary_population+=Number(x.beneficiary_population)||0;o[k].reconstruction_cost+=Number(x.reconstruction_cost_npr)||0;
+ });
+ return Object.entries(o).map(([name,v])=>({name,value:v[state.breakdownMeasure]})).sort((a,b)=>b.value-a.value);
+}
+function formatMeasure(v){return state.breakdownMeasure==='reconstruction_cost'?money(v):fmt.format(v)}
+function renderBreakdown(){
+ const root=document.getElementById('breakdown-chart'),rows=breakdownRows();
+ if(!rows.length){root.innerHTML='<div class="empty">No schemes match the current selection.</div>';document.getElementById('breakdown-note').textContent='';return}
+ const max=Math.max(...rows.map(x=>x.value),1);
+ root.innerHTML=rows.map(x=>'<div class="bar-row"><div class="bar-label" title="'+esc(x.name)+'">'+esc(x.name)+'</div><div class="bar-track"><div class="bar" style="width:'+(x.value/max*100)+'%"></div></div><div class="bar-value">'+esc(formatMeasure(x.value))+'</div></div>').join('');
+ const measure={schemes:'water-supply schemes',beneficiary_population:'beneficiary population',reconstruction_cost:'reconstruction cost'}[state.breakdownMeasure];
+ const focus=state.conditionSelection?' for '+categoryLabel(state.conditionSelection,state.conditionVariable):'';
+ document.getElementById('breakdown-note').textContent='Showing '+measure+' by '+state.breakdownLevel+focus+'.';
+}
+function renderClassificationKey(){
+ const root=document.getElementById('classification-key');
+ if(state.conditionVariable==='damage_grade')root.innerHTML=['D0','D1','D2','D3','D4','D5'].map(k=>'<div class="definition-row"><b>'+k+'</b><span>'+esc(DEFINITIONS[k])+'</span></div>').join('');
+ else if(state.conditionVariable==='site_safety_grade')root.innerHTML=['S1','S2','S3','S4','S5'].map(k=>'<div class="definition-row"><b>'+k+'</b><span>'+esc(DEFINITIONS[k])+'</span></div>').join('');
+ else root.innerHTML='<div style="font-size:11px;color:#6E7178;line-height:1.4">Change the condition variable to <b>Physical damage</b> or <b>Site safety</b> to see the full D0–D5 or S1–S5 definitions.</div>';
 }
 function geoPoints(){return{type:'FeatureCollection',features:state.filtered.filter(x=>x.latitude!=null&&x.longitude!=null).map(x=>({type:'Feature',geometry:{type:'Point',coordinates:[x.longitude,x.latitude]},properties:x}))}}
-function aggregateMap(){
- const by=new Map(state.summary.map(x=>[x.adm3_pcode,{...x}]));
- for(const s of by.values()){
-   const arr=state.systems.filter(x=>x.adm3_pcode===s.adm3_pcode);
-   s.d4d5_share=arr.length?arr.filter(x=>['D4','D5'].includes(x.damage_grade)).length/arr.length:0;
- }
- return by;
+function aggregateForMap(){
+ const out=new Map(state.profiles.map(p=>[p.adm3_pcode,{need_score:Number(p.need_score),municipality:p.municipality,district:p.district,beneficiary_population:0,reconstruction_cost:0}]));
+ state.systems.forEach(x=>{const a=out.get(x.adm3_pcode);if(!a)return;a.beneficiary_population+=Number(x.beneficiary_population)||0;a.reconstruction_cost+=Number(x.reconstruction_cost_npr)||0});
+ return out;
 }
 function initMap(){
- const agg=aggregateMap();
+ const agg=aggregateForMap();
  state.adm3.features.forEach(f=>Object.assign(f.properties,agg.get(f.properties.adm3_pcode)||{}));
  map.addSource('municipal',{type:'geojson',data:state.adm3,promoteId:'adm3_pcode'});
- map.addLayer({id:'municipal-fill',type:'fill',source:'municipal',paint:{'fill-color':'#B3B5B9','fill-opacity':.46}});
+ map.addLayer({id:'municipal-fill',type:'fill',source:'municipal',paint:{'fill-color':'#B3B5B9','fill-opacity':.45}});
  map.addLayer({id:'municipal-line',type:'line',source:'municipal',paint:{'line-color':'#024E6C','line-width':1}});
  map.addSource('pdna',{type:'geojson',data:geoPoints()});
- map.addLayer({id:'pdna-points',type:'circle',source:'pdna',paint:{'circle-radius':['interpolate',['linear'],['zoom'],7,5,11,8],'circle-color':'#009999','circle-opacity':.9,'circle-stroke-color':'#fff','circle-stroke-width':1.2}});
+ map.addLayer({id:'pdna-points',type:'circle',source:'pdna',paint:{'circle-radius':7,'circle-color':'#009999','circle-opacity':.88,'circle-stroke-color':'#fff','circle-stroke-width':1.2}});
  map.on('click','pdna-points',e=>{const p=e.features?.[0]?.properties;if(p)showScheme(p)});
  map.on('mouseenter','pdna-points',()=>map.getCanvas().style.cursor='pointer');map.on('mouseleave','pdna-points',()=>map.getCanvas().style.cursor='');
- updateMap();
- const b=new maplibregl.LngLatBounds();state.adm3.features.forEach(f=>extendBounds(b,f.geometry.coordinates));map.fitBounds(b,{padding:45,maxZoom:10,duration:0});
+ updateMap();fitAll();
 }
 function extendBounds(b,c){if(typeof c[0]==='number'){b.extend(c);return}c.forEach(x=>extendBounds(b,x))}
-function valueForFeature(p){
- const id=state.municipalityIndicator;
- if(id==='need_score')return Number(p.need_score);
- if(id==='assessment_records')return Number(p.assessment_records||0);
- if(id==='d4d5_share')return Number(p.d4d5_share||0);
- if(id==='reconstruction_cost_npr_sum')return Number(p.reconstruction_cost_npr_sum||0);
- if(id==='p2')return Number(p.p2);
- return 0;
+function fitAll(){if(!map.getSource('municipal'))return;const b=new maplibregl.LngLatBounds();state.adm3.features.forEach(f=>extendBounds(b,f.geometry.coordinates));map.fitBounds(b,{padding:45,maxZoom:10,duration:300})}
+function fitFiltered(){
+ if(!map.getSource('municipal'))return;
+ if(!state.district&&!state.municipality){fitAll();return}
+ const pcodes=new Set(state.filtered.map(x=>x.adm3_pcode)),b=new maplibregl.LngLatBounds();let n=0;
+ state.adm3.features.filter(f=>pcodes.has(f.properties.adm3_pcode)).forEach(f=>{extendBounds(b,f.geometry.coordinates);n++});
+ if(n)map.fitBounds(b,{padding:55,maxZoom:11,duration:300});
+}
+function currentMunicipalRows(){
+ const pcodeSet=new Set(state.filtered.map(x=>x.adm3_pcode));const agg=aggregateForMap();return [...agg.entries()].filter(([pc])=>pcodeSet.has(pc)).map(([pc,v])=>({pcode,...v}))
+}
+function scaleBreaks(values,n=4){
+ const a=values.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length)return [0,1,2,3];
+ const q=p=>a[Math.min(a.length-1,Math.floor((a.length-1)*p))];
+ return [q(.25),q(.5),q(.75),a[a.length-1]];
 }
 function municipalColorExpression(){
  const id=state.municipalityIndicator;
  if(id==='need_score')return ['step',['coalesce',['to-number',['get','need_score']],0],'#009999',1.75,'#8CBFBF',2.25,'#FFB340',3,'#E36159',3.5000001,'#B2182B'];
- if(id==='p2')return ['step',['coalesce',['to-number',['get','p2']],0],'#009999',1.75,'#8CBFBF',2.5,'#FFB340',3.25,'#E36159',4,'#B2182B'];
- if(id==='assessment_records')return ['interpolate',['linear'],['coalesce',['to-number',['get','assessment_records']],0],0,'#EDF5F5',1,'#B8DDDD',10,'#55B3B3',26,'#006E6E'];
- if(id==='d4d5_share')return ['interpolate',['linear'],['coalesce',['to-number',['get','d4d5_share']],0],0,'#EDF5F5',.25,'#FFCC80',.5,'#E36159',1,'#B2182B'];
- return ['interpolate',['linear'],['coalesce',['to-number',['get','reconstruction_cost_npr_sum']],0],0,'#EDF5F5',5000000,'#B8DDDD',50000000,'#FFB340',150000000,'#E36159',429000000,'#B2182B'];
+ const vals=currentMunicipalRows().map(x=>Number(x[id]||0)),b=scaleBreaks(vals);
+ return ['step',['coalesce',['to-number',['get',id]],0],'#EDF5F5',b[0],'#B8DDDD',b[1],'#55B3B3',b[2],'#FFB340',b[3],'#B2182B'];
 }
 function updateMap(){
  if(!map.getSource('pdna'))return;
  map.getSource('pdna').setData(geoPoints());
  let f=null;if(state.municipality){const p=state.profiles.find(x=>x.municipality===state.municipality);if(p)f=['==',['get','adm3_pcode'],p.adm3_pcode]}else if(state.district){const p=state.profiles.find(x=>x.district===state.district);if(p)f=['==',['get','adm2_pcode'],p.adm2_pcode]}
- map.setFilter('municipal-fill',f);map.setFilter('municipal-line',f);map.setPaintProperty('municipal-fill','fill-color',municipalColorExpression());updatePointStyle();renderLegend();
+ map.setFilter('municipal-fill',f);map.setFilter('municipal-line',f);map.setPaintProperty('municipal-fill','fill-color',municipalColorExpression());updatePointStyle();updatePointSize();renderLegend();
 }
 function pointColorExpression(){
  if(state.pointIndicator==='damage_grade')return ['match',['get','damage_grade'],'D0',COLORS.D0,'D1',COLORS.D1,'D2',COLORS.D2,'D3',COLORS.D3,'D4',COLORS.D4,'D5',COLORS.D5,'#7A7D80'];
  if(state.pointIndicator==='site_safety_grade')return ['match',['get','site_safety_grade'],'S1',COLORS.S1,'S2',COLORS.S2,'S3',COLORS.S3,'S4',COLORS.S4,'S5',COLORS.S5,'#7A7D80'];
- if(state.pointIndicator==='service_status')return ['match',['downcase',['coalesce',['get','service_status'],'']], 'partially operational','#8BC34A','emergency / temporary service only','#FFB340','temporarily closed','#E36159','completely non-functional','#B2182B','#7A7D80'];
- return ['match',['get','primary_intervention'],'R2 Minor repair','#8BC34A','R3 Major repair / rehabilitation','#FFB340','R4 Replacement of damaged components','#D4A72C','R5 Complete system reconstruction','#E36159','R6 Reconstruction with river / slope / hazard protection','#B2182B','R9 Detailed technical investigation required','#7A5AA6','#7A7D80'];
+ if(state.pointIndicator==='service_status')return ['match',['downcase',['coalesce',['get','service_status'],'']], 'partially operational','#7CB342','emergency / temporary service only','#FFB340','temporarily closed','#E36159','completely non-functional','#B2182B','#7A7D80'];
+ return ['match',['slice',['coalesce',['get','primary_intervention'],''],0,2],'R2','#8BC34A','R3','#FFB340','R4','#D4A72C','R5','#E36159','R6','#B2182B','R9','#7A5AA6','#7A7D80'];
 }
 function updatePointStyle(){if(map.getLayer('pdna-points'))map.setPaintProperty('pdna-points','circle-color',pointColorExpression())}
+function pointSizeBreaks(){
+ const vals=state.filtered.map(x=>Number(x[state.pointSize])||0).filter(x=>x>0);return scaleBreaks(vals);
+}
+function updatePointSize(){
+ if(!map.getLayer('pdna-points'))return;const b=pointSizeBreaks(),field=state.pointSize;
+ map.setPaintProperty('pdna-points','circle-radius',['step',['coalesce',['to-number',['get',field]],0],4,b[0],6,b[1],9,b[2],13,b[3],17]);
+}
 function renderLegend(){
  const el=document.getElementById('map-legend'),id=state.municipalityIndicator;
- const title={need_score:'Municipality: WASH severity',assessment_records:'Municipality: assessed schemes',d4d5_share:'Municipality: D4–D5 share',reconstruction_cost_npr_sum:'Municipality: reconstruction cost',p2:'Municipality: Current WASH conditions'}[id];
- let html='<div class="legend-title">'+title+'</div><div style="font-size:10px;color:#6E7178;margin-bottom:6px">Points: '+esc(state.pointIndicator.replaceAll('_',' '))+'</div>';
- const p=state.pointIndicator==='damage_grade'?['D0','D1','D2','D3','D4','D5']:state.pointIndicator==='site_safety_grade'?['S1','S2','S3','S4','S5']:[];
- if(p.length)html+=p.map(k=>'<div class="legend-row"><span class="swatch dot" style="background:'+COLORS[k]+'"></span>'+k+'</div>').join('');
- else html+='<div class="legend-row"><span class="swatch dot" style="background:#009999"></span>Individual assessed system</div>';
+ let html='<div class="legend-title">Municipality · '+({need_score:'WASH severity',beneficiary_population:'Beneficiary population',reconstruction_cost:'Reconstruction cost'}[id])+'</div>';
+ if(id==='need_score'){
+  [['Very High','#B2182B'],['High','#E36159'],['Moderate','#FFB340'],['Low','#8CBFBF'],['Minimal','#009999']].forEach(x=>html+='<div class="legend-row"><span class="swatch" style="background:'+x[1]+'"></span>'+x[0]+'</div>');
+ }else{
+  const rows=currentMunicipalRows(),b=scaleBreaks(rows.map(x=>Number(x[id]||0))),labs=id==='reconstruction_cost'?b.map(money):b.map(fmt.format);
+  const cols=['#EDF5F5','#B8DDDD','#55B3B3','#FFB340','#B2182B'];
+  html+='<div class="legend-row"><span class="swatch" style="background:'+cols[0]+'"></span>Lowest</div>';
+  labs.forEach((v,i)=>html+='<div class="legend-row"><span class="swatch" style="background:'+cols[i+1]+'"></span>≥ '+esc(v)+'</div>');
+ }
+ html+='<div class="legend-title">Points · '+({damage_grade:'Physical damage',site_safety_grade:'Site safety',service_status:'Service status',primary_intervention:'Recommended action'}[state.pointIndicator])+'</div>';
+ let keys=[];
+ if(state.pointIndicator==='damage_grade')keys=['D0','D1','D2','D3','D4','D5'];
+ else if(state.pointIndicator==='site_safety_grade')keys=['S1','S2','S3','S4','S5'];
+ else if(state.pointIndicator==='service_status')keys=Object.keys(SERVICE_COLORS);
+ else keys=['R2','R3','R4','R5','R6','R9'];
+ keys.forEach((k,i)=>html+='<div class="legend-row"><span class="swatch dot" style="background:'+categoryColor(k,state.pointIndicator,i)+'"></span>'+esc(state.pointIndicator==='damage_grade'||state.pointIndicator==='site_safety_grade'?k:categoryLabel(k,state.pointIndicator))+'</div>');
+ const sb=pointSizeBreaks(),sizeLabel=state.pointSize==='beneficiary_population'?'Beneficiary population':'Reconstruction cost';
+ html+='<div class="legend-title">Point size · '+sizeLabel+'</div>';
+ [sb[0],sb[1],sb[2],sb[3]].forEach((v,i)=>{const px=[7,11,15,19][i];html+='<div class="legend-row"><span class="size-dot" style="width:'+px+'px;height:'+px+'px"></span>'+esc(state.pointSize==='reconstruction_cost_npr'?money(v):fmt.format(v))+'</div>'});
  el.innerHTML=html;
 }
 function showScheme(p){
  const n=v=>v==null||v===''?'—':v;
- document.getElementById('profile').innerHTML='<div class="profile-sub">'+esc(n(p.district))+' · '+esc(n(p.municipality))+' · '+esc(n(p.reference_id))+'</div>'+
- '<div class="profile-name">'+esc(n(p.scheme_name))+'</div>'+
- [['Damage grade',p.damage_grade],['Site safety',p.site_safety_grade],['Service status',p.service_status],['Drinking-water safety',p.drinking_water_safety],['Public-health/service safety',p.service_public_health_safety],['Primary action',p.primary_intervention],['Recovery priority',p.recovery_priority],['Beneficiary population*',p.beneficiary_population==null?'—':fmt.format(Number(p.beneficiary_population))],['Physical damage cost',p.physical_damage_cost_npr==null?'—':money(Number(p.physical_damage_cost_npr))],['Reconstruction cost (GR)',p.reconstruction_cost_npr==null?'—':money(Number(p.reconstruction_cost_npr))]].map(([a,b])=>'<div class="metric"><span>'+a+'</span><b>'+esc(n(b))+'</b></div>').join('');
+ const damage=p.damage_grade?(p.damage_grade+' — '+(DEFINITIONS[p.damage_grade]||'')):'—';
+ const safety=p.site_safety_grade?(p.site_safety_grade+' — '+(DEFINITIONS[p.site_safety_grade]||'')):'—';
+ document.getElementById('profile').innerHTML='<div class="profile-sub">'+esc(n(p.district))+' · '+esc(n(p.municipality))+'</div><div class="profile-name">'+esc(n(p.scheme_name))+'</div>'+
+ [['Damage',damage],['Site safety',safety],['Service status',p.service_status],['Drinking-water safety',p.drinking_water_safety],['Recommended action',p.primary_intervention],['Recovery priority',p.recovery_priority],['Beneficiary population',p.beneficiary_population==null?'—':fmt.format(Number(p.beneficiary_population))],['Reconstruction cost',p.reconstruction_cost_npr==null?'—':money(Number(p.reconstruction_cost_npr))]].map(([a,b])=>'<div class="metric"><span>'+a+'</span><b>'+esc(n(b))+'</b></div>').join('');
 }
 boot();
 </script>

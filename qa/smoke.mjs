@@ -74,7 +74,8 @@ if(!/Health facilities/i.test(layers)||!/Education facilities/i.test(layers)) th
 if(await page.locator('input[data-layer="holding"]').isChecked()) throw new Error('Holding centres should not be visible by default');
 await page.locator('input[data-layer="health"]').check();
 await page.locator('input[data-layer="education"]').check();
-await page.waitForTimeout(350);
+await page.waitForFunction(() => map.queryRenderedFeatures({layers:['education-circle']}).length>0,{timeout:8000});
+await page.waitForFunction(() => map.queryRenderedFeatures({layers:['education-label']}).length>0,{timeout:8000});
 const facilityRender=await page.evaluate(() => ({
   educationPoints: map.queryRenderedFeatures({layers:['education-circle']}).length,
   educationLabels: map.queryRenderedFeatures({layers:['education-label']}).length,

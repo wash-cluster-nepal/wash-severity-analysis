@@ -126,7 +126,12 @@ async function boot(){
   ]);
   if(state.systems.length!==90)throw new Error('Expected 90 water-supply schemes; got '+state.systems.length);
   setupControls();applyFilters();renderClassificationKey();
-  if(map.loaded())initMap();else map.once('load',initMap);
+  if(map.isStyleLoaded()) initMap();
+  else {
+    const tryInit=()=>{ if(map.isStyleLoaded()){ map.off('styledata',tryInit); initMap(); } };
+    map.on('styledata',tryInit);
+    map.once('load',()=>{ map.off('styledata',tryInit); initMap(); });
+  }
   document.getElementById('status').textContent='90 assessed water-supply schemes';
  }catch(e){document.getElementById('status').textContent='Data load error';console.error(e);}
 }
@@ -245,6 +250,7 @@ function aggregateForMap(rows=state.systems){
  return out;
 }
 function initMap(){
+ if(map.getSource('municipal')||!state.adm3||!state.systems.length)return;
  const agg=aggregateForMap();
  state.adm3.features.forEach(f=>Object.assign(f.properties,agg.get(f.properties.adm3_pcode)||{}));
  map.addSource('municipal',{type:'geojson',data:state.adm3,promoteId:'adm3_pcode'});

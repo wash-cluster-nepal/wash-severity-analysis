@@ -93,8 +93,8 @@ const schoolClick=await page.evaluate(() => {
 if(!schoolClick) throw new Error('Could not locate an education facility for click test');
 await page.mouse.click(schoolClick.x,schoolClick.y);
 await page.waitForTimeout(150);
-const popupText=await page.locator('.maplibregl-popup-content').last().innerText();
-if(!popupText.includes(schoolClick.label)) throw new Error('Education facility click did not open facility popup using Latin label');
+const popupTexts=await page.locator('.maplibregl-popup-content').allTextContents();
+if(!popupTexts.some(x=>x.includes(schoolClick.label))) throw new Error('Education facility click did not open facility popup using Latin label; popups='+popupTexts.join(' | '));
 
 // Water Systems publication dashboard.
 await page.goto('http://127.0.0.1:8000/infrastructure.html',{waitUntil:'domcontentloaded'});

@@ -206,8 +206,10 @@ if isinstance(pdna_systems,list):
 # Context facility layers.
 if isinstance(health,list):
     fail_if(len(health)!=5,f"Expected 5 health facilities, found {len(health)}")
+    fail_if(sum(1 for r in health if r.get("name_latin"))<4,"Health facility publication lost Latin-name attributes")
 if isinstance(education,list):
     fail_if(len(education)!=60,f"Expected 60 education facilities, found {len(education)}")
+    fail_if(sum(1 for r in education if r.get("name_latin"))<50,"Education facility publication lost Latin-name attributes")
 for rows,label in ((health,"health"),(education,"education")):
     if isinstance(rows,list):
         for r in rows:
@@ -233,6 +235,10 @@ if isinstance(source_cfg,dict):
     fail_if(public_extract.get("record_count")!=90,"PDNA90 public extract record count must be 90")
     fail_if(public_extract.get("mapped_records")!=82,"PDNA90 mapped-record count must be 82")
 
+if isinstance(layers_config,dict):
+    holding_cfg=next((x for x in layers_config.get("layers",[]) if x.get("id")=="holding"),None)
+    fail_if(not holding_cfg or holding_cfg.get("defaultVisible") is not False,"Holding centres must not be default-visible")
+
 # Frontend / documentation regressions.
 html=text("index.html")
 infra=text("infrastructure.html")
@@ -240,6 +246,7 @@ readme=text("README.md")
 pipeline=text("pipeline/README.md")
 smoke=text("qa/smoke.mjs")
 source_config_text=text("config/data-sources.json")
+layers_config=load("config/layers.json")
 metadata_text=text("data/metadata.json")
 
 # Public repository must not expose direct operational Google Sheet connections.

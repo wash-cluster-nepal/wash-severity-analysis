@@ -487,7 +487,7 @@ function initialiseMap(){
   map.addLayer({id:'health-circle',type:'circle',source:'health',layout:{visibility:'none'},paint:{
     'circle-radius':6,'circle-color':'#D73027','circle-opacity':.92,'circle-stroke-color':'#fff','circle-stroke-width':1.4
   }});
-  map.addLayer({id:'health-label',type:'symbol',source:'health',minzoom:7.2,layout:{
+  map.addLayer({id:'health-label',type:'symbol',source:'health',minzoom:6,layout:{
     visibility:'none','text-field':['coalesce',['get','name_latin'],['get','label'],['get','name_en'],['get','name'],['get','name_ne'],'Health facility'],
     'text-size':10.5,'text-offset':[0,1.15],'text-anchor':'top','text-optional':true
   },paint:{'text-color':'#7A1E18','text-halo-color':'#ffffff','text-halo-width':1.2}});
@@ -497,7 +497,7 @@ function initialiseMap(){
     'circle-color':['case',['==',['downcase',['coalesce',['get','status'],'']], 'destroyed'],'#B2182B','#2C7FB8'],
     'circle-opacity':.9,'circle-stroke-color':'#fff','circle-stroke-width':1.3
   }});
-  map.addLayer({id:'education-label',type:'symbol',source:'education',minzoom:7.2,layout:{
+  map.addLayer({id:'education-label',type:'symbol',source:'education',minzoom:6,layout:{
     visibility:'none','text-field':['coalesce',['get','name_latin'],['get','label'],['get','name_en'],['get','name'],['get','name_ne'],'Education facility'],
     'text-size':10.5,'text-offset':[0,1.15],'text-anchor':'top','text-optional':true
   },paint:{'text-color':'#174A70','text-halo-color':'#ffffff','text-halo-width':1.2}});

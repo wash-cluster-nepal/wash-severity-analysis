@@ -529,6 +529,8 @@ function initialiseMap(){
   });
   map.on('mousemove','priority-fill',e => {
     map.getCanvas().style.cursor='pointer';
+    const facilityLayers=['health-circle','health-label','education-circle','education-label'].filter(id=>map.getLayer(id) && map.getLayoutProperty(id,'visibility')!=='none');
+    if(facilityLayers.length && map.queryRenderedFeatures(e.point,{layers:facilityLayers}).length){closeHoverPopup();return;}
     const f=e.features?.[0]; if(!f) return;
     const p=DATA.byPcode.get(f.properties.adm3_pcode); if(!p) return;
     showHoverPopup(e.lngLat,p);
@@ -580,6 +582,7 @@ function showHoldingPopup(e){
 }
 
 function showFacilityPopup(e,label){
+  closeHoverPopup();
   const p=e.features?.[0]?.properties||{};
   new maplibregl.Popup({maxWidth:'340px'}).setLngLat(e.lngLat).setHTML(
     `<div class="popup-title">${esc(safe(p.name_latin||p.label||p.name_en||p.name||p.name_ne||label))}</div>

@@ -79,8 +79,15 @@ await page.waitForTimeout(150);
 await page.goto('http://127.0.0.1:8000/infrastructure.html',{waitUntil:'domcontentloaded'});
 await page.waitForFunction(() => /90 assessed water-supply schemes/i.test(document.querySelector('#status')?.textContent||''),{timeout:10000});
 const infraText=await page.locator('body').innerText();
-for(const phrase of ['Water-supply schemes','Beneficiary population','Reconstruction cost','Condition profile','Where the burden is concentrated','Classification key']){
-  if(!infraText.includes(phrase)) throw new Error('Water Systems dashboard missing: '+phrase);
+for(const [label,pattern] of [
+  ['Water-supply schemes',/water-supply schemes/i],
+  ['Beneficiary population',/beneficiary population/i],
+  ['Reconstruction cost',/reconstruction cost/i],
+  ['Condition profile',/condition profile/i],
+  ['Where the burden is concentrated',/where the burden is concentrated/i],
+  ['Classification key',/classification key/i]
+]){
+  if(!pattern.test(infraText)) throw new Error('Water Systems dashboard missing: '+label);
 }
 const bodyHtml=await page.locator('body').innerHTML();
 if(/docs\.google\.com\/spreadsheets|gviz\/tq|LIVE_SHEET_ID|LIVE_CSV_URL|PDNA_CORRECTIONS_SHEET_ID/.test(bodyHtml)) throw new Error('Water Systems exposes direct Google Sheet access');

@@ -489,7 +489,7 @@ function initialiseMap(){
   }});
   map.addLayer({id:'health-label',type:'symbol',source:'health',minzoom:6,layout:{
     visibility:'none','text-field':['coalesce',['get','name_latin'],['get','label'],['get','name_en'],['get','name'],['get','name_ne'],'Health facility'],
-    'text-size':10.5,'text-offset':[0,1.15],'text-anchor':'top','text-optional':true
+    'text-size':9.5,'text-offset':[0,1.15],'text-anchor':'top','text-optional':true,'text-allow-overlap':true,'text-max-width':12
   },paint:{'text-color':'#7A1E18','text-halo-color':'#ffffff','text-halo-width':1.2}});
   map.addSource('education',{type:'geojson',data:educationGeo});
   map.addLayer({id:'education-circle',type:'circle',source:'education',layout:{visibility:'none'},paint:{
@@ -499,7 +499,7 @@ function initialiseMap(){
   }});
   map.addLayer({id:'education-label',type:'symbol',source:'education',minzoom:6,layout:{
     visibility:'none','text-field':['coalesce',['get','name_latin'],['get','label'],['get','name_en'],['get','name'],['get','name_ne'],'Education facility'],
-    'text-size':10.5,'text-offset':[0,1.15],'text-anchor':'top','text-optional':true
+    'text-size':9.5,'text-offset':[0,1.15],'text-anchor':'top','text-optional':true,'text-allow-overlap':true,'text-max-width':12
   },paint:{'text-color':'#174A70','text-halo-color':'#ffffff','text-halo-width':1.2}});
 
   DATA.roads.features.forEach(f=>{
